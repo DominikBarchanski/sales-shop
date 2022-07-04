@@ -4,11 +4,14 @@
 ### Salesforce ###
 # GitIgnore for Salesforce Projects
 # Project Settings and MetaData
+.idea/
 .project
 .settings/
 .metadata
 build.properties
 config
+node_modules/
+package-lock.json
 
 # Apex Log as optional
 apex-scripts/log

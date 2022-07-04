@@ -1,0 +1,7 @@
+{
+  "name": "Hospital ultim",
+  "version": "1.0.0",
+  "devDependencies": {
+    "c": "^1.1.1"
+  }
+}

@@ -1,0 +1,13 @@
+<!--
+ - Created by dominikbarchanski on 04/07/2022.
+ -->
+
+<aura:component description="ProductDetails">
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <lightning:card >
+        <lightning:input  label="Product Name" aura:id="enter-product-name" name="enter-name"></lightning:input>
+        <lightning:input  label="Product Price" aura:id="enter-product-price" name="enter-price"></lightning:input>
+        <lightning:input  label="Product Description" aura:id="enter-product-description" name="enter-description"></lightning:input>
+        <lightning:button variant="brand" label="Next Step" onclick="{!c.callParentMethod}" />
+    </lightning:card>
+</aura:component>

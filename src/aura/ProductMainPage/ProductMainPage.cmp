@@ -1,0 +1,14 @@
+<!--
+ - Created by dominikbarchanski on 04/07/2022.
+ -->
+
+<aura:component description="ProductMainPage" implements="force:appHostable">
+    <lightning:card >
+        <lightning:button label="Add Product">
+
+        </lightning:button>
+    </lightning:card>
+    <lightning:card >
+        <c:AddNewProduct ></c:AddNewProduct>
+    </lightning:card>
+</aura:component>
