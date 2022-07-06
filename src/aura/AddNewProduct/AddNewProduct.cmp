@@ -2,40 +2,63 @@
  - Created by dominikbarchanski on 04/07/2022.
  -->
 
-<aura:component description="AddNewProduct" implements="flexipage:availableForRecordHome">
+<aura:component description="AddNewProduct" implements="flexipage:availableForRecordHome,lightning:isUrlAddressable">
+    <lightning:workspaceAPI aura:id="workspace"/>
+
+    <aura:attribute type="Boolean" name="isDisplayModal" default="true"/>
     <aura:attribute type="Boolean" name="isDetails" default="true"/>
     <aura:attribute type="Boolean" name="isPhoto" default="false"/>
     <aura:attribute type="Boolean" name="isOverview" default="false"/>
+    <aura:attribute type="Boolean" name="isAddFlow" default="false"/>
     <aura:attribute type="String" name="Progress" default="0"/>
     <!--default="{'name':null,'price':null,'description':null}-->
-    <aura:attribute type="Object" access="public" name="Product" />
-    <aura:attribute name="fields" type="String[]" default="['Name','AnnualRevenue','Industry']" />
+    <aura:attribute type="Object" access="public" name="Product"/>
+    <aura:attribute name="fields" type="String[]" default="['Name','AnnualRevenue','Industry']"/>
     <aura:method name="getProductDetails" action="{!c.getDetails}" access="public">
         <aura:attribute name="ProductName" type="String"/>
         <aura:attribute name="ProductDescription" type="String"/>
         <aura:attribute name="ProductPrice" type="Currency"/>
+        <aura:attribute name="ProductType" type="String"/>
+        <aura:attribute name="ProductHorsepower" type="String"/>
+        <aura:attribute name="ProductBrand" type="String"/>
+    </aura:method>
+    <aura:method name="closeAdd" action="{!c.handleClose}">
     </aura:method>
     <aura:method name="getPhotoDetails" action="{!c.getPhotos}" access="public">
         <aura:attribute name="PhotoList" type="List"/>
+        <aura:attribute name="MainPhoto" type="String"/>
     </aura:method>
-    <lightning:card >
-        <lightning:progressIndicator type="path" variant="base" currentStep="{!v.Progress}" >
-            <lightning:progressStep label="Product Details" value="0" />
-            <lightning:progressStep label="Product Photo" value="1"/>
-            <lightning:progressStep label="Overview" value="2"/>
-
-        </lightning:progressIndicator>
-    </lightning:card>
-
-    <lightning:card>
-        <aura:renderIf isTrue="{!v.isDetails}">
-            <c:ProductDetails parent="{!this}"></c:ProductDetails>
-        </aura:renderIf>
-        <aura:renderIf isTrue="{!v.isPhoto}">
-            <c:ProductPhotos parent="{!this}"></c:ProductPhotos>
-        </aura:renderIf>
-        <aura:renderIf isTrue="{!v.isOverview}">
-            <c:ProductOverview></c:ProductOverview>
-        </aura:renderIf>
-    </lightning:card>
+<!--    <aura:renderIf isTrue="{!v.isDisplayModal}">-->
+<!--    <aura:if isTrue="{!v.isOpen}">-->
+<!--        <div style="height: 640px;">-->
+<!--            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">-->
+<!--                <div class="slds-modal__container">-->
+<!--                    <header class="slds-modal__header slds-modal__header_empty">-->
+<!--                        <lightning:buttonIcon iconName="utility:close" class="slds-modal__close" onclick="{!c.closeFlowModal}"/>-->
+<!--                    </header>-->
+<!--                    <div class="slds-modal__content slds-p-around_medium">-->
+                <lightning:card>
+                    <!--        <aura:renderIf isTrue="{!or(or(v.isDetails,v.isPhoto), v.isOverview)}">-->
+                    <lightning:progressIndicator type="path" variant="base" currentStep="{!v.Progress}">
+                        <lightning:progressStep label="Product Details" value="0"/>
+                        <lightning:progressStep label="Product Photo" value="1"/>
+                        <lightning:progressStep label="Overview" value="2"/>
+                    </lightning:progressIndicator>
+                    <!--        </aura:renderIf>-->
+                    <aura:renderIf isTrue="{!v.isDetails}">
+                        <c:ProductDetails parent="{!this}"></c:ProductDetails>
+                    </aura:renderIf>
+                    <aura:renderIf isTrue="{!v.isPhoto}">
+                        <c:ProductPhotos parent="{!this}"></c:ProductPhotos>
+                    </aura:renderIf>
+                    <aura:renderIf isTrue="{!v.isOverview}">
+                        <c:ProductOverview parent="{!this}" product="{!v.Product}"></c:ProductOverview>
+                    </aura:renderIf>
+                </lightning:card>
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </section>-->
+<!--            <div class="slds-backdrop slds-backdrop_open"></div>-->
+<!--        </div>-->
+<!--    </aura:if>-->
 </aura:component>

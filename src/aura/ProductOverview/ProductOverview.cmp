@@ -2,5 +2,38 @@
  - Created by dominikbarchanski on 04/07/2022.
  -->
 
-<aura:component description="ProductOverview">
+<aura:component description="ProductOverview" controller="Aura_dmlOperations">
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute  name="product" type="Object"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:card >
+        <div style="display: flex;flex-direction: row;overflow: auto;">
+            <aura:iteration items="{!v.product.photoList}" var="items" indexVar="i">
+                <div style="margin: 0 5px">
+                    <lightning:fileCard fileId="{!items}"/>
+                    <span data-index="{!i}" data-value="{!items}" onclick="{!c.handleClickDelete}" > to delete</span>
+                </div>
+            </aura:iteration>
+        </div>
+        <lightning:input disabled="true" value="{!v.product.name}" label="Name"/>
+        <lightning:input disabled="true" type="number" formatter="currency" step="0.01" value="{!v.product.price}" label="Price"/>
+        <lightning:input disabled="true" value="{!v.product.description}" label="Description"/>
+        <lightning:input disabled="true" value="{!v.product.hp}"  required="true" label="Car Horsepower" aura:id="enter-product-horsepower" name="enter-horsepower"/>
+        <lightning:select disabled="true" value="{!v.product.type}" aura:id="enter-product-type" label="Select Car Type" name="enter-Type" required="true">
+            <option value="">Choose a Type</option>
+            <option value="SUV">SUV</option>
+            <option value="Hatchback">Hatchback</option>
+            <option value="Crossover">Crossover</option>
+            <option value="Sports Car">Sports Car</option>
+            <option value="Coupe">Coupe</option>
+            <option value="Pickup Truck">Pickup Truck</option>
+        </lightning:select>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="select-01">Selected Brand <b>{!v.product.brand}</b></label>
+
+        </div>
+        <lightning:button variant="brand" onclick="{!c.handleClick}" label="Save"></lightning:button>
+        <lightning:button onclick="{!c.handleSaveAndNew}" label="Save &amp; New"></lightning:button>
+        <lightning:button onclick="{!c.handleClose}" label="Close"></lightning:button>
+    </lightning:card>
 </aura:component>

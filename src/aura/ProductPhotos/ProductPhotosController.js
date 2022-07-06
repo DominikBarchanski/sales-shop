@@ -4,26 +4,44 @@
 
 ({
     handleUploadFinished: function (cmp, event) {
-        // Get the list of uploaded files
         var uploadedFiles = event.getParam("files");
-        // alert("Files uploaded : " + uploadedFiles.length);
         cmp.set("v.isPhoto",true)
-        // Get the file name
         var listOfFile =[];
-        console.log(event.getParam("files"))
-        uploadedFiles.forEach(file => listOfFile.push({val: file.documentId}));
-        console.log(listOfFile);
+        uploadedFiles.forEach(file => listOfFile.push( file.documentId));
         cmp.set("v.allAddedFile", listOfFile)
 
-        console.log(cmp.get('v.allAddedFile'))
+    },handleSelectMainPhoto :function (cmp,event,helper){
+        var mainPhoto =cmp.get('v.MainPhoto');
+        var itemMainPhoto = event.target.dataset.value;
+        var cmpTarget = cmp.find('itemMainPhoto')
+        if(mainPhoto === ""){
+            $A.util.addClass(cmpTarget,'selectedItem')
+        }else {
+            $A.util.addClass(cmpTarget,'selectedItem')
+        }
+
+        var clickedIndex = event.target.dataset.index;
+        cmp.set("v.MainPhoto",itemMainPhoto)
+
     },
     callParentMethod : function(cmp, event, helper) {
-
         var FileList = cmp.get('v.allAddedFile');
-        // console.log(FileList)
-        //Call Parent aura method
+        var mainPhoto =cmp.get('v.MainPhoto');
+        if (mainPhoto === ""){
+            mainPhoto = FileList[0];
+        }
         var parentComponent = cmp.get("v.parent");
+        parentComponent.getPhotoDetails(FileList,mainPhoto);
+    }, handleClose : function (component,event){
+        var listOfPhoto = JSON.stringify(component.get('v.allAddedFile'));
+        var action = component.get('c.deleteAfterCancel');
+        action.setParams({photoList:listOfPhoto});
+        action.setCallback(this, $A.getCallback(function (response){
+            cmp.set("v.allAddedFile", [])
 
-        parentComponent.getPhotoDetails(FileList);
+        }));
+        $A.enqueueAction(action);
+        var parentComponent = component.get("v.parent");
+        parentComponent.closeAdd();
     }
 });
