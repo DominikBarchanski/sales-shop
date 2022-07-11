@@ -1,0 +1,38 @@
+<!--
+ - Created by dominikbarchanski on 08/07/2022.
+ -->
+
+<aura:component description="EditPricebook" controller="AURA_dmlPriceBookController">
+    <aura:attribute type="Aura.Component" name="parent"/>
+    <aura:attribute type="String" name="pricebookId"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="rowsToDelete" type="List"/>
+    <aura:attribute type="Object" name="PricebookDetails"/>
+    <aura:attribute type="Object" name="listOfStandardPrice"/>
+    <aura:attribute type="Boolean" name="displayAdd" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:method name="closeModalAllPricebook" action="{!c.handleClose}">
+    </aura:method>
+    <aura:method name="addProducts" action="{!c.handleAddProduct}">
+        <aura:attribute type="Object" name="AddedProduct"/>
+    </aura:method>
+
+    <lightning:button name="backToStandard" onclick="{!c.handleBackToMain}" label="Back"/>
+    <lightning:button name="goToView" onclick="{!c.handleViewPage}" label="View"/>
+    <lightning:input label="Pricebook Name" value="{!v.PricebookDetails.Name}"/>
+    <lightning:input label="Description" value="{!v.PricebookDetails.Description}"/>
+    <lightning:button label="Add Products" variant="brand" onclick="{!c.addProductToPricebook}"/>
+    <lightning:button label="Delete Products" onclick="{!c.deleteProductFromPricebook}"/>
+
+    <lightning:datatable
+            columns="{! v.columns }"
+            data="{! v.PricebookDetails.listOfProducts }"
+            onrowselection="{!c.handleRowSelect}"
+            keyField="id"
+
+    />
+    <lightning:button label="Save" onclick="{!c.saveAfterEdit}"/>
+    <aura:if isTrue="{!v.displayAdd}">
+        <c:addPrductToPricebook parent="{!this}" currentPricebookDetails="{!v.PricebookDetails.listOfProducts}"/>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,27 @@
+<!--
+ - Created by dominikbarchanski on 08/07/2022.
+ -->
+
+<aura:component description="ViewPricebook" controller="AURA_dmlPriceBookController">
+    <aura:attribute type="Aura.Component" name="parent"/>
+    <aura:attribute type="Object" name="listOfStandardPrice"/>
+    <aura:attribute type="String" name="pricebookId"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute type="Object" name="PricebookDetails"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <lightning:button name="backToStandard" onclick="{!c.handleBackToMain}" label="Back"/>
+    <lightning:button name="goToEdit" onclick="{!c.handleEditPage}" label="Edit"/>
+    <div>
+        <p>{!v.PricebookDetails.Name}</p>
+        <p>{!v.PricebookDetails.Description}</p>
+        <p>{!v.PricebookDetails.isActive}</p>
+    </div>
+    <lightning:datatable
+            columns="{! v.columns }"
+            data="{! v.PricebookDetails.listOfProducts }"
+            keyField="id"
+            hideCheckboxColumn="true"
+            onrowselection="{! c.handleRowAction }"
+    />
+
+</aura:component>
