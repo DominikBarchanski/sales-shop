@@ -37,7 +37,7 @@
             </div>
             <div onkeyup="{!c.handleSearch}" style="width: 50%">
                 <lightning:input type="search" aura:id="product-name-search" name="searchProduct"
-                                 label="Search Pricebook by Name"/>
+                                 label="Search Product by Name"/>
             </div>
             <div style="height: 3em">
             </div>

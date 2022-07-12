@@ -220,13 +220,20 @@ public with sharing class AURA_dmlPriceBookController {
                     entryItem.IsActive = true ;
                     entryItem.UnitPrice = elem.get('newPrice') != null ? (Decimal) elem.get('newPrice') : (Decimal) elem.get('UnitPrice') ;
                     listToPush.add(entryItem);
+                }else{
+
+                    PricebookEntry entryItem = new PricebookEntry(Id=(Id) elem.get('Id'));
+                    entryItem.UnitPrice = (Decimal) elem.get('UnitPrice') ;
+                    listToPush.add(entryItem);
+                    System.debug(entryItem);
+                    System.debug(item);
                 }
                 System.debug(listToPush);
             }
 
             System.debug(listToPush);
 
-            insert listToPush;
+            upsert listToPush;
             return 'SUCCESS';
         } catch (Exception e){
             System.debug(e);

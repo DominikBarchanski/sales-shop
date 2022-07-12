@@ -16,7 +16,7 @@
             { label: 'Standard Price', fieldName: 'price', type: 'currency' },
             { label: 'Type', fieldName: 'type', type: 'text' },
             { label: 'Horce power', fieldName: 'hp', type: 'number' },
-            { type: 'action', typeAttributes: { rowActions: tableActions } }
+            // { type: 'action', typeAttributes: { rowActions: tableActions } }
         ]);
         let searchValue = cmp.get('v.productName')
         console.log(searchValue)

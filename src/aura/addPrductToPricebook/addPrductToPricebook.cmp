@@ -19,10 +19,11 @@
             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                 <div style="display: flex;align-content: center;align-items: flex-end;">
                     <div style="width: 30%;margin: 0 0.5em" onkeyup="{!c.checkDiscountValue}">
-                        <lightning:input label="Discount / increase amount:" placeholder="Enter discount/increase value" type="number" aura:id="discount-value"/>
+                        <lightning:input label="Discount / increase amount:" placeholder="Enter discount/increase value"
+                                         type="number" aura:id="discount-value"/>
                     </div>
                     <div class="input-group">
-                        <lightning:input type="toggle"  messageToggleActive="Discount"
+                        <lightning:input type="toggle" messageToggleActive="Discount"
                                          messageToggleInactive="Increase" name="inputResizable"
                                          checked="{! v.discount }"/>
                     </div>

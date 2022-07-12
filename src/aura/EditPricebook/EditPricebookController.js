@@ -23,14 +23,14 @@
         var pricebookId = cmp.get('v.pricebookId');
         var action = cmp.get('c.getSpecificPricebook');
         action.setParams({pricebookId: pricebookId});
-        console.log('co tu jest'+pricebookId);
+        console.log('co tu jest' + pricebookId);
         action.setCallback(this, $A.getCallback(function (resp) {
 
             var records = resp.getReturnValue();
             var mergList = records.listOfProducts
             var retList = cmp.get('v.listOfStandardPrice');
-            mergList.forEach(item=>{
-                var obj = retList.find(itemList => itemList.id ===item.Product2Id)
+            mergList.forEach(item => {
+                var obj = retList.find(itemList => itemList.id === item.Product2Id)
                 console.log(obj)
                 item.standard = obj.price;
                 // records.standard = (retList.find(itemList => itemList.id ===item.id))
@@ -62,13 +62,13 @@
         var pricebookId = cmp.get('v.pricebookId');
         var parent = cmp.get("v.parent");
         parent.typeOfAction('view', pricebookId);
-    },addProductToPricebook:function (cmp,event){
-        cmp.set('v.displayAdd',true);
-    },handleAddProduct:function (cmp,event){
+    }, addProductToPricebook: function (cmp, event) {
+        cmp.set('v.displayAdd', true);
+    }, handleAddProduct: function (cmp, event) {
         var listWithAllItems = cmp.get('v.PricebookDetails');
-        var params =event.getParam('arguments');
+        var params = event.getParam('arguments');
         console.log(listWithAllItems)
-        if(params){
+        if (params) {
             for (const addedProductElement of params.AddedProduct) {
                 var obj = {
                     Id: '',
@@ -76,45 +76,52 @@
                     Name: addedProductElement.name,
                     Pricebook2Id: "",
                     Product2Id: addedProductElement.id,
-                    UnitPrice: addedProductElement.price ,
+                    UnitPrice: addedProductElement.newPrice,
                     newPrice: addedProductElement.newPrice,
                     UseStandardPrice: '',
                     displayIconName: '',
-                    toInsert:true
+                    toInsert: true
                 }
                 listWithAllItems.listOfProducts.push(obj)
             }
 
         }
-        cmp.set('v.PricebookDetails',listWithAllItems)
+        cmp.set('v.PricebookDetails', listWithAllItems)
         console.log(listWithAllItems);
-    },saveAfterEdit:function (cmp,event){
+    }, saveAfterEdit: function (cmp, event) {
 
         var action = cmp.get('c.updatePricebook');
         console.log('działa przed desc?')
-        var updateObject =  cmp.get('v.PricebookDetails');
-        if (updateObject.Description === null ){
-            updateObject.Description =''
+        var updateObject = cmp.get('v.PricebookDetails');
+        if (updateObject.Description === null) {
+            updateObject.Description = ''
         }
         console.log('działa ?')
-        action.setParams({dataFromJS:updateObject});
-        action.setCallback(this,$A.getCallback(function (resp) {
-           var status = resp.getReturnValue();
+        action.setParams({dataFromJS: updateObject});
+        action.setCallback(this, $A.getCallback(function (resp) {
+            var status = resp.getReturnValue();
             console.log(status)
             console.log('działą ?')
-            if(status == 'SUCCESS'){
+            if (status == 'SUCCESS') {
                 console.log('działą  w succes?')
                 $A.enqueueAction(cmp.get('c.init'))
 
             }
         }));
         $A.enqueueAction(action);
-    },handleRowSelect:function (cmp,event){
+    }, handleRowSelect: function (cmp, event) {
         var selectedRows = event.getParam('selectedRows')
-        cmp.set('v.rowsToDelete',selectedRows)
-    },deleteProductFromPricebook:function (cmp,event){
+        var toDiscountMap = new Map();
+        for (const selectedRow of selectedRows) {
+            toDiscountMap.set(selectedRow.id, selectedRow)
+        }
+        for (const allItemSelectedElement of selectedRows) {
+            allItemSelectedElement.setDiscount = toDiscountMap.has(allItemSelectedElement.id);
+        }
+        cmp.set('v.rowsToDelete', selectedRows);
+    }, deleteProductFromPricebook: function (cmp, event) {
         var result = confirm('Wan\'t delete this records?')
-        if(result) {
+        if (result) {
             var listOfIdToDelete = [];
             for (const item of cmp.get('v.rowsToDelete')) {
                 listOfIdToDelete.push(item.Id)
@@ -127,8 +134,40 @@
             $A.enqueueAction(action);
             console.log(listOfIdToDelete);
         }
+    }, displayEditPrice: function (cmp, event) {
+        cmp.set('v.isEditPrice', true);
+    }, setNewPrice: function (cmp, event) {
+        var newPriceList = cmp.get('v.rowsToDelete');
+        if (newPriceList.length > 0) {
+
+
+            function evaluate(param1, param2, operator) {
+                return eval(param1 + operator + param2)
+            }
+
+            var discountType = cmp.find('discount-type').get('v.value');
+            var discountValue = parseFloat(cmp.find('discount-value').get('v.value'));
+            var discountIncrease = cmp.get('v.discount');
+            for (const newPriceListElement of newPriceList) {
+                if (discountType === 'percent' && newPriceListElement.setDiscount) {
+                    newPriceListElement.UnitPrice = discountIncrease ? evaluate(newPriceListElement.standard, (1 - discountValue / 100).toString(), "*") : evaluate(newPriceListElement.standard, (1 + discountValue / 100).toString(), "*");
+                } else if (discountType === 'currency' && newPriceListElement.setDiscount) {
+                    newPriceListElement.UnitPrice = discountIncrease ? evaluate(newPriceListElement.standard, discountValue, "-") : evaluate(newPriceListElement.standard, discountValue, "+");
+                }
+            }
+            var listToUpdate = cmp.get('v.PricebookDetails.listOfProducts');
+            listToUpdate.forEach(item => {
+                    var object = newPriceList.find(updatedItem => updatedItem.Id === item.Id);
+                    if (object !== undefined) {
+                        item.UnitPrice = object.UnitPrice
+                    }
+                }
+            )
+            console.log(listToUpdate)
+            cmp.set('v.PricebookDetails.listOfProducts', listToUpdate)
+        }
     }
-    ,handleClose:function (cmp,event){
-        cmp.set('v.displayAdd',false);
+    , handleClose: function (cmp, event) {
+        cmp.set('v.displayAdd', false);
     }
 });
