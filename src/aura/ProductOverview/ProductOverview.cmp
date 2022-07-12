@@ -4,22 +4,28 @@
 
 <aura:component description="ProductOverview" controller="Aura_dmlOperations">
     <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute  name="product" type="Object"/>
+    <aura:attribute name="product" type="Object"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <lightning:card >
+    <lightning:card>
         <div style="display: flex;flex-direction: row;overflow: auto;">
             <aura:iteration items="{!v.product.photoList}" var="items" indexVar="i">
                 <div style="margin: 0 5px">
                     <lightning:fileCard fileId="{!items}"/>
-                    <span data-index="{!i}" data-value="{!items}" onclick="{!c.handleClickDelete}" > to delete</span>
+                    <div   data-index="{!i}" data-value="{!items}" style="text-align: center;">
+                        <lightning:buttonIcon iconName="utility:clear"  size="small" name="4" onclick="{!c.handleClickDelete}" title="Delete Photo" value="{!index}"  alternativeText="delete"/>
+                        <lightning:buttonIcon iconName="utility:photo"  size="small" name="4" onclick="{!c.handleSetMainPhoto}" title="Set Main Photo" value="{!index}"  alternativeText="set main"/>
+                    </div>
                 </div>
             </aura:iteration>
         </div>
         <lightning:input disabled="true" value="{!v.product.name}" label="Name"/>
-        <lightning:input disabled="true" type="number" formatter="currency" step="0.01" value="{!v.product.price}" label="Price"/>
+        <lightning:input disabled="true" type="number" formatter="currency" step="0.01" value="{!v.product.price}"
+                         label="Price"/>
         <lightning:input disabled="true" value="{!v.product.description}" label="Description"/>
-        <lightning:input disabled="true" value="{!v.product.hp}"  required="true" label="Car Horsepower" aura:id="enter-product-horsepower" name="enter-horsepower"/>
-        <lightning:select disabled="true" value="{!v.product.type}" aura:id="enter-product-type" label="Select Car Type" name="enter-Type" required="true">
+        <lightning:input disabled="true" value="{!v.product.hp}" required="true" label="Car Horsepower"
+                         aura:id="enter-product-horsepower" name="enter-horsepower"/>
+        <lightning:select disabled="true" value="{!v.product.type}" aura:id="enter-product-type" label="Select Car Type"
+                          name="enter-Type" required="true">
             <option value="">Choose a Type</option>
             <option value="SUV">SUV</option>
             <option value="Hatchback">Hatchback</option>

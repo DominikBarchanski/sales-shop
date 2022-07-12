@@ -39,13 +39,13 @@
             console.log(component.get("v.Product"))
             let num = parseInt(component.get("v.Progress"));
             component.set("v.Progress", (num + 1).toString());
-
             component.set("v.isDetails", false);
             component.set("v.isPhoto", false);
             component.set("v.isOverview", true);
 
         }
-    },handleClose : function (component,event) {
+    }
+    ,handleClose : function (component,event) {
         console.log('test')
         component.set("v.Progress", "0");
         component.set('v.Product', {});

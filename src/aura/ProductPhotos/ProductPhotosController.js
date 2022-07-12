@@ -32,16 +32,7 @@
         }
         var parentComponent = cmp.get("v.parent");
         parentComponent.getPhotoDetails(FileList,mainPhoto);
-    }, handleClose : function (component,event){
-        var listOfPhoto = JSON.stringify(component.get('v.allAddedFile'));
-        var action = component.get('c.deleteAfterCancel');
-        action.setParams({photoList:listOfPhoto});
-        action.setCallback(this, $A.getCallback(function (response){
-            cmp.set("v.allAddedFile", [])
-
-        }));
-        $A.enqueueAction(action);
-        var parentComponent = component.get("v.parent");
-        parentComponent.closeAdd();
+    }, handleClose : function (component,event ,helper){
+        helper.handleClose(component,event ,helper);
     }
 });

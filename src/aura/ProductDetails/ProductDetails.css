@@ -1,12 +1,7 @@
 /**
- * Created by dominikbarchanski on 05/07/2022.
+ * Created by dominikbarchanski on 12/07/2022.
  */
 
-.THIS.selectedItem {
-    box-shadow: 2px 2px gray;
-    background-color: aquamarine;
-    opacity: 50%;
-}
 .THIS .displayInput {
     width: 45%;
     margin: 0.5em 1em;

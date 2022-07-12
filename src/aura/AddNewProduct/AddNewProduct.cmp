@@ -28,23 +28,16 @@
         <aura:attribute name="PhotoList" type="List"/>
         <aura:attribute name="MainPhoto" type="String"/>
     </aura:method>
-<!--    <aura:renderIf isTrue="{!v.isDisplayModal}">-->
-<!--    <aura:if isTrue="{!v.isOpen}">-->
-<!--        <div style="height: 640px;">-->
-<!--            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">-->
-<!--                <div class="slds-modal__container">-->
-<!--                    <header class="slds-modal__header slds-modal__header_empty">-->
-<!--                        <lightning:buttonIcon iconName="utility:close" class="slds-modal__close" onclick="{!c.closeFlowModal}"/>-->
-<!--                    </header>-->
-<!--                    <div class="slds-modal__content slds-p-around_medium">-->
+
                 <lightning:card>
-                    <!--        <aura:renderIf isTrue="{!or(or(v.isDetails,v.isPhoto), v.isOverview)}">-->
+                    <div style="margin:2em">
+
                     <lightning:progressIndicator type="path" variant="base" currentStep="{!v.Progress}">
-                        <lightning:progressStep label="Product Details" value="0"/>
-                        <lightning:progressStep label="Product Photo" value="1"/>
-                        <lightning:progressStep label="Overview" value="2"/>
+                        <lightning:progressStep  label="Product Details" value="0"/>
+                        <lightning:progressStep  label="Product Photo" value="1"/>
+                        <lightning:progressStep  label="Overview" value="2"/>
                     </lightning:progressIndicator>
-                    <!--        </aura:renderIf>-->
+                    </div>
                     <aura:renderIf isTrue="{!v.isDetails}">
                         <c:ProductDetails parent="{!this}"></c:ProductDetails>
                     </aura:renderIf>
