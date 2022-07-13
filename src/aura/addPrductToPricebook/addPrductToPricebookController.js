@@ -3,31 +3,19 @@
  */
 
 ({
-    init: function (cmp, event) {
-        cmp.set('v.columns', [
-            // { label: 'Id', fieldName: 'id', type: 'text' },
-            {label: 'Name', fieldName: 'name', type: 'text'},
-            {label: 'Standard Price', fieldName: 'price', type: 'currency'},
-            {label: 'New Price', fieldName: 'newPrice', type: 'currency'},
+    init: function (cmp, event, helper) {
+        cmp.set('v.columns', [// { label: 'Id', fieldName: 'id', type: 'text' },
+            {label: 'Name', fieldName: 'name', type: 'text'}, {
+                label: 'Standard Price',
+                fieldName: 'price',
+                type: 'currency'
+            }, {label: 'New Price', fieldName: 'newPrice', type: 'currency'},
 
 
         ]);
-        let addedItems = cmp.get('v.currentPricebookDetails')
-        var action = cmp.get('c.getAllStandardProduct');
-        action.setParams({productName: ''});
-        action.setCallback(this, $A.getCallback(function (resp) {
-            let listToAdd = [];
-            let retList = resp.getReturnValue();
-            addedItems.forEach(item => {
-                listToAdd.push(retList.find(itemList => itemList.id === item.Product2Id))
-            })
+        helper.handleDoInit(cmp, event, helper);
 
-            retList = retList.filter(val => !listToAdd.includes(val));
 
-            cmp.set('v.PricebookDetails', retList)
-        }));
-        $A.enqueueAction(action);
-        console.log(cmp.get('v.PricebookDetails'));
     }, handleRowAction: function (cmp, event) {
         var selectedRows = event.getParam('selectedRows')
         var toDiscountMap = new Map();
@@ -37,14 +25,13 @@
         for (const allItemSelectedElement of selectedRows) {
             allItemSelectedElement.setDiscount = toDiscountMap.has(allItemSelectedElement.id);
         }
-        console.log(selectedRows)
+
         cmp.set('v.listOfProductsSelected', selectedRows);
 
     }, handleAdd: function (cmp, event) {
 
         var pushToParent = cmp.get("v.parent");
         var selectedRows = cmp.get('v.listOfProductsSelected');
-        console.log(selectedRows)
         pushToParent.addProducts(selectedRows);
         pushToParent.closeModalAllPricebook();
     }, handleClose: function (cmp, event) {
@@ -60,7 +47,6 @@
             var discountType = cmp.find('discount-type').get('v.value');
             var discountValue = parseFloat(cmp.find('discount-value').get('v.value'));
             var discountIncrease = cmp.get('v.discount');
-            console.log(newPriceList)
             for (const newPriceListElement of newPriceList) {
                 if (discountType === 'percent' && newPriceListElement.setDiscount) {
                     newPriceListElement.newPrice = discountIncrease ? evaluate(newPriceListElement.price, (1 - discountValue / 100).toString(), "*") : evaluate(newPriceListElement.price, (1 + discountValue / 100).toString(), "*");
@@ -69,19 +55,16 @@
                 }
             }
             var listToUpdate = cmp.get('v.PricebookDetails');
-            console.log( listToUpdate)
-            console.log(newPriceList)
             newPriceList.forEach(item => {
-                console.log(item);
-                    const object = listToUpdate.find(updatedItem => item.id ===updatedItem.id  );
-                console.log( object);
-                    if (object != undefined) {
-                        item.newPrice = object.newPrice
-                        item.UnitPrice =object.newPrice
-                    }
+
+                const object = listToUpdate.find(updatedItem => item.id === updatedItem.id);
+
+                if (object != undefined) {
+                    item.newPrice = object.newPrice
+                    item.UnitPrice = object.newPrice
                 }
-            )
-            console.log(listToUpdate)
+            })
+
             cmp.set('v.PricebookDetails', listToUpdate)
         }
     }, checkDiscountValue: function (cmp, event) {

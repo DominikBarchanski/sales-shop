@@ -9,12 +9,22 @@
     <aura:attribute name="columns" type="List"/>
     <aura:attribute type="Object" name="PricebookDetails"/>
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
-    <lightning:button name="backToStandard" onclick="{!c.handleBackToMain}" label="Back"/>
-    <lightning:button name="goToEdit" onclick="{!c.handleEditPage}" label="Edit"/>
     <div>
-        <p>{!v.PricebookDetails.Name}</p>
-        <p>{!v.PricebookDetails.Description}</p>
-        <p>{!v.PricebookDetails.isActive}</p>
+        <div class="buttonWrapper">
+            <lightning:button name="backToStandard" onclick="{!c.handleBackToMain}" label="Back"/>
+            <lightning:button name="goToEdit" onclick="{!c.handleEditPage}" label="Edit" variant="brand"/>
+        </div>
+        <div class="inputWrapper">
+            <lightning:input class="inputDisplay" label="Pricebook Name" value="{!v.PricebookDetails.Name}"
+                             disabled="true"
+                             type="text"/>
+            <lightning:input class="inputDisplay" label="Pricebook Description"
+                             value="{!v.PricebookDetails.Description}"
+                             disabled="true" type="text"/>
+            <lightning:input class="inputDisplay" label="Pricebook Active" checked="{!v.PricebookDetails.isActive}"
+                             disabled="true" type="checkbox"/>
+
+        </div>
     </div>
     <lightning:datatable
             columns="{! v.columns }"

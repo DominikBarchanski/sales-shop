@@ -45,7 +45,6 @@
         var discountType = cmp.find('discount-type').get('v.value');
         var discountValue = parseFloat(cmp.find('discount-value').get('v.value'));
         var discountIncrease = cmp.get('v.discount');
-        console.log(discountIncrease);
         for (const newPriceListElement of newPriceList) {
             if (discountType === 'percent' && newPriceListElement.setDiscount) {
                 newPriceListElement.newPrice = discountIncrease ? evaluate(newPriceListElement.price, (1 - discountValue / 100).toString(), "*") : evaluate(newPriceListElement.price, (1 + discountValue / 100).toString(), "*");
@@ -54,8 +53,7 @@
             }
         }
         cmp.set('v.listOfProduct', newPriceList)
-        console.log(cmp.get('v.listOfProduct'));
-    }, handleCreatePricebook: function (cmp, event) {
+    }, handleCreatePricebook: function (cmp, event,helper) {
         var objectToSend = {
             pricebookName: cmp.find('pricebook-name').get('v.value'),
             pricebookDescription: cmp.find('pricebook-description').get('v.value'),
@@ -64,36 +62,8 @@
             startDate: cmp.find('start-date').get('v.value'),
             endDate: cmp.find('end-date').get('v.value')
         }
-        console.log(objectToSend);
-        var action = cmp.get('c.createNewPricebook');
-        action.setParams({dataFromJS: objectToSend});
-        action.setCallback(this, $A.getCallback(function (resp) {
-            var respValue = resp.getReturnValue();
-            var toastEvent = $A.get("e.force:showToast");
-            var cmpClose = false;
-            var pushToParent = cmp.get("v.parent");
-            if (respValue === 'SUCCESS') {
-                toastEvent.setParams({
-                    "title": "Success!",
-                    "type": "success",
-                    "message": "The record has been updated successfully."
-                });
-                toastEvent.fire();
 
-                pushToParent.closeModalAddPricebook(cmpClose);
-            } else {
-                toastEvent.setParams({
-                    "title": "Error!",
-                    "type": "error",
-                    "message": "Something goes wrong."
-                });
-                toastEvent.fire();
-                pushToParent.closeModalAddPricebook(cmpClose);
-            }
-            console.log('poszło')
-            // cmp.set('v.listOfProducts',resp.getReturnValue())
-        }));
-        $A.enqueueAction(action);
+        helper.handleCreatePricebook(cmp,event,helper,objectToSend);
     }, checkDiscountValue: function (cmp, event) {
         var currentValue = cmp.find('discount-value').get('v.value')
         var type = cmp.find('discount-type').get('v.value')

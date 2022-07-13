@@ -162,7 +162,9 @@ public with sharing class AURA_dmlPriceBookController {
             System.debug(objectFromJS.get('Id'));
             this.itemId = (String) objectFromJS.get('Id') != null ? (String) objectFromJS.get('Id') : '';
 //            this.isActive = objectFromJS.get('pricebookIsActive') == 'true'?true:false;
-            this.isActive = (Boolean) objectFromJS.get('pricebookIsActive') ;
+            System.debug(objectFromJS);
+            System.debug(objectFromJS.get('isActive'));
+            this.isActive =  (Boolean) objectFromJS.get('isActive') ;
             this.productList = (List<Object>) JSON.deserializeUntyped(JSON.serialize(objectFromJS.get('listOfProducts')));
         }
     }
@@ -205,6 +207,7 @@ public with sharing class AURA_dmlPriceBookController {
         Pricebook2 pricebook2ToUpdate = [SELECT Id, Name, Description FROM Pricebook2 WHERE Id = :wrappedJS.itemId];
         pricebook2ToUpdate.Name = wrappedJS.pricebookName;
         pricebook2ToUpdate.Description = wrappedJS.pricebookDescription;
+        pricebook2ToUpdate.IsActive = wrappedJS.isActive;
         System.debug(pricebook2ToUpdate);
         update pricebook2ToUpdate;
         try {

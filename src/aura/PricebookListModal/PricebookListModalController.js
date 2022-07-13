@@ -25,58 +25,12 @@
             },
             {type: 'action', typeAttributes: {rowActions: tableActions}}
         ]);
-        let searchValue = cmp.get('v.pricebookName')
-        console.log(searchValue)
-        let action = cmp.get('c.getAllPricebook');
-        action.setParams({pricebookName: searchValue})
-        action.setCallback(this, $A.getCallback(function (resp) {
-
-            var records =  resp.getReturnValue();
-            for ( var i = 0; i < records.length; i++ ) {
-
-                if ( records[i].isActive===true )  {
-                    records[i].displayIconName='utility:check';
-
-                }   else if( records[i].isActive===false){
-                    records[i].displayIconName='utility:close';
-                }
-                else
-                {
-                    records[i].displayIconName='utility:warning';
-                }
-
-            }
-
-            cmp.set('v.listOfPriceBook',records)
-            // cmp.set('v.listOfPriceBook', resp.getReturnValue())
-        }));
-        $A.enqueueAction(action);
-    }, handleSearch: function (cmp, evt, helper) {
-        var isEnterKey = evt.keyCode === 13;
+        helper.handleDoInit(cmp,event,helper);
+    }, handleSearch: function (cmp, event, helper) {
+        var isEnterKey = event.keyCode === 13;
         console.log("działa to ")
         if (isEnterKey) {
-            var pricebookName = cmp.find('pricebook-name-search').get('v.value');
-            let action = cmp.get('c.getAllPricebook');
-            action.setParams({pricebookName: pricebookName})
-            action.setCallback(this, $A.getCallback(function (resp) {
-
-                    var records =  resp.getReturnValue();
-                for ( var i = 0; i < records.length; i++ ) {
-                    if ( records[i].isActive===true )  {
-                        records[i].displayIconName='utility:check';
-                    }   else if( records[i].isActive===false){
-                        records[i].displayIconName='utility:close';
-                    }
-                    else
-                    {
-                        records[i].displayIconName='utility:warning';
-                    }
-
-                }
-
-                cmp.set('v.listOfPriceBook',records)
-            }));
-            $A.enqueueAction(action);
+            helper.handleSearch(cmp,event,helper)
         }
 
     },
