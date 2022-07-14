@@ -13,7 +13,7 @@
     <aura:attribute name="isPhoto" type="Boolean" default="false"/>
     <lightning:card>
         <aura:renderIf isTrue="{!v.isPhoto}">
-            <div style="display: flex;flex-direction: row;overflow: auto;">
+            <div style="display: flex;flex-direction: row;overflow: auto; margin: 0 2em">
                 <aura:iteration items="{!v.allAddedFile}" var="items" indexVar="i">
 
                     <div style="margin: 0 5px" data-index="{!i}" data-value="{!items}"

@@ -3,7 +3,7 @@
  */
 
 ({
-    handleClose: function (cmp, event, helper) {
+    handleClose: function (component, event, helper) {
 
         var listOfPhoto = JSON.stringify(component.get('v.allAddedFile'));
         var action = component.get('c.deleteAfterCancel');
