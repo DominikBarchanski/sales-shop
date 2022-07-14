@@ -9,7 +9,7 @@
     <aura:attribute name="columns" type="List"/>
     <aura:attribute type="Object" name="PricebookDetails"/>
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
-    <div>
+    <div style="margin: 0 2em">
         <div class="buttonWrapper">
             <lightning:button name="backToStandard" onclick="{!c.handleBackToMain}" label="Back"/>
             <lightning:button name="goToEdit" onclick="{!c.handleEditPage}" label="Edit" variant="brand"/>
@@ -25,7 +25,7 @@
                              disabled="true" type="checkbox"/>
 
         </div>
-    </div>
+    <div style="margin: 0 0.5em">
     <lightning:datatable
             columns="{! v.columns }"
             data="{! v.PricebookDetails.listOfProducts }"
@@ -33,5 +33,6 @@
             hideCheckboxColumn="true"
             onrowselection="{! c.handleRowAction }"
     />
-
+    </div>
+    </div>
 </aura:component>
