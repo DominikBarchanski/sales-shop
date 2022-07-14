@@ -27,7 +27,7 @@
     </aura:method>
     <aura:renderIf isTrue="{!v.isDisplayStandardProduct}">
         <lightning:card>
-            <div style="display: flex;flex-direction: row-reverse;">
+            <div style="display: flex;flex-direction: row-reverse; margin: 0 2em">
                 <div style="margin: 0 0.5em">
                     <lightning:button variant="brand" label="Display All Pricebook" onclick="{!c.showPricebookModal}"/>
                 </div>
@@ -35,18 +35,20 @@
                     <lightning:button variant="brand" label="New pricebook" onclick="{!c.showModalNewPricebook}"/>
                 </div>
             </div>
-            <div onkeyup="{!c.handleSearch}" style="width: 50%">
+            <div onkeyup="{!c.handleSearch}" style="width: 50%;margin: 0 3em">
                 <lightning:input type="search" aura:id="product-name-search" name="searchProduct"
                                  label="Search Product by Name"/>
             </div>
             <div style="height: 3em">
             </div>
+            <div style="margin: 0 2em">
             <lightning:datatable
                     columns="{! v.columns }"
                     data="{! v.listOfProducts }"
                     keyField="id"
                     onrowselection="{! c.handleRowAction }"
             />
+            </div>
             <aura:if isTrue="{!v.isPricebookList}">
                 <c:PricebookListModal parent="{!this}"/>
             </aura:if>

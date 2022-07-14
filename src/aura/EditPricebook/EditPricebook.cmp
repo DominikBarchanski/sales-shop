@@ -18,7 +18,7 @@
     <aura:method name="addProducts" action="{!c.handleAddProduct}">
         <aura:attribute type="Object" name="AddedProduct"/>
     </aura:method>
-    <div>
+    <div style="margin: 0 2em">
         <div class="buttonWrapper">
             <lightning:button name="backToStandard" onclick="{!c.handleBackToMain}" label="Back"/>
             <lightning:button name="goToView" onclick="{!c.handleViewPage}" label="View" variant="brand"/>
@@ -62,14 +62,15 @@
                 <lightning:button label="Set new price" variant="brand" onclick="{!c.setNewPrice}"/>
             </div>
         </aura:if>
+        <div style="margin: 0 0.5em">
+            <lightning:datatable
+                    columns="{! v.columns }"
+                    data="{! v.PricebookDetails.listOfProducts }"
+                    onrowselection="{!c.handleRowSelect}"
+                    keyField="id"
 
-        <lightning:datatable
-                columns="{! v.columns }"
-                data="{! v.PricebookDetails.listOfProducts }"
-                onrowselection="{!c.handleRowSelect}"
-                keyField="id"
-
-        />
+            />
+        </div>
         <div style="text-align: center;margin: 1em 0">
             <lightning:button label="Save" onclick="{!c.saveAfterEdit}" variant="brand"/>
         </div>
