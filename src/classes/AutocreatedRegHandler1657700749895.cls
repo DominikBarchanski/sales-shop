@@ -51,11 +51,11 @@ global User createUser(Id portalId, Auth.UserData data){
         Id contactId = createPersonAccountContact(data);
         
         // You'd likely use other logic to assign the Profile
-        Profile p = [SELECT Id FROM profile WHERE name='Customer Community User'];
+        Profile p = [SELECT Id FROM Profile WHERE Name='Customer Community User'];
 
         // Keeping it modular, we initialize the user in another method
         User u = createUser(data,p);
-        
+        u.Username = data.fullName;
         u.contactId = contactId;
         return u;
 
@@ -70,6 +70,8 @@ global void updateUser(Id userId, Id portalId, Auth.UserData data){
     System.debug('Update User called for: ' + data.email);
     
     User u = new User(id=userId);
+//    u.Username = data.firstName + ' ' + data.lastName;
+    u.Username = data.fullName;
     u.email = data.email;
     u.lastName = data.lastName;
     u.firstName = data.firstName;
@@ -103,7 +105,7 @@ global void updateUser(Id userId, Id portalId, Auth.UserData data){
      **/ 
     private User createUser(Auth.UserData data, Profile p) {
         User u = new User();
-        u.username = data.email + ORG_SUFFIX;
+        u.username = data.firstName + data.lastName;
         u.email = data.email;
         u.lastName = data.lastName;
         u.firstName = data.firstName;
