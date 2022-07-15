@@ -2,12 +2,45 @@
  - Created by dominikbarchanski on 04/07/2022.
  -->
 
-<aura:component description="ProductDetails">
+<aura:component description="ProductDetails" controller="Aura_dmlOperations">
     <aura:attribute name="parent" type="Aura.Component"/>
-    <lightning:card >
-        <lightning:input  label="Product Name" aura:id="enter-product-name" name="enter-name"></lightning:input>
-        <lightning:input  label="Product Price" aura:id="enter-product-price" name="enter-price"></lightning:input>
-        <lightning:input  label="Product Description" aura:id="enter-product-description" name="enter-description"></lightning:input>
-        <lightning:button variant="brand" label="Next Step" onclick="{!c.callParentMethod}" />
+    <lightning:card>
+        <div class="inputWrapper">
+            <lightning:input class="displayInput" required="true" label="Car Name" aura:id="enter-product-name"
+                             name="enter-name"></lightning:input>
+            <lightning:input class="displayInput" required="true" type="number" formatter="currency" step="0.01"
+                             label="Car Price"
+                             aura:id="enter-product-price" name="enter-price"></lightning:input>
+            <lightning:input class="displayInput" required="true" label="Product Description"
+                             aura:id="enter-product-description"
+                             name="enter-description"></lightning:input>
+
+            <lightning:input class="displayInput" required="true" label="Car Horsepower"
+                             aura:id="enter-product-horsepower"
+                             name="enter-horsepower"></lightning:input>
+            <lightning:select class="displayInput" aura:id="enter-product-type" label="Select Car Type"
+                              name="enter-Type">
+                <option value="">Choose a Type</option>
+                <option value="SUV">SUV</option>
+                <option value="Hatchback">Hatchback</option>
+                <option value="Crossover">Crossover</option>
+                <option value="Sports Car">Sports Car</option>
+                <option value="Coupe">Coupe</option>
+                <option value="Pickup Truck">Pickup Truck</option>
+            </lightning:select>
+            <div class="displayInput">
+
+            <ui:inputSelect label="Select Brand" class="dynamic" aura:id="InputAccountIndustry"
+                            change="{!c.onPicklistChange}"/>
+            </div>
+
+        </div>
+        <div class="buttonSection">
+            <lightning:button variant="brand" label="Next Step" onclick="{!c.callParentMethod}"/>
+            <lightning:button onclick="{!c.handleClose}" label="Close"></lightning:button>
+        </div>
     </lightning:card>
+    <aura:attribute name="carBrand" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 </aura:component>

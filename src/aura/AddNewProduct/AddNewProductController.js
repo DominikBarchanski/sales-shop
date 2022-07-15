@@ -3,39 +3,58 @@
  */
 
 ({
+
     getDetails : function (component,event){
         var params = event.getParam('arguments');
         if (params){
             component.set('v.Product',{
                 name:params.ProductName ,
                 price:params.ProductPrice ,
-                description:params.ProductDescription
+                description:params.ProductDescription,
+                type:params.ProductType,
+                hp:params.ProductHorsepower,
+                brand:params.ProductBrand
             })
             var num = parseInt(component.get("v.Progress"));
             component.set("v.Progress", (num + 1).toString());
             component.set("v.isDetails", false);
             component.set("v.isPhoto", true);
+            component.set("v.isOverview", false);
 
             var prod = component.get("v.Product")
-            console.log(prod.name);
-            // $A.get('e.force:refreshView').fire();
+
+
 
         }
     },getPhotos : function (component,event){
         var params= event.getParam('arguments');
         console.log(params)
         if(params){
-            console.log(params.PhotoList)
-            console.log(component.get("v.Product"))
-            component.set("v.Product",{
+            var addItem =component.get("v.Product");
+            addItem.photoList = params.PhotoList;
+            addItem.mainPhoto = params.MainPhoto;
+            console.log(addItem);
+            component.set("v.Product", addItem)
 
-                photoList: params.PhotoList
-            })
-            var num = parseInt(component.get("v.Progress"));
             console.log(component.get("v.Product"))
+            let num = parseInt(component.get("v.Progress"));
             component.set("v.Progress", (num + 1).toString());
+            component.set("v.isDetails", false);
             component.set("v.isPhoto", false);
             component.set("v.isOverview", true);
+
         }
+    }
+    ,handleClose : function (component,event) {
+        console.log('test')
+        component.set("v.Progress", "0");
+        component.set('v.Product', {});
+        component.set('v.isDetails', false)
+        component.set('v.isPhoto', false)
+        component.set('v.isOverview', false)
+        console.log(component.get('v.isDisplayModal'));
+        component.set("v.isDisplayModal", false);
+        console.log(component.get('v.isDisplayModal'));
+        window.location= "/lightning/o/Product2/list"
     }
 });

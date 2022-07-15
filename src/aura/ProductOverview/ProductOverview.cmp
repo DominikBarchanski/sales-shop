@@ -2,5 +2,80 @@
  - Created by dominikbarchanski on 04/07/2022.
  -->
 
-<aura:component description="ProductOverview">
+<aura:component description="ProductOverview" controller="Aura_dmlOperations">
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="product" type="Object"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:card>
+        <fieldset class="slds-form-element">
+            <legend class="slds-form-element__legend slds-form-element__label">Select main photo by click (default first)</legend>
+            <div class="slds-form-element__control" style="display: flex;flex-direction: row;overflow: auto; ">
+                <aura:iteration items="{!v.product.photoList}" var="items" indexVar="i">
+                    <div class="slds-visual-picker slds-visual-picker_medium" style="margin: 0 2em">
+                        <div data-index="{!i}"
+                             data-value="{!items}" style="text-align: center;">
+                        <input type="radio" id="{!'visual-picker-'+i}"
+                               value="{!'visual-picker-'+i}"
+                               name="example-unique-name-38"/>
+                        <label for="{!'visual-picker-'+i}">
+                            <div onclick="{!c.handleSetMainPhoto}" class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+
+                                <lightning:fileCard fileId="{!items}"/>
+
+
+                            </div>
+                        </label>
+<!--                            <lightning:buttonIcon iconName="utility:photo" size="small" name="4"-->
+<!--                                                  onclick="{!c.handleSetMainPhoto}" title="Set Main Photo"-->
+<!--                                                  value="{!index}"-->
+<!--                                                  alternativeText="set main">-->
+
+<!--                            </lightning:buttonIcon>-->
+                            <lightning:buttonIcon iconName="utility:clear" size="small" name="4"
+                                                  onclick="{!c.handleClickDelete}" title="Delete Photo" value="{!index}"
+                                                  alternativeText="delete"/>
+
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </fieldset>
+        <div class="inputWrapper">
+
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.name}" label="Name"/>
+            <lightning:input class="displayInput" disabled="true" type="number" formatter="currency" step="0.01"
+                             value="{!v.product.price}"
+                             label="Price"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.description}" label="Description"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.hp}" required="true"
+                             label="Car Horsepower"
+                             aura:id="enter-product-horsepower" name="enter-horsepower"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.type}" required="true"
+                             label="Car Horsepower"
+                             aura:id="enter-product-type" name="enter-type"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.brand}" required="true"
+                             label="Car Horsepower"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+
+            <!--            <lightning:select disabled="true" value="{!v.product.type}" aura:id="enter-product-type"-->
+            <!--                              label="Select Car Type"-->
+            <!--                              name="enter-Type" required="true">-->
+            <!--                <option value="">Choose a Type</option>-->
+            <!--                <option value="SUV">SUV</option>-->
+            <!--                <option value="Hatchback">Hatchback</option>-->
+            <!--                <option value="Crossover">Crossover</option>-->
+            <!--                <option value="Sports Car">Sports Car</option>-->
+            <!--                <option value="Coupe">Coupe</option>-->
+            <!--                <option value="Pickup Truck">Pickup Truck</option>-->
+            <!--            </lightning:select>-->
+        </div>
+        <!--        <div class="slds-form-element">-->
+        <!--            <label class="slds-form-element__label" for="select-01">Selected Brand <b>{!v.product.brand}</b></label>-->
+        <!--        </div>-->
+        <div style="text-align: center;margin: 1em 0">
+            <lightning:button variant="brand" onclick="{!c.handleClick}" label="Save"></lightning:button>
+            <lightning:button onclick="{!c.handleSaveAndNew}" label="Save &amp; New"></lightning:button>
+            <lightning:button onclick="{!c.handleClose}" label="Close"></lightning:button>
+        </div>
+    </lightning:card>
 </aura:component>
