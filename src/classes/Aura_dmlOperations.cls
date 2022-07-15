@@ -97,6 +97,10 @@ public with sharing class Aura_dmlOperations {
             newProd.IsActive = true;
             newProd.UnitPrice = recFromJs.price;
             insert newProd;
+            Strategy__c newItemInStrategy = new Strategy__c();
+            newItemInStrategy.Product2id__c = toAdd.Id;
+            newItemInStrategy.Standard_Price__c = recFromJs.price;
+            insert newItemInStrategy;
 
 
             return null;
