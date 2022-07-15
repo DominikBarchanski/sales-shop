@@ -2,7 +2,7 @@
  * Created by dominikbarchanski on 13/07/2022.
  */
 
-public class LWC_dmlOperation {
+public without sharing class LWC_dmlOperation {
     @AuraEnabled(Cacheable=true) public static List<Product2> getAllProducts(String findBy) {
         String forSoql = '%' + findBy + '%';
         return [
