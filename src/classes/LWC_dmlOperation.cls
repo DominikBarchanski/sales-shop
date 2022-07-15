@@ -48,7 +48,8 @@ public without sharing class LWC_dmlOperation {
                         RelatedRecordId,
                         SystemModstamp,
                         ViewCount
-                FROM ContentDistribution];
+                FROM ContentDistribution
+        ];
     }
     public class SearchProductWrapper {
         @AuraEnabled public String id;
@@ -60,15 +61,15 @@ public without sharing class LWC_dmlOperation {
         @AuraEnabled public Decimal price;
         @AuraEnabled public String url = 'https://britenet7-dev-ed--c.documentforce.com/sfc/dist/version/download/?oid=00D7Q000004Qv7A&ids=0687Q00000357uZ&d=%2Fa%2F7Q000000TP5r%2FaE5dsVi0EWBYWF_ZFYE_VCQlp_0s.DYJzUsekfPN92k&asPdf=false';
 
-        public SearchProductWrapper(Product2 product, PricebookEntry entry,ContentDistribution content) {
-            this.id =  String.valueOf(Product2.Id);
+        public SearchProductWrapper(Product2 product, PricebookEntry entry, ContentDistribution content) {
+            this.id = String.valueOf(Product2.Id);
             this.name = product.Name;
             this.type = product.Family;
             this.brand = product.Brands__c;
             this.description = product.Description;
             this.price = entry.UnitPrice;
 
-            this.photoUrl = content.DistributionPublicUrl != null ? content.ContentDownloadUrl :url;
+            this.photoUrl = content.DistributionPublicUrl != null ? content.ContentDownloadUrl : url;
 
         }
     }
@@ -76,20 +77,20 @@ public without sharing class LWC_dmlOperation {
     @AuraEnabled(Cacheable=true) public static List<SearchProductWrapper> searchProduct(String findBy) {
         List<Product2> findedProduct = getAllProducts(findBy);
         List<PricebookEntry> findedPricebookEntries = getAllPricebookItems();
-        List<ContentDistribution> allContentDistribution =  getAllContentDistribution();
+        List<ContentDistribution> allContentDistribution = getAllContentDistribution();
 
         Map<String, PricebookEntry> mapOfPrice = new Map<String, PricebookEntry>();
         for (PricebookEntry item : findedPricebookEntries) {
             mapOfPrice.put(item.Product2Id, item);
         }
-        Map<String,ContentDistribution> mapOfContent = new Map<String, ContentDistribution>();
-        for ( ContentDistribution item :allContentDistribution){
-            mapOfContent.put(item.ContentDocumentId,item);
+        Map<String, ContentDistribution> mapOfContent = new Map<String, ContentDistribution>();
+        for (ContentDistribution item : allContentDistribution) {
+            mapOfContent.put(item.ContentDocumentId, item);
         }
 
         List<SearchProductWrapper> listOfFindedProducts = new List<LWC_dmlOperation.SearchProductWrapper>();
         for (Product2 item : findedProduct) {
-            SearchProductWrapper itemToAdd = new SearchProductWrapper(item, mapOfPrice.get(item.Id),(mapOfContent.containsKey(item.Main_Photo__c) ? mapOfContent.get(item.Main_Photo__c): new ContentDistribution()));
+            SearchProductWrapper itemToAdd = new SearchProductWrapper(item, mapOfPrice.get(item.Id), (mapOfContent.containsKey(item.Main_Photo__c) ? mapOfContent.get(item.Main_Photo__c) : new ContentDistribution()));
             listOfFindedProducts.add(itemToAdd);
         }
         return listOfFindedProducts;
