@@ -1,0 +1,38 @@
+<!--
+ - Created by dominikbarchanski on 08/07/2022.
+ -->
+
+<aura:component description="ViewPricebook" controller="AURA_dmlPriceBookController">
+    <aura:attribute type="Aura.Component" name="parent"/>
+    <aura:attribute type="Object" name="listOfStandardPrice"/>
+    <aura:attribute type="String" name="pricebookId"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute type="Object" name="PricebookDetails"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <div style="margin: 0 2em">
+        <div class="buttonWrapper">
+            <lightning:button name="backToStandard" onclick="{!c.handleBackToMain}" label="Back"/>
+            <lightning:button name="goToEdit" onclick="{!c.handleEditPage}" label="Edit" variant="brand"/>
+        </div>
+        <div class="inputWrapper">
+            <lightning:input class="inputDisplay" label="Pricebook Name" value="{!v.PricebookDetails.Name}"
+                             disabled="true"
+                             type="text"/>
+            <lightning:input class="inputDisplay" label="Pricebook Description"
+                             value="{!v.PricebookDetails.Description}"
+                             disabled="true" type="text"/>
+            <lightning:input class="inputDisplay" label="Pricebook Active" checked="{!v.PricebookDetails.isActive}"
+                             disabled="true" type="checkbox"/>
+
+        </div>
+    <div style="margin: 0 0.5em">
+    <lightning:datatable
+            columns="{! v.columns }"
+            data="{! v.PricebookDetails.listOfProducts }"
+            keyField="id"
+            hideCheckboxColumn="true"
+            onrowselection="{! c.handleRowAction }"
+    />
+    </div>
+    </div>
+</aura:component>

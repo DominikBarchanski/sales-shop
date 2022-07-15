@@ -1,0 +1,18 @@
+/**
+ * Created by dominikbarchanski on 13/07/2022.
+ */
+
+.THIS .inputDisplay {
+    width: 45%;
+    margin: 0.5em 1em;
+}
+.THIS .inputWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+}
+.THIS .buttonWrapper{
+    text-align: right;
+    margin-right: 1em;
+}

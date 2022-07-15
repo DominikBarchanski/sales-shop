@@ -14,11 +14,11 @@ node_modules/
 package-lock.json
 
 # Apex Log as optional
-apex-scripts/log
+
 
 # Eclipse specific
-salesforce.schema
-Referenced Packages
+#salesforce.schema
+#Referenced Packages
 bin/
 tmp/
 config/
