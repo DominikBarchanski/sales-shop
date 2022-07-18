@@ -17,7 +17,7 @@
             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                 <div style="display: flex;flex-direction: row;flex-wrap: wrap;">
                     <div style="width: 48%;margin-right:0.5em">
-                        <lightning:input label="Pricebook name" type="text" placeholder="Enter pricebook name ..."
+                        <lightning:input label="Pricebook name" type="text" required="true" placeholder="Enter pricebook name ..."
                                          aura:id="pricebook-name"/>
                     </div>
                     <div style="width: 48%;margin-left: 0.5em">
@@ -30,8 +30,8 @@
                     </div>
                 </div>
                 <div>
-                    <lightning:input label="Start Date" aura:id="start-date" type="date"/>
-                    <lightning:input label="End Date" aura:id="end-date" type="date"/>
+                    <lightning:input label="Start Date" required="true" aura:id="start-date" type="date"/>
+                    <lightning:input label="End Date" required="true" aura:id="end-date" type="date"/>
 
                 </div>
                 <div style="display: flex;align-content: center;align-items: flex-end;">

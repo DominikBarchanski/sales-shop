@@ -47,13 +47,13 @@
                              value="{!v.product.price}"
                              label="Price"/>
             <lightning:input class="displayInput" disabled="true" value="{!v.product.description}" label="Description"/>
-            <lightning:input class="displayInput" disabled="true" value="{!v.product.hp}" required="true"
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.hp}" required="false"
                              label="Car Horsepower"
                              aura:id="enter-product-horsepower" name="enter-horsepower"/>
-            <lightning:input class="displayInput" disabled="true" value="{!v.product.type}" required="true"
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.type}" required="false"
                              label="Car Horsepower"
                              aura:id="enter-product-type" name="enter-type"/>
-            <lightning:input class="displayInput" disabled="true" value="{!v.product.brand}" required="true"
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.brand}" required="false"
                              label="Car Horsepower"
                              aura:id="enter-product-brand" name="enter-brand"/>
 

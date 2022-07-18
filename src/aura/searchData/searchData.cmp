@@ -1,0 +1,7 @@
+<!--
+ - Created by dominikbarchanski on 18/07/2022.
+ -->
+
+<aura:component description="searchData" implements="forceCommunity:searchInterface" access="global">
+<!--    <c:searchProdicts/>-->
+</aura:component>
