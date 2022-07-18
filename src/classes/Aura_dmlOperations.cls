@@ -100,6 +100,8 @@ public with sharing class Aura_dmlOperations {
             Strategy__c newItemInStrategy = new Strategy__c();
             newItemInStrategy.Product2id__c = toAdd.Id;
             newItemInStrategy.Standard_Price__c = recFromJs.price;
+            newItemInStrategy.Strategy_price__c = recFromJs.price;
+            newItemInStrategy.Strategy_Name__c = 'standard';
             insert newItemInStrategy;
 
 

@@ -14,6 +14,7 @@
             {label: 'Brand', fieldName: 'brand', type: 'text'},
             {label: 'Name', fieldName: 'name', type: 'text'},
             {label: 'Standard Price', fieldName: 'price', type: 'currency'},
+            {label: 'Price After Strategy', fieldName: 'strategyPrice', type: 'currency'},
             {label: 'Type', fieldName: 'type', type: 'text'},
             {label: 'Horce power', fieldName: 'hp', type: 'number'},
             // { type: 'action', typeAttributes: { rowActions: tableActions } }
@@ -40,9 +41,17 @@
         if (params) {
             cmp.set("v.isNewPricebook", params.childCloseModalAdd)
         }
+    },handleCloseModalStrategy: function (cmp, event) {
+        var params = event.getParam('arguments');
+        if (params) {
+            cmp.set("v.isDisplayStrategy", params.childCloseModalStrategy)
+            $A.enqueueAction(cmp.get('c.init'))
+        }
     },
     showPricebookModal: function (cmp, event) {
         cmp.set("v.isPricebookList", true);
+    },showStrategyModal:function (cmp,event) {
+        cmp.set('v.isDisplayStrategy',true);
     },
     showModalNewPricebook: function (cmp, event) {
         var selectedSize = cmp.get('v.listOfProductsSelected')

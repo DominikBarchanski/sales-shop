@@ -59,16 +59,17 @@ public without sharing class LWC_dmlOperation {
         @AuraEnabled public String type;
         @AuraEnabled public String photoUrl;
         @AuraEnabled public Decimal price;
+        @AuraEnabled public Decimal priceWithDiscount;
 //        @AuraEnabled public String url = 'https://britenet7-dev-ed--c.documentforce.com/sfc/dist/version/download/?oid=00D7Q000004Qv7A&ids=0687Q00000357uZ&d=%2Fa%2F7Q000000TP5r%2FaE5dsVi0EWBYWF_ZFYE_VCQlp_0s.DYJzUsekfPN92k&asPdf=false';
 
-        public SearchProductWrapper(Product2 product, PricebookEntry entry, ContentDistribution content) {
+        public SearchProductWrapper(Product2 product, Strategy__c strategy, ContentDistribution content) {
             this.id = String.valueOf(Product2.Id);
             this.name = product.Name;
             this.type = product.Family;
             this.brand = product.Brands__c;
             this.description = product.Description;
-            this.price = entry.UnitPrice;
-
+            this.price = strategy.Standard_Price__c;
+            this.priceWithDiscount = strategy.Strategy_price__c;
             this.photoUrl = content.ContentDownloadUrl != null ? content.ContentDownloadUrl : PageReference.forResource('display_on_error').getUrl();
 
         }
@@ -78,7 +79,26 @@ public without sharing class LWC_dmlOperation {
         List<Product2> findedProduct = getAllProducts(findBy);
         List<PricebookEntry> findedPricebookEntries = getAllPricebookItems();
         List<ContentDistribution> allContentDistribution = getAllContentDistribution();
-
+        List<Strategy__c> allStrategyPrice = [
+                SELECT
+                        CreatedById,
+                        CreatedDate,
+                        Id,
+                        IsDeleted,
+                        LastModifiedById,
+                        LastModifiedDate,
+                        Name,
+                        OwnerId,
+                        Product2id__c,
+                        Standard_Price__c,
+                        Strategy_Name__c,
+                        Strategy_price__c,
+                        SystemModstamp
+                FROM Strategy__c];
+        Map<String,Strategy__c> mapOfStrategy = new Map<String, Strategy__c>();
+        for (Strategy__c item :allStrategyPrice){
+            mapOfStrategy.put(item.Product2id__c,item);
+        }
         Map<String, PricebookEntry> mapOfPrice = new Map<String, PricebookEntry>();
         for (PricebookEntry item : findedPricebookEntries) {
             mapOfPrice.put(item.Product2Id, item);
@@ -90,7 +110,7 @@ public without sharing class LWC_dmlOperation {
 
         List<SearchProductWrapper> listOfFindedProducts = new List<LWC_dmlOperation.SearchProductWrapper>();
         for (Product2 item : findedProduct) {
-            SearchProductWrapper itemToAdd = new SearchProductWrapper(item, mapOfPrice.get(item.Id), (mapOfContent.containsKey(item.Main_Photo__c) ? mapOfContent.get(item.Main_Photo__c) : new ContentDistribution()));
+            SearchProductWrapper itemToAdd = new SearchProductWrapper(item, mapOfStrategy.get(item.Id), (mapOfContent.containsKey(item.Main_Photo__c) ? mapOfContent.get(item.Main_Photo__c) : new ContentDistribution()));
             listOfFindedProducts.add(itemToAdd);
         }
         return listOfFindedProducts;

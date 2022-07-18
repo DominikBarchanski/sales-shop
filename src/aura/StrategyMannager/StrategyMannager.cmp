@@ -1,0 +1,17 @@
+<!--
+ - Created by dominikbarchanski on 15/07/2022.
+ -->
+
+<aura:component description="StrategyMannager" implements="flexipage:availableForRecordHome,force:appHostable" controller="AURA_dmlStrategyManager">
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <lightning:card >
+        <lightning:select name="select1" label="Select Price Strategy" required="true">
+            <option value="">choose one...</option>
+            <option value="LOW">Lowest Price</option>
+            <option value="BIG">Biggest Price</option>
+            <option value="STAND">Standard Price</option>
+            <option value="ALL">Connect All Promotion</option>
+        </lightning:select>
+
+    </lightning:card>
+</aura:component>
