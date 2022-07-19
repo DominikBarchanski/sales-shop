@@ -6,21 +6,13 @@
 <template>
     <template if:true={productToDisplay}>
         <div  style="display: flex;flex-wrap: wrap">
-            <template for:each={productToDisplay} for:item="object">
-                <div key={object.id} style="margin: 1em 1em">
-
-                        <img key={object.id} src={object.photoUrl} onerror={onerrorHandler} alt="img" style="width: 15em">
-                        <p key={object.id}>Brand: {object.brand}</p>
-                        <p key={object.id}>Name: {object.name}</p>
+            <template for:each={productToDisplay} for:item="object" for:index="i">
+                <div class="singleElementSearch" key={object.id} data-id={object.id} data-value={object.name} onclick={handleProductClick} style="margin: 0.5em 0.5em;height: 300px;width: 280px;">
+                        <c-display-photo main-photo={object}></c-display-photo>
+                        <p key={object.id}><b>{object.brand} {object.name}</b></p>
+                        <p key={object.id}>{object.description}</p>
                         <p key={object.id}>price: {object.price}</p>
                         <p key={object.id}>price with discount: {object.priceWithDiscount}</p>
-
-<!--                        <div style="display:none;position: absolute;opacity:0" class="ModelTooltip">-->
-<!--                            <c-hover-modal-details record-object={object} ></c-hover-modal-details>-->
-<!--                        </div>-->
-<!--                    <lightning-output-field field-name="Name" onmouseout={handleMouseout} onmouseover={handleMouseover}>-->
-<!--                    </lightning-output-field>-->
-<!--                    </div>-->
                 </div>
             </template>
         </div>

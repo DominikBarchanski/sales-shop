@@ -97,11 +97,19 @@
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
+                            <option name="name" value="displayPhoto" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="displaySingleProduct" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
                             <option name="name" value="displaySingleProdyct" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="filterComponent" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>

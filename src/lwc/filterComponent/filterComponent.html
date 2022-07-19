@@ -1,0 +1,26 @@
+<!--
+ - Created by dominikbarchanski on 19/07/2022.
+ -->
+
+<!-- Filter Component -->
+<template>
+<lightning-card >
+    <lightning-combobox
+            name="progress"
+            label="Type"
+            value={value}
+            placeholder="Select Type"
+            options={options}
+            onchange={handleChangeType} ></lightning-combobox>
+    <lightning-combobox
+            name="new"
+            label="Brand"
+            value={brandValue}
+            placeholder="Select Type"
+            options={optionBra}
+            onchange={handleChangeBrand} ></lightning-combobox>
+
+<lightning-button label="Filter"  onclick={HandleFilter}></lightning-button>
+<lightning-button label="Filter"  onclick={HandleClearFilter}></lightning-button>
+</lightning-card>
+</template>
