@@ -11,26 +11,43 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
     @track details;
     @wire(CurrentPageReference) pageRef;
     @track productToDisplay;
-     tempProduct;
-    @track recordId ;
-    @track recordName ;
+    tempProduct;
+    @track recordId;
+    @track recordName;
     errorImage = "https://britenet7-dev-ed--c.documentforce.com/sfc/dist/version/download/?oid=00D7Q000004Qv7A&ids=0687Q00000357uZ&d=%2Fa%2F7Q000000TP5r%2FaE5dsVi0EWBYWF_ZFYE_VCQlp_0s.DYJzUsekfPN92k&asPdf=false"
-    onerrorHandler (){
-       return  this.errorImage;
+    setDiscount
+
+    onerrorHandler() {
+        return this.errorImage;
     }
+
     connectedCallback() {
-        if (sessionStorage.getItem('searchValue')){
+        if (sessionStorage.getItem('searchValue')) {
             this.details = sessionStorage.getItem('searchValue')
             sessionStorage.clear();
-        }else{
+        } else {
             this.details = '';
         }
-        searchProduct({findBy : this.details}).then((result)=>{
-            this.tempProduct =result;
-            this.productToDisplay = result;
+        searchProduct({findBy: this.details}).then((result) => {
+            this.tempProduct = result;
+            let test = JSON.parse(JSON.stringify(result));
+
+            for (const itemElement of test) {
+                if(itemElement.price !== itemElement.priceWithDiscount){
+                    itemElement.isDiscount = true;
+                    itemElement.discountStyle = 'strikePrice';
+                }else{
+                    itemElement.isDiscount = false;
+                    itemElement.discountStyle = '';
+
+                }
+
+            }
+            console.log(test);
+            this.productToDisplay = test;
             console.log(typeof this.productToDisplay);
             console.log(result)
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log(error);
         })
         registerListener('searchDetails', this.setUpDetails, this)
@@ -40,30 +57,38 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
     disconnectedCallback() {
         unregisterAllListeners(this);
     }
-    setUpFilter(filterValue){
+
+    setUpFilter(filterValue) {
         // Object.filter = (obj, predicate) =>
         //     Object.fromEntries(Object.entries(obj).filter(predicate));
-        if ( filterValue ==='toClear'){
+        if (filterValue === 'toClear') {
             this.productToDisplay = this.tempProduct;
-        }else if(typeof filterValue ==="object" ){
+        } else if (typeof filterValue === "object") {
             this.productToDisplay = this.tempProduct.filter(el => {
-                return el.type === filterValue.type;
+                return (filterValue.type !== '' ? el.type === filterValue.type : true) &&
+                    (filterValue.brand !== '' ? el.brand === filterValue.brand : true) &&
+                    (filterValue.hpMin !== '' && filterValue.hpMin !== null ? el.hp >= filterValue.hpMin : true) &&
+                    (filterValue.hpMax !== '' && filterValue.hpMax !== null ? el.hp <= filterValue.hpMax : true) &&
+                    (filterValue.priceMin !== '' && filterValue.priceMin !== null ? el.price >= filterValue.priceMin : true) &&
+                    (filterValue.priceMax !== '' && filterValue.priceMax !== null ? el.price <= filterValue.priceMax : true);
             })
         }
 
         // console.log(filtered);
 
     }
+
     setUpDetails(searchValue) {
         this.details = searchValue
-        searchProduct({findBy : this.details}).then((result)=>{
+        searchProduct({findBy: this.details}).then((result) => {
             this.productToDisplay = result;
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log(error);
         })
 
     }
-    handleProductClick(event){
+
+    handleProductClick(event) {
         this.recordId = event.currentTarget.dataset.id;
         this.recordName = event.currentTarget.dataset.value;
         // let urlString = '/product/' +this.recordName +'/' + this.recordId;
@@ -71,11 +96,12 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
             attributes: {
-                url: '/product/' +this.recordName +'/' + this.recordId
+                url: '/product/' + this.recordName + '/' + this.recordId
             }
         })
 
     }
+
     // handleSwapPhoto(event){
     //     let test = event.currentTarget.dataset.index
     //
@@ -83,7 +109,6 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
     //
     //
     // }
-
 
 
 }

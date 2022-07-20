@@ -6,7 +6,7 @@ public without sharing class LWC_dmlOperation {
     @AuraEnabled(Cacheable=true) public static List<Product2> getAllProducts(String findBy) {
         String forSoql = '%' + findBy + '%';
         return [
-                SELECT Brands__c, CreatedById, CreatedDate, Description, DisplayUrl, ExternalDataSourceId, ExternalId, Family, Horsepower__c, Id, IsActive, IsArchived, IsDeleted, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, Main_Photo__c, Name, ProductCode, QuantityUnitOfMeasure, StockKeepingUnit, SystemModstamp
+                SELECT Brands__c,Production_Year__c, CreatedById, CreatedDate, Description, DisplayUrl, ExternalDataSourceId, ExternalId, Family, Horsepower__c, Id, IsActive, IsArchived, IsDeleted, LastModifiedById, LastModifiedDate, LastReferencedDate, LastViewedDate, Main_Photo__c, Name, ProductCode, QuantityUnitOfMeasure, StockKeepingUnit, SystemModstamp
                 FROM Product2
                 WHERE Name LIKE :forSoql OR Description LIKE :forSoql OR Brands__c LIKE :forSoql OR Family LIKE :forSoql
         ];
@@ -109,8 +109,10 @@ public without sharing class LWC_dmlOperation {
         @AuraEnabled public String brand;
         @AuraEnabled public String type;
         @AuraEnabled public String photoUrl;
+        @AuraEnabled public Decimal hp;
         @AuraEnabled public Decimal price;
         @AuraEnabled public Decimal priceWithDiscount;
+        @AuraEnabled public Decimal prodYear;
         @AuraEnabled public List<String> photoList;
 //        @AuraEnabled public String url = 'https://britenet7-dev-ed--c.documentforce.com/sfc/dist/version/download/?oid=00D7Q000004Qv7A&ids=0687Q00000357uZ&d=%2Fa%2F7Q000000TP5r%2FaE5dsVi0EWBYWF_ZFYE_VCQlp_0s.DYJzUsekfPN92k&asPdf=false';
 
@@ -119,9 +121,11 @@ public without sharing class LWC_dmlOperation {
             this.name = product.Name;
             this.type = product.Family;
             this.brand = product.Brands__c;
+            this.hp = product.Horsepower__c;
+            this.prodYear =  product .Production_Year__c != null ?product .Production_Year__c.year():null;
             this.description = product.Description;
-            this.price = strategy.Standard_Price__c;
-            this.priceWithDiscount = strategy.Strategy_price__c;
+            this.price =  strategy.Standard_Price__c.setScale(2);
+            this.priceWithDiscount = strategy.Strategy_price__c.setScale(2);
             this.photoUrl = content.ContentDownloadUrl != null ? content.ContentDownloadUrl : PageReference.forResource('display_on_error').getUrl();
             this.photoList = photoList;
         }

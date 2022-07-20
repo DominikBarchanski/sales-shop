@@ -4,23 +4,67 @@
 
 <!-- Filter Component -->
 <template>
-<lightning-card >
-    <lightning-combobox
-            name="progress"
-            label="Type"
-            value={value}
-            placeholder="Select Type"
-            options={options}
-            onchange={handleChangeType} ></lightning-combobox>
-    <lightning-combobox
-            name="new"
-            label="Brand"
-            value={brandValue}
-            placeholder="Select Type"
-            options={optionBra}
-            onchange={handleChangeBrand} ></lightning-combobox>
 
-<lightning-button label="Filter"  onclick={HandleFilter}></lightning-button>
-<lightning-button label="Filter"  onclick={HandleClearFilter}></lightning-button>
-</lightning-card>
+    <div style="height:100vh">
+        <lightning-card class="test_card" >
+            <div style="margin: 0 1em">
+
+                <lightning-combobox
+                        name="progress"
+                        label="Car Type"
+                        value={value}
+                        placeholder="Select Type"
+                        options={options}
+                        onchange={handleChangeType}></lightning-combobox>
+            </div>
+            <div style="margin: 0 1em">
+
+                <lightning-combobox
+                        name="new"
+                        label="Car Brand"
+                        value={brandValue}
+                        placeholder="Select Type"
+                        options={optionBra}
+                        onchange={handleChangeBrand}></lightning-combobox>
+            </div><div style="margin: 0 1em">
+
+                <lightning-combobox
+                        name="new"
+                        label="Car Brand"
+                        value={brandValue}
+                        placeholder="Select Type"
+                        options={optionProdYear}
+                        onchange={handleChangeBrand}></lightning-combobox>
+            </div><div style="margin: 0 1em">
+
+                <lightning-combobox
+                        name="new"
+                        label="Car Brand"
+                        value={brandValue}
+                        placeholder="Select Type"
+                        options={optionProdYear}
+                        onchange={handleChangeBrand}></lightning-combobox>
+            </div>
+            <div style="margin: 0 1em" if:true={isDisplay}>
+                <c-multi-slider  min={hpMinVal} max={hpMaxVal} step="10" start={hpMinVal} end={hpMaxVal} label-for-slider="Horsepower"
+                                type-of-data='hp'></c-multi-slider>
+            </div>
+            <div style="margin: 0 1em" if:true={isDisplay}>
+
+                <c-multi-slider  min={priceMinVal} max={priceMaxVal} step="1000" start={priceMinVal} end={priceMaxVal} label-for-slider="Price"
+                                type-of-data='price'></c-multi-slider>
+            </div>
+            <div style="padding-bottom:30vh ;text-align: center;margin: 1em 0;display: flex;flex-wrap: nowrap;justify-content: center;">
+
+                <div style="margin: 0 0.5em">
+                    <lightning-button label="Apply Filter" onclick={HandleFilter}></lightning-button>
+                </div>
+                <div style="margin: 0 0.5em">
+                    <lightning-button label="Clear Filter" onclick={HandleClearFilter}></lightning-button>
+                </div>
+            </div>
+            <br/>
+        </lightning-card>
+
+    </div>
 </template>

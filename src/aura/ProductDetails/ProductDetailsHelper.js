@@ -27,17 +27,19 @@
         var typeVaild= component.find('enter-product-description').get('v.validity')
         var horsepowerVaild= component.find('enter-product-description').get('v.validity')
         var carBrandVaild= component.find('enter-product-description').get('v.validity')
-        if( nameVaild.valid &&priceVaild.valid &&descriptionVaild.valid&&typeVaild.valid&&horsepowerVaild.valid&&carBrandVaild.valid) {
+        var carProductionVaild= component.find('production-year').get('v.validity')
+        if( nameVaild.valid &&priceVaild.valid &&descriptionVaild.valid&&typeVaild.valid&&horsepowerVaild.valid&&carBrandVaild.valid&&carProductionVaild) {
             var ProdName = component.find('enter-product-name').get('v.value');
             var ProdDesc = component.find('enter-product-price').get('v.value');
             var ProdPrice = component.find('enter-product-description').get('v.value');
             var ProdType = component.find('enter-product-type').get('v.value');
             var ProdHp = component.find('enter-product-horsepower').get('v.value');
+            var ProdYear = component.find('production-year').get('v.value');
             var ProdBrand = component.get('v.carBrand');
             //Call Parent aura method
             var parentComponent = component.get("v.parent");
             console.log(ProdName, ProdDesc, ProdPrice);
-            parentComponent.getProductDetails(ProdName, ProdPrice, ProdDesc,ProdType,ProdHp,ProdBrand);
+            parentComponent.getProductDetails(ProdName, ProdPrice, ProdDesc,ProdType,ProdHp,ProdBrand,ProdYear);
         }else{
             alert('Please update the invalid form entries and try again.');
         }

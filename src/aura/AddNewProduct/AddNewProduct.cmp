@@ -21,6 +21,7 @@
         <aura:attribute name="ProductType" type="String"/>
         <aura:attribute name="ProductHorsepower" type="String"/>
         <aura:attribute name="ProductBrand" type="String"/>
+        <aura:attribute name="ProductYear" type="Date"/>
     </aura:method>
     <aura:method name="closeAdd" action="{!c.handleClose}">
     </aura:method>

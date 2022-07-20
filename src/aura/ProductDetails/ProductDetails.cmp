@@ -18,6 +18,7 @@
             <lightning:input class="displayInput" required="true" label="Car Horsepower"
                              aura:id="enter-product-horsepower"
                              name="enter-horsepower"></lightning:input>
+            <lightning:input class="displayInput" required="true" label="Production Year" aura:id="production-year" type="date"/>
             <lightning:select class="displayInput" aura:id="enter-product-type" label="Select Car Type"
                               name="enter-Type">
                 <option value="">Choose a Type</option>

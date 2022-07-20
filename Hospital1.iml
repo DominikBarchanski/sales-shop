@@ -117,6 +117,10 @@
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
+                            <option name="name" value="multiSlider" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="searchProducts" />
                             <option name="selected" value="true" />
                           </MetadataEntry>

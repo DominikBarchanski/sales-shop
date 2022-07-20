@@ -44,6 +44,8 @@ public with sharing class Aura_dmlOperations {
         public Integer hp;
         @AuraEnabled
         public String brand;
+        @AuraEnabled
+        public Date prodYear;
 
         jsDataWrapper(Map<String, Object> jsObj) {
             this.name = (String) jsObj.get('name');
@@ -53,6 +55,7 @@ public with sharing class Aura_dmlOperations {
             this.type = (String) jsObj.get('type');
             this.hp = Integer.valueOf(jsObj.get('hp'));
             this.brand = (String) jsObj.get('brand');
+            this.prodYear = (Date) jsObj.get('prodYear');
             List<Object> photoList = (List<Object>) JSON.deserializeUntyped(
                     JSON.serialize(jsObj.get('photoList'))
             );
@@ -77,6 +80,7 @@ public with sharing class Aura_dmlOperations {
             toAdd.Description = recFromJs.description;
             toAdd.Brands__c = recFromJs.brand;
             toAdd.Main_Photo__c = recFromJs.mainPhoto != null ? recFromJs.mainPhoto : null;
+            toAdd.Production_Year__c = recFromJs.prodYear != null ? recFromJs.prodYear:null;
             toAdd.IsActive = true;
 
             insert toAdd;

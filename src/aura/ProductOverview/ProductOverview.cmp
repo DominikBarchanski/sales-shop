@@ -56,6 +56,9 @@
             <lightning:input class="displayInput" disabled="true" value="{!v.product.brand}" required="false"
                              label="Car Horsepower"
                              aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodYear}" required="false"
+                             label="Production Year"
+                             aura:id="enter-product-brand" name="enter-brand"/>
 
             <!--            <lightning:select disabled="true" value="{!v.product.type}" aura:id="enter-product-type"-->
             <!--                              label="Select Car Type"-->

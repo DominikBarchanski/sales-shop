@@ -5,14 +5,19 @@
 <!-- Display Finded Products -->
 <template>
     <template if:true={productToDisplay}>
-        <div  style="display: flex;flex-wrap: wrap">
+        <div style="display: flex;flex-wrap: wrap">
             <template for:each={productToDisplay} for:item="object" for:index="i">
-                <div class="singleElementSearch" key={object.id} data-id={object.id} data-value={object.name} onclick={handleProductClick} style="margin: 0.5em 0.5em;height: 300px;width: 280px;">
-                        <c-display-photo main-photo={object}></c-display-photo>
+                <div class="singleElementSearch" key={object.id} data-id={object.id} data-value={object.name}
+                     onclick={handleProductClick} style="margin: 0.5em 0.5em;height: 350px;width: 280px;">
+                    <c-display-photo main-photo={object}></c-display-photo>
+                    <div style="margin: 1em">
                         <p key={object.id}><b>{object.brand} {object.name}</b></p>
                         <p key={object.id}>{object.description}</p>
-                        <p key={object.id}>price: {object.price}</p>
-                        <p key={object.id}>price with discount: {object.priceWithDiscount}</p>
+                        <p key={object.id}>Production Year:{object.prodYear}</p>
+                        <p key={object.id}>Horsepower:<b>{object.hp}</b></p>
+                        <p key={object.id} class={object.discountStyle}>{object.price}€ </p>
+                        <p key={object.id} if:true={object.isDiscount}> {object.priceWithDiscount}€</p>
+                    </div>
                 </div>
             </template>
         </div>

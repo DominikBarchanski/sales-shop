@@ -2,6 +2,11 @@
  * Created by dominikbarchanski on 19/07/2022.
  */
 .singleElementSearch{
+    background: #fcfcfc;
     border-radius: 4px;
     box-shadow: rgb(0 0 0 / 10%) 0 2px 8px 0;
+}
+.strikePrice{
+    text-decoration-line: line-through;
+    -webkit-text-stroke: thick;
 }

@@ -9,11 +9,14 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="4">
+          <list size="7">
             <item index="0" class="java.lang.String" itemvalue="parent" />
             <item index="1" class="java.lang.String" itemvalue="style" />
             <item index="2" class="java.lang.String" itemvalue="data-index" />
             <item index="3" class="java.lang.String" itemvalue="data-value" />
+            <item index="4" class="java.lang.String" itemvalue="ontouchmove" />
+            <item index="5" class="java.lang.String" itemvalue="ontouchstart" />
+            <item index="6" class="java.lang.String" itemvalue="ontouchend" />
           </list>
         </value>
       </option>

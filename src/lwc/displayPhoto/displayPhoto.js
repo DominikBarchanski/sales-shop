@@ -28,10 +28,10 @@ export default class DisplayPhoto extends LightningElement {
 
     handleChangePhoto(event) {
         if (this.mainPhoto.photoList) {
-
-            let photoListSize = this.mainPhoto.photoList.length;
+            let photoToDisplay = this.mainPhoto.photoList.filter(item=>{return item !== this.mainPhoto.photoUrl})
+            let photoListSize = photoToDisplay.length;
             let counter = 0;
-            this.displayPhoto = this.mainPhoto.photoList[counter];
+            this.displayPhoto = photoToDisplay[counter];
             if (photoListSize > 1) {
                 this.interval = setInterval(() => {
                     if (counter < photoListSize - 1) {
@@ -39,7 +39,7 @@ export default class DisplayPhoto extends LightningElement {
                     } else {
                         counter = 0
                     }
-                    this.displayPhoto = this.mainPhoto.photoList[counter];
+                    this.displayPhoto = photoToDisplay[counter];
 
                 }, 2000);
             }
