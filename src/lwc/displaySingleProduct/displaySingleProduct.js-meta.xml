@@ -4,8 +4,15 @@
     <description>Display Single Product</description>
     <isExposed>true</isExposed>
     <masterLabel>Display Single Product</masterLabel>
+    <isExposed>true</isExposed>
     <targets>
         <target>lightningCommunity__Page</target>
         <target>lightningCommunity__Default</target>
     </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="recordId" type="String" label="Record ID"
+                      description="Should be set to {!recordId}"/>
+        </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>

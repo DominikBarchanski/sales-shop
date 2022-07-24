@@ -3,47 +3,53 @@
  */
 
 ({
-    handleCreateList:function (component,event,helper){
+    handleCreateList: function (component, event, helper) {
         var action = component.get("c.getBrands");
         var inputIndustry = component.find("InputAccountIndustry");
-        var opts=[];
-        action.setCallback(this, function(a) {
+        var opts = [];
+        action.setCallback(this, function (a) {
             opts.push({
                 class: "optionClass",
                 label: "Chose Brand",
                 value: ""
             });
-            for(var i=0;i< a.getReturnValue().length;i++){
+            for (var i = 0; i < a.getReturnValue().length; i++) {
                 opts.push({"class": "optionClass", label: a.getReturnValue()[i], value: a.getReturnValue()[i]});
             }
             inputIndustry.set("v.options", opts);
 
         });
         $A.enqueueAction(action);
-    },handleSendDataToParent:function (component,event,helper){
-        var nameVaild= component.find('enter-product-name').get('v.validity')
-        var priceVaild= component.find('enter-product-price').get('v.validity')
-        var descriptionVaild= component.find('enter-product-description').get('v.validity')
-        var typeVaild= component.find('enter-product-description').get('v.validity')
-        var horsepowerVaild= component.find('enter-product-description').get('v.validity')
-        var carBrandVaild= component.find('enter-product-description').get('v.validity')
-        var carProductionVaild= component.find('production-year').get('v.validity')
-        if( nameVaild.valid &&priceVaild.valid &&descriptionVaild.valid&&typeVaild.valid&&horsepowerVaild.valid&&carBrandVaild.valid&&carProductionVaild) {
+    }, handleSendDataToParent: function (component, event, helper) {
+        var nameVaild = component.find('enter-product-name').get('v.validity')
+        var priceVaild = component.find('enter-product-price').get('v.validity')
+        var descriptionVaild = component.find('enter-product-description').get('v.validity')
+        var typeVaild = component.find('enter-product-description').get('v.validity')
+        var horsepowerVaild = component.find('enter-product-description').get('v.validity')
+        var carBrandVaild = component.find('enter-product-description').get('v.validity')
+        var carBrandCity = component.find('enter-product-city').get('v.validity')
+        var carBrandCountry = component.find('enter-product-country').get('v.validity')
+        var carBrandStreet = component.find('enter-product-street').get('v.validity')
+        var carProductionVaild = component.find('production-year').get('v.validity')
+        if (nameVaild.valid && priceVaild.valid && descriptionVaild.valid && typeVaild.valid && horsepowerVaild.valid && carBrandVaild.valid && carProductionVaild.valid && carBrandCity.valid && carBrandCountry.valid &&carBrandStreet.valid) {
             var ProdName = component.find('enter-product-name').get('v.value');
             var ProdDesc = component.find('enter-product-price').get('v.value');
             var ProdPrice = component.find('enter-product-description').get('v.value');
             var ProdType = component.find('enter-product-type').get('v.value');
             var ProdHp = component.find('enter-product-horsepower').get('v.value');
             var ProdYear = component.find('production-year').get('v.value');
+            var ProdCity = component.find('enter-product-city').get('v.value')
+            var ProdCountry = component.find('enter-product-country').get('v.value')
+            var ProdStreet = component.find('enter-product-street').get('v.value')
             var ProdBrand = component.get('v.carBrand');
             //Call Parent aura method
             var parentComponent = component.get("v.parent");
             console.log(ProdName, ProdDesc, ProdPrice);
-            parentComponent.getProductDetails(ProdName, ProdPrice, ProdDesc,ProdType,ProdHp,ProdBrand,ProdYear);
-        }else{
+            parentComponent.getProductDetails(ProdName, ProdPrice, ProdDesc, ProdType, ProdHp, ProdBrand, ProdYear,ProdCountry,ProdCity,ProdStreet);
+        } else {
             alert('Please update the invalid form entries and try again.');
         }
-    },handleClose:function (component,event,helper){
+    }, handleClose: function (component, event, helper) {
         var parentComponent = component.get("v.parent");
         parentComponent.closeAdd();
     }

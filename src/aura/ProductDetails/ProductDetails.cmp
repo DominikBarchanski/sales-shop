@@ -18,6 +18,15 @@
             <lightning:input class="displayInput" required="true" label="Car Horsepower"
                              aura:id="enter-product-horsepower"
                              name="enter-horsepower"></lightning:input>
+            <lightning:input class="displayInput" required="true" label="Seller Address Country"
+                             aura:id="enter-product-country"
+                             name="enter-country"></lightning:input>
+            <lightning:input class="displayInput" required="true" label="Seller Address City"
+                             aura:id="enter-product-city"
+                             name="enter-city"></lightning:input>
+            <lightning:input class="displayInput" required="true" label="Seller Address Street"
+                             aura:id="enter-product-street"
+                             name="enter-street"></lightning:input>
             <lightning:input class="displayInput" required="true" label="Production Year" aura:id="production-year" type="date"/>
             <lightning:select class="displayInput" aura:id="enter-product-type" label="Select Car Type"
                               name="enter-Type">

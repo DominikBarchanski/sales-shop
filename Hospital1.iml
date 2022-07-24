@@ -93,11 +93,19 @@
                       <option name="entries">
                         <list>
                           <MetadataEntry>
+                            <option name="name" value="addComment" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="displayFindedProducts" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
                             <option name="name" value="displayPhoto" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="displayProductPhoto" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
@@ -122,6 +130,10 @@
                           </MetadataEntry>
                           <MetadataEntry>
                             <option name="name" value="searchProducts" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="starRatings" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                         </list>

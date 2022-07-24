@@ -14,7 +14,10 @@
                 type:params.ProductType,
                 hp:params.ProductHorsepower,
                 brand:params.ProductBrand,
-                prodYear:params.ProductYear
+                prodYear:params.ProductYear,
+                prodCountry:params.ProductCountry,
+                prodCity:params.ProductCity,
+                prodStreet:params.ProductStreet
             })
             var num = parseInt(component.get("v.Progress"));
             component.set("v.Progress", (num + 1).toString());

@@ -5,18 +5,29 @@
 <!-- Display Finded Products -->
 <template>
     <template if:true={productToDisplay}>
-        <div style="display: flex;flex-wrap: wrap">
+        <div style="display: flex;flex-wrap: wrap;    justify-content: space-around;">
             <template for:each={productToDisplay} for:item="object" for:index="i">
                 <div class="singleElementSearch" key={object.id} data-id={object.id} data-value={object.name}
-                     onclick={handleProductClick} style="margin: 0.5em 0.5em;height: 350px;width: 280px;">
+                     onclick={handleProductClick} style="">
                     <c-display-photo main-photo={object}></c-display-photo>
-                    <div style="margin: 1em">
-                        <p key={object.id}><b>{object.brand} {object.name}</b></p>
-                        <p key={object.id}>{object.description}</p>
-                        <p key={object.id}>Production Year:{object.prodYear}</p>
-                        <p key={object.id}>Horsepower:<b>{object.hp}</b></p>
-                        <p key={object.id} class={object.discountStyle}>{object.price}€ </p>
-                        <p key={object.id} if:true={object.isDiscount}> {object.priceWithDiscount}€</p>
+                    <div style="margin: 1em ;    display: flex;flex-wrap: nowrap;flex-direction: column;">
+                        <div class="productName">
+                            <p key={object.id} class="productName">{object.brand} {object.name}</p>
+                        </div>
+                        <section style="display: block">
+                            <ul class="ulListClass overflow">
+                                <li if:true={object.description} ><span class="liDisplay">{object.description}</span></li>
+                                <li if:true={object.prodYear} ><span class="liDisplay">{object.prodYear}</span></li>
+                                <li if:true={object.hp} ><span class="liDisplay">{object.hp}HP</span></li>
+                            </ul>
+                        </section>
+                        <div style="position: absolute;bottom: 0;">
+                            <p key={object.id} class={object.discountStyle}><strike if:true={object.isDiscount}>&nbsp;{object.price}€&nbsp; </strike><span
+                                    if:false={object.isDiscount} style="font-size: x-large">{object.price}€</span></p>
+                            <p key={object.id} class={object.discountPrice} if:true={object.isDiscount}>
+                                {object.priceWithDiscount}€</p>
+                        </div>
+
                     </div>
                 </div>
             </template>

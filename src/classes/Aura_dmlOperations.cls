@@ -2,7 +2,7 @@
  * Created by dominikbarchanski on 04/07/2022.
  */
 
-public with sharing class Aura_dmlOperations {
+public without sharing class Aura_dmlOperations {
     @AuraEnabled
     public static void deleteAfterCancel (List<String> photoList ){
         delete [SELECT Id FROM ContentDocument WHERE Id IN :photoList ];
@@ -45,6 +45,12 @@ public with sharing class Aura_dmlOperations {
         @AuraEnabled
         public String brand;
         @AuraEnabled
+        public String country;
+        @AuraEnabled
+        public String city;
+        @AuraEnabled
+        public String street;
+        @AuraEnabled
         public Date prodYear;
 
         jsDataWrapper(Map<String, Object> jsObj) {
@@ -55,7 +61,11 @@ public with sharing class Aura_dmlOperations {
             this.type = (String) jsObj.get('type');
             this.hp = Integer.valueOf(jsObj.get('hp'));
             this.brand = (String) jsObj.get('brand');
-            this.prodYear = (Date) jsObj.get('prodYear');
+            this.country = (String) jsObj.get('prodCountry');
+            this.city = (String) jsObj.get('prodCity');
+            this.street = (String) jsObj.get('prodStreet');
+            System.debug(((String)jsObj.get('prodYear')).replace('-','/'));
+            this.prodYear = date.valueOf((String)jsObj.get('prodYear'));
             List<Object> photoList = (List<Object>) JSON.deserializeUntyped(
                     JSON.serialize(jsObj.get('photoList'))
             );
@@ -79,6 +89,9 @@ public with sharing class Aura_dmlOperations {
             toAdd.Horsepower__c = recFromJs.hp;
             toAdd.Description = recFromJs.description;
             toAdd.Brands__c = recFromJs.brand;
+            toAdd.Country__c = recFromJs.country;
+            toAdd.City__c = recFromJs.city;
+            toAdd.Street__c = recFromJs.street;
             toAdd.Main_Photo__c = recFromJs.mainPhoto != null ? recFromJs.mainPhoto : null;
             toAdd.Production_Year__c = recFromJs.prodYear != null ? recFromJs.prodYear:null;
             toAdd.IsActive = true;
