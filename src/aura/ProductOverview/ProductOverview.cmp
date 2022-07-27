@@ -54,20 +54,39 @@
                              label="Car Horsepower"
                              aura:id="enter-product-horsepower" name="enter-horsepower"/>
             <lightning:input class="displayInput" disabled="true" value="{!v.product.type}" required="false"
-                             label="Car Horsepower"
+                             label="Type"
                              aura:id="enter-product-type" name="enter-type"/>
             <lightning:input class="displayInput" disabled="true" value="{!v.product.brand}" required="false"
-                             label="Car Horsepower"
+                             label="Brand"
                              aura:id="enter-product-brand" name="enter-brand"/>
             <lightning:input class="displayInput" disabled="true" value="{!v.product.prodCountry}" required="false"
-                             label="Car Horsepower"
+                             label="Country"
                              aura:id="enter-product-brand" name="enter-brand"/>
             <lightning:input class="displayInput" disabled="true" value="{!v.product.prodCity}" required="false"
-                             label="Car Horsepower"
+                             label="City"
                              aura:id="enter-product-brand" name="enter-brand"/>
             <lightning:input class="displayInput" disabled="true" value="{!v.product.prodStreet}" required="false"
-                             label="Car Horsepower"
+                             label="Street"
                              aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodCityConsum}" required="false"
+                             label="Fuel Consumption In The City"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodAvgConsum}" required="false"
+                             label="Average Fuel Consumption"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodCapacity}" required="false"
+                             label="Cylinder Capacity"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodDoors}" required="false"
+                             label="Number of Doors"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodPlaces}" required="false"
+                             label="Number of Places"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodSpeed}" required="false"
+                             label="Top Speed"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+
             <lightning:input class="displayInput" disabled="true" value="{!v.product.prodYear}" required="false"
                              label="Production Year"
                              aura:id="enter-product-brand" name="enter-brand"/>

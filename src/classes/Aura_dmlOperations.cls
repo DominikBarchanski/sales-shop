@@ -28,30 +28,25 @@ public without sharing class Aura_dmlOperations {
     }
 
     class jsDataWrapper {
-        @AuraEnabled
-        public String name;
-        @AuraEnabled
-        public String description;
-        @AuraEnabled
-        public Decimal price;
-        @AuraEnabled
-        public String mainPhoto;
-        @AuraEnabled
-        public List<String> photos;
-        @AuraEnabled
-        public String type;
-        @AuraEnabled
-        public Integer hp;
-        @AuraEnabled
-        public String brand;
-        @AuraEnabled
-        public String country;
-        @AuraEnabled
-        public String city;
-        @AuraEnabled
-        public String street;
-        @AuraEnabled
-        public Date prodYear;
+        @AuraEnabled public String name;
+        @AuraEnabled public String description;
+        @AuraEnabled public Decimal price;
+        @AuraEnabled public String mainPhoto;
+        @AuraEnabled public List<String> photos;
+        @AuraEnabled public String type;
+        @AuraEnabled public Integer hp;
+        @AuraEnabled public String brand;
+        @AuraEnabled public String country;
+        @AuraEnabled public String city;
+        @AuraEnabled public String street;
+        @AuraEnabled public Date prodYear;
+        @AuraEnabled public Decimal cityConsumption;
+        @AuraEnabled public Decimal avgConsumption;
+        @AuraEnabled public Decimal doors;
+        @AuraEnabled public Decimal capacity;
+        @AuraEnabled public Decimal places;
+        @AuraEnabled public Decimal speed;
+
 
         jsDataWrapper(Map<String, Object> jsObj) {
             this.name = (String) jsObj.get('name');
@@ -64,6 +59,12 @@ public without sharing class Aura_dmlOperations {
             this.country = (String) jsObj.get('prodCountry');
             this.city = (String) jsObj.get('prodCity');
             this.street = (String) jsObj.get('prodStreet');
+            this.cityConsumption =  Decimal.valueOf((String) jsObj.get('prodCityConsum'));
+            this.avgConsumption =  Decimal.valueOf((String) jsObj.get('prodAvgConsum'));
+            this.doors =  Decimal.valueOf((String) jsObj.get('prodDoors'));
+            this.capacity =  Decimal.valueOf((String) jsObj.get('prodCapacity'));
+            this.places =  Decimal.valueOf((String) jsObj.get('prodPlaces'));
+            this.speed =  Decimal.valueOf((String) jsObj.get('prodSpeed'));
             System.debug(((String)jsObj.get('prodYear')).replace('-','/'));
             this.prodYear = date.valueOf((String)jsObj.get('prodYear'));
             List<Object> photoList = (List<Object>) JSON.deserializeUntyped(
@@ -95,6 +96,12 @@ public without sharing class Aura_dmlOperations {
             toAdd.Main_Photo__c = recFromJs.mainPhoto != null ? recFromJs.mainPhoto : null;
             toAdd.Production_Year__c = recFromJs.prodYear != null ? recFromJs.prodYear:null;
             toAdd.IsActive = true;
+            toAdd.Fuel_Consumption_In_The_City__c = recFromJs.cityConsumption;
+            toAdd.Average_Fuel_Consumption__c = recFromJs.avgConsumption;
+            toAdd.Number_of_Doors__c = recFromJs.doors;
+            toAdd.Cylinder_Capacity__c = recFromJs.capacity;
+            toAdd.Number_of_Places__c = recFromJs.places;
+            toAdd.Top_Speed__c = recFromJs.speed;
 
             insert toAdd;
             System.debug(toAdd.Id);

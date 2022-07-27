@@ -97,6 +97,10 @@
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
+                            <option name="name" value="carOrderPage" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="displayFindedProducts" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
@@ -130,6 +134,14 @@
                           </MetadataEntry>
                           <MetadataEntry>
                             <option name="name" value="searchProducts" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="shoppingCart" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="shoppingCartPage" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>

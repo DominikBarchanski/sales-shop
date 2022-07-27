@@ -25,45 +25,49 @@
                         options={optionBra}
                         onchange={handleChangeBrand}></lightning-combobox>
             </div>
+            <div style="display: flex; flex-direction: row;flex-wrap: wrap">
+                <div style="width:100%;display: flex">
+                    <div style="margin: 0 1em; width:45%">
+                        <lightning-combobox
+                                name="startYear"
+                                label="Start Year"
+                                value={startYearValue}
+                                options={optionProdYearStart}
+                                onchange={handleChangeStartYear}></lightning-combobox>
+                    </div>
+                    <div style="margin: 0 1em; width:45%">
 
-            <div style="margin: 0 1em;">
-                <lightning-combobox
-                        name="startYear"
-                        label="Start Year"
-                        value={startYearValue}
-                        options={optionProdYear}
-                        onchange={handleChangeStartYear}></lightning-combobox>
-            </div>
-            <div style="margin: 0 1em;">
+                        <lightning-combobox
+                                name="endYear"
+                                label="End Year"
+                                value={endYearValue}
+                                options={optionProdYearEnd}
+                                onchange={handleChangeEndYear}></lightning-combobox>
+                    </div>
 
-                <lightning-combobox
-                        name="endYear"
-                        label="End Year"
-                        value={endYearValue}
-                        options={optionProdYear}
-                        onchange={handleChangeEndYear}></lightning-combobox>
-            </div>
+                </div>
+                <div style="width:100%;display: flex">
+                    <div style="margin: 0 1em; width:45%">
 
+                        <lightning-combobox
+                                name="new"
+                                label="Min Price"
+                                value={minPrice}
+                                options={optionPriceMin}
+                                onchange={handleChangeMinPrice}></lightning-combobox>
+                    </div>
 
-            <div style="margin: 0 1em;">
+                    <div style="margin: 0 1em; width:45%">
 
-                <lightning-combobox
-                        name="new"
-                        label="Min Price"
-                        value={minPrice}
-                        options={optionPrice}
-                        onchange={handleChangeMinPrice}></lightning-combobox>
-            </div>
-            <div style="margin: 0 1em;">
-
-                <lightning-combobox
-                        name="new"
-                        label="Max Price"
-                        value={maxPrice}
-                        options={optionPrice}
-                        onchange={handleChangeMaxPrice}></lightning-combobox>
-            </div>
-
+                        <lightning-combobox
+                                name="new"
+                                label="Max Price"
+                                value={maxPrice}
+                                options={optionPriceMax}
+                                onchange={handleChangeMaxPrice}></lightning-combobox>
+                    </div>
+                </div>
+            </div >
             <div style="margin: 0 1em" if:true={isDisplay}>
                 <c-multi-slider min={hpMinVal} max={hpMaxVal} step="10" start={hpMinVal} end={hpMaxVal}
                                 label-for-slider="Horsepower"

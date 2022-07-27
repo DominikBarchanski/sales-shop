@@ -2,8 +2,8 @@
  * Created by dominikbarchanski on 19/07/2022.
  */
 .displayImg{
-    width: 100%;
+    width: 120%;
     height: 180px;
-    padding: 2%;
-    object-fit:scale-down;
+    object-fit:cover;
+    border-radius: 6px 6px 0 0 ;
 }

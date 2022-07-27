@@ -15,6 +15,25 @@
                              aura:id="enter-product-description"
                              name="enter-description"></lightning:input>
 
+            <lightning:input class="displayInput" required="true" label="Fuel Consumption In The City"
+                             aura:id="enter-product-city-consumption"
+                             name="enter-description"></lightning:input>
+            <lightning:input class="displayInput" required="true" label="Average Fuel Consumption"
+                             aura:id="enter-product-avg-consumption"
+                             name="enter-description"></lightning:input>
+            <lightning:input class="displayInput" required="true" label="Cylinder Capacity"
+                             aura:id="enter-product-capacity"
+                             name="enter-description"></lightning:input>
+            <lightning:input class="displayInput" required="true" label="Number of Doors"
+                             aura:id="enter-product-doors"
+                             name="enter-description"></lightning:input>
+            <lightning:input class="displayInput" required="true" label="Number of Places"
+                             aura:id="enter-product-places"
+                             name="enter-description"></lightning:input>
+            <lightning:input class="displayInput" required="true" label="Top Speed"
+                             aura:id="enter-product-speed"
+                             name="enter-description"></lightning:input>
+
             <lightning:input class="displayInput" required="true" label="Car Horsepower"
                              aura:id="enter-product-horsepower"
                              name="enter-horsepower"></lightning:input>

@@ -71,7 +71,6 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
             this.productToDisplay = this.tempProduct;
         } else if (typeof filterValue === "object") {
             this.productToDisplay = this.tempProduct.filter(el => {
-                console.log(el);
                 return (filterValue.type !== '' ? el.type === filterValue.type : true) &&
                     (filterValue.brand !== '' ? el.brand === filterValue.brand : true) &&
                     (filterValue.hpMin !== '' && filterValue.hpMin !== null ? el.hp >= filterValue.hpMin : true) &&

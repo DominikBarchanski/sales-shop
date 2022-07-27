@@ -24,6 +24,53 @@ export default class FilterComponent extends LightningElement {
     @track hpMaxVal = 1000;
     @track priceMaxVal = 2500000;
 
+    get optionBra() {
+        if (this.brandOption) {
+            return [...this.brandOption];
+        }
+    }
+
+    get options() {
+        return [{label: 'Chose Type', value: ''}, {label: 'SUV', value: 'new'}, {
+            label: 'Hatchback', value: 'Hatchback'
+        }, {label: 'Crossover', value: 'Crossover'}, {label: 'Sports Car', value: 'Sports Car'}, {
+            label: 'Coupe', value: 'Coupe'
+        }, {label: 'Pickup Truck', value: 'Pickup Truck'},];
+    }
+
+    get optionProdYearStart() {
+        if (this.endYearValue === '') {
+            return [...this.optionListYear];
+        }else {
+            return [...this.handleStartYear(this.endYearValue)]
+        }
+    }
+
+    get optionProdYearEnd() {
+        if (this.startYearValue === '') {
+            return [...this.optionListYear];
+        }else{
+            return [...this.handleEndYear(this.startYearValue)]
+        }
+    }
+
+    get optionPriceMin() {
+        if (this.maxPrice ===''){
+        return [...this.optionListPrice];
+        }else {
+            return [...this.handlePriceMin(this.maxPrice)]
+        }
+    }
+    get optionPriceMax() {
+        if (this.minPrice ===''){
+            return [...this.optionListPrice];
+        }else {
+            return [...this.handlePriceMax(this.minPrice)]
+        }
+    }
+
+
+
     connectedCallback() {
         getBrands().then(result => {
             this.brandOption.push({
@@ -49,38 +96,62 @@ export default class FilterComponent extends LightningElement {
         this.optionListPrice.push({label: 'Select Price', value: ''})
         for (let i = 2; value < 7500000; i++) {
             this.optionListPrice.push({label: value.toString() + "€", value: value.toString()});
-            if (i <=10){
+            if (i <= 10) {
                 value += value
-            }else {
+            } else {
                 value *= i
             }
         }
         this.optionListPrice.push({label: '2500000€ And More', value: '2500000'})
 
     }
-    get optionBra() {
-        if (this.brandOption) {
-            return [...this.brandOption];
+    handleStartYear(end){
+        console.log(end);
+        let listOfYears=[];
+        listOfYears.push({label: 'Select Year', value: ''})
+        for (let i =end ; i > 1900; i--) {
+            console.log(i)
+            listOfYears.push({label: i.toString(), value: i.toString()});
         }
+        console.log(listOfYears)
+        return listOfYears;
     }
-
-    get options() {
-        return [{label: 'Chose Type', value: ''}, {label: 'SUV', value: 'new'}, {
-            label: 'Hatchback', value: 'Hatchback'
-        }, {label: 'Crossover', value: 'Crossover'}, {label: 'Sports Car', value: 'Sports Car'}, {
-            label: 'Coupe', value: 'Coupe'
-        }, {label: 'Pickup Truck', value: 'Pickup Truck'},];
+    handleEndYear(start){
+        console.log(start);
+        let listOfYears=[];
+        listOfYears.push({label: 'Select Year', value: ''})
+        for (let i =new Date().getFullYear() ; i >= start; i--) {
+            console.log(i)
+            listOfYears.push({label: i.toString(), value: i.toString()});
+        }
+        console.log(listOfYears)
+        return listOfYears;
     }
+    handlePriceMin(max){
+        let priceList = []
+        let value = 2500;
+        priceList.push({label: 'Select Price', value: ''})
+        for (let i = 2; value < max; i++) {
+            priceList.push({label: value.toString() + "€", value: value.toString()});
+                value += value
 
-    get optionProdYear() {
-        console.log(this.optionListYear)
-        return [...this.optionListYear];
+        }
+        return priceList;
+        // this.optionListPrice.push({label: '2500000€ And More', value: '2500000'})
     }
+    handlePriceMax(min){
+        let value = parseInt(min);
+        let priceList = []
+        console.log(min)
+        priceList.push({label: 'Select Price', value: ''})
+        for (let i = 2; value < 7500000; i++) {
 
-    get optionPrice() {
-        return [...this.optionListPrice];
+            priceList.push({label: value.toString() + "€", value: value.toString()});
+            value += value
+        }
+        priceList.push({label: '2500000€ And More', value: '2500000'})
+        return priceList
     }
-
     handleChangeType(event) {
         this.value = event.detail.value.toString();
     }
@@ -101,7 +172,7 @@ export default class FilterComponent extends LightningElement {
 
     handleChangeMinPrice(event) {
         console.log(event.detail.value)
-        this.minPrice = event.detail.value.toString();
+        this.minPrice = event.detail.value;
     }
 
     handleChangeMaxPrice(event) {
@@ -117,6 +188,7 @@ export default class FilterComponent extends LightningElement {
         let priceMin = sessionStorage.getItem('price-min');
         console.log(hpMin + ' ' + hpMax);
         console.log(priceMin + ' ' + priceMax);
+        console.log(this.minPrice + ' ' + this.maxPrice);
         let passObject = {
             type: this.value,
             brand: this.brandValue,
@@ -125,7 +197,7 @@ export default class FilterComponent extends LightningElement {
             hpMin: hpMin,
             hpMax: hpMax == this.hpMaxVal ? '' : hpMax,
             priceMin: this.minPrice,
-            priceMax: parseInt( parseInt(this.maxPrice) == this.priceMaxVal) ? '' :  this.maxPrice,
+            priceMax: (parseInt(this.maxPrice) === this.priceMaxVal) ? '' : this.maxPrice,
         }
         console.log(passObject);
         sessionStorage.setItem('searchValue', this.searchValue);
@@ -137,8 +209,8 @@ export default class FilterComponent extends LightningElement {
         this.value = '';
         this.startYearValue = '';
         this.endYearValue = '';
-        this.minPrice='';
-        this.maxPrice='';
+        this.minPrice = '';
+        this.maxPrice = '';
         this.isDisplay = false;
         setTimeout(() => {
             this.isDisplay = true

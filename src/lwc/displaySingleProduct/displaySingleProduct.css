@@ -18,13 +18,13 @@
 
 }
 .price {
-    font-size: large;
+    font-size: x-large;
 }
 
 .discountPrice {
     color: #c04545;
     font-weight: bold;
-    font-size: x-large;
+    font-size: xx-large;
 }
 
 s,
@@ -161,4 +161,26 @@ strike:after {
     margin: 1em;
     padding: 1em;
     border-radius: 4px;
+}
+.desc__label{
+    color: #898989;
+    float: left;
+    width: 170px;
+}
+
+.desc__value{
+    color: #505152;
+    display: inline-block;
+    float: left;
+    font-weight: normal;
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.list__item{
+    clear: both;
+}
+li{
+    list-style: none;
 }
