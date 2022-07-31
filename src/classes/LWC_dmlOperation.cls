@@ -253,7 +253,7 @@ public without sharing class LWC_dmlOperation {
         return listOfFindedProducts;
     }
     @AuraEnabled
-    public static SearchProductWrapper getSingleProduct(String ProdId) {
+    public static SearchProductWrapper getSingleProduct(String ProdId,String UserId) {
         Product2 getProduct = [
                 SELECT
                         Brands__c,
@@ -334,7 +334,8 @@ public without sharing class LWC_dmlOperation {
                         SystemModstamp,
                         User_Id__c
                 FROM Shopping_Cart__c
-                WHERE Product_Id__c = :ProdId
+                WHERE Product_Id__c = :ProdId AND
+                User_Id__c = : UserId
         ];
         Map<String, ContentDistribution> mapOfContent = new Map<String, ContentDistribution>();
         List<ContentDistribution> allContentDistribution = getAllContentDistribution();

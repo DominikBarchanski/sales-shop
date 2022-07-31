@@ -34,7 +34,7 @@ export default class DisplaySingleProduct extends LightningElement {
 
     connectedCallback() {
 
-        getProduct({ProdId: this.recordId}).then((response) => {
+        getProduct({ProdId: this.recordId,UserId:this.userId}).then((response) => {
             this.allProductInfo = JSON.parse(JSON.stringify(response));
             this.listOfPhoto = response.photoList;
             this.isCommentSection = response.prodRatings.length > 0;

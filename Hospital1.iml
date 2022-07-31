@@ -33,6 +33,10 @@
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
+                            <option name="name" value="LWC_dmlOrder" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="TriggerHandler" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
@@ -130,6 +134,10 @@
                           </MetadataEntry>
                           <MetadataEntry>
                             <option name="name" value="multiSlider" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="orderHistoryPage" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>

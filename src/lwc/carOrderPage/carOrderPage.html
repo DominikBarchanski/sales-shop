@@ -4,16 +4,172 @@
 
 <!-- Car Order Page -->
 <template>
-    <lightning-card >
-        <div style="display:flex;flex-wrap: wrap;">
-            <div style="width:60%">
+    <lightning-card>
+        <template if:true={cartItems}>
 
-            </div>
-            <div style="width:40%">
+            <div style="display:flex;flex-wrap: wrap;height: 80vh">
+                <div style="width:58%;height: 100%;text-align: -webkit-center;margin:0.4em">
+                    <div class="paymentBox" style="width: 100%;height: 70%">
+                        <div style="width:90%">
 
+                            <img src={cartItems.photoUrl}/>
+                        </div>
+                        <div style="text-align: center;padding: 3em;">
+                            <p>{cartItems.name}</p>
+                            <p>{cartItems.price}€</p>
+                            <p>Seller Address: {cartItems.fullAddress}</p>
+                        </div>
+                    </div>
+                    <div class="paymentBox" style="height: 30%">
+                        <p>Order details</p>
+                        <lightning-radio-group label="Delivery method:"
+                                               name="radioGroup"
+                                               onchange={handleDeliverySelect}
+                                               options={options}
+                                               type="radio"
+                                               value={value}></lightning-radio-group>
+
+                        <template if:true={deliver}>
+                            <div style="width: 100%;display:flex;flex-wrap: wrap;padding: 0.3em">
+                                <div style="width:100%;padding: 0.4em">
+                                    <lightning-input label="Full Address"></lightning-input>
+                                </div>
+                                <!--                                <div style="width:33%;padding: 0.4em">-->
+                                <!--                                    <lightning-input label="City"></lightning-input>-->
+                                <!--                                </div>-->
+                                <!--                                <div style="width:33%;padding: 0.4em">-->
+                                <!--                                    <lightning-input label="Street"></lightning-input>-->
+                                <!--                                </div>-->
+                            </div>
+                        </template>
+                        <template if:false={deliver}>
+                            <div style="width: 100%;display:flex;flex-wrap: wrap;padding: 0.3em">
+                                <div style="width:100%;padding: 0.4em">
+                                    <lightning-input disabled="true" label="Collect Address"
+                                                     value={cartItems.fullAddress}></lightning-input>
+                                </div>
+                            </div>
+                            <!--                            <p>collect Address:</p>-->
+                            <!--                            <p></p>-->
+                        </template>
+                    </div>
+
+                </div>
+                <div style="width:38%;margin:0.4em">
+
+                    <div class="paymentBox">
+                        <div style="padding: 1em 0">
+                            <div>
+                                Payments
+                            </div>
+                            Your data
+                            <lightning-input disabled="true" label='Full Name'
+                                             value={currentUserName}></lightning-input>
+                            <lightning-input disabled="true" label='E-mail'
+                                             value={currentUserEmailId}></lightning-input>
+
+                        </div>
+                        <div style="width: 100% ">
+                            <p> Select Payment Method</p>
+                        </div>
+                        <div>
+                            <div class="paymentLabel" data-value='cash' onclick={handleDisplayPaymentMethod}><p>Cash</p>
+                            </div>
+                            <template if:true={payCash}>
+                                <div class="paymentSelect">
+                                    <div class="selectedIcon imgWrapper" data-value='cash'
+                                         onclick={handleSelectedMethod} style="width: 5em;text-align: center;">
+                                        <lightning-icon icon-name='utility:money' size="large"></lightning-icon>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <div>
+                            <div class="paymentLabel" data-value='card' onclick={handleDisplayPaymentMethod}><p>Card</p>
+                            </div>
+                            <template if:true={payCard}>
+                                <div class="paymentSelect">
+                                    <div style="display: flex;flex-wrap: wrap;">
+                                        <div style="width: 100%;padding: 0.4em">
+                                            <lightning-input type="number" label='Card number' max-length='16' min-length='16' required="true" value={cardNumber} onchange={handleCardNumber}></lightning-input>
+                                        </div>
+                                        <div style="width:100%;padding: 0.4em">
+                                            <lightning-input label='Place Holder' required="true" value={cardPlaceholder} onchange={handleCardHolder}></lightning-input>
+                                        </div>
+                                        <div style="width:50%;padding: 0.4em">
+                                            <lightning-input label='CVV' required="true" value={cardCvv} max-length='3' onchange={handleCardCvv}
+                                                             type="number"></lightning-input>
+                                        </div>
+                                        <div style="width:50%;padding: 0.4em">
+
+                                            <label for="expiry">Expiration Date:</label>
+                                            <input class="inputCard"
+                                                   id="expiry" name="expiry"
+                                                   required="required" style="width:100%;margin-top: 0.35em;line-height: 28px;
+    border: var(--lwc-borderWidthThin,1px) solid var(--slds-c-input-color-border, var(--sds-c-input-color-border, var(--lwc-colorBorderInput,#D4D4D4)));
+    border-radius: var(--slds-c-input-radius-border, var(--sds-c-input-radius-border, var(--lwc-borderRadiusMedium,0.25rem)));"
+                                                   type="month"/>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <div>
+                            <div class="paymentLabel" data-value='transfer' onclick={handleDisplayPaymentMethod}><p>Bank
+                                Transfer</p></div>
+                            <template if:true={payTransfer}>
+                                <div class="paymentSelect">
+                                    <div style="display: flex;flex-wrap: wrap">
+                                        <template for:each={logo} for:item='item'>
+                                            <div class="imgWrapper" data-value={item} key={item}
+                                                 onclick={handleSelectedMethod}>
+                                                <img key={item} src={item}/>
+                                            </div>
+
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <div>
+                            <div class="paymentLabel" data-value='digital' onclick={handleDisplayPaymentMethod}><p>
+                                Digital Wallet</p></div>
+                            <template if:true={payDigital}>
+                                <div class="paymentSelect">
+                                    <div style="display: flex;flex-wrap: wrap">
+                                        <template for:each={walletLogo} for:item='item'>
+                                            <div class="imgWrapper" data-value={item} key={item}
+                                                 onclick={handleSelectedMethod}>
+                                                <img key={item} src={item}/>
+                                            </div>
+
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <div>
+                        <p><b>Selected Payment Method:</b> {selectedPaymentMethod}</p>
+                        </div>
+                        <div style="position: absolute; bottom: 2%;width: 100%;    text-align: center;">
+
+                            <lightning-button label="Make Order" onclick={handleMakeOrder}
+                                              variant="brand"></lightning-button>
+                        </div>
+                    </div>
+
+                    <!--                    <lightning-combobox-->
+                    <!--                            label="Max Price"-->
+                    <!--                            name="new"-->
+                    <!--                            onchange={handleChangeMaxPrice}-->
+                    <!--                            options={paymentOption}-->
+                    <!--                            value={paymentValue}></lightning-combobox>-->
+
+                </div>
             </div>
-        </div>
-        <lightning-button label='test'></lightning-button>
+
+        </template>
     </lightning-card>
 
 </template>

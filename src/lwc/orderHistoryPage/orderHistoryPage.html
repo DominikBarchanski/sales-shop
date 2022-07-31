@@ -1,0 +1,28 @@
+<!--
+ - Created by dominikbarchanski on 28/07/2022.
+ -->
+
+<!-- Order History Page -->
+<template>
+    <lightning-card>
+        <div style="width:100% ;text-align: center;">
+            <p><b>Your Order History</b></p>
+        </div>
+        <template for:each={orderHistory} for:index='i' for:item="item">
+            <div class="itemInOrder" key={item} style="display: flex; flex-wrap: wrap">
+                <div style="width: 25%"><b>Order Number:</b> {item.orderNumber}</div>
+                <div style="width: 25%"><b>Price:</b>{item.price}€</div>
+                <div style="width: 25%"><b>Order Date:</b>{item.createDate}</div>
+                <div style="width: 25%;text-align: center;">
+                    <lightning-button label="Show Details" variant="brand" data-index={i} onclick={handleClick}></lightning-button>
+                </div>
+                <template if:true={item._isOpen}>
+                    <img src={item.photos}>
+                    <p key={item.id}>test</p>
+                </template>
+            </div>
+
+        </template>
+
+    </lightning-card>
+</template>

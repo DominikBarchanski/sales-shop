@@ -27,16 +27,16 @@
 
                         <p class="productName">{allProductInfo.brand} {allProductInfo.name}</p>
                         <div>
-                            <p>Product Rate:</p>
+                            <p style="font-size: large">Product Rate:</p>
                             <c-star-ratings rating={starProductRate} read-only-star="ture" show-half-stars="true"
                                             size="medium" static-color="green"></c-star-ratings>
                         </div>
-                        <div style="margin-left:1em">
+                        <div style="">
 
 
                             <p class="prodFonts">Seller Address:
                             </p>
-                            <div style="margin-left: 5em">
+                            <div style="margin-left: 3em">
                                 <lightning-map map-markers={markersMap} style="width:60%"
                                                zoom-level={zoomLevel}></lightning-map>
                             </div>
@@ -50,7 +50,7 @@
                                     style="font-weight: bold;font-size: large"> Add To Compare</span>
                                 <lightning-icon
                                         class="slds-current-color"
-                                        icon-name="utility:cart"
+                                        icon-name="utility:contract_alt"
                                         size="xx-small"
                                         style="margin: 0 1em"></lightning-icon>
                             </button>
@@ -62,23 +62,27 @@
                                     style="font-weight: bold;font-size: large"> Remove From Compare</span>
                                 <lightning-icon
                                         class="slds-current-color"
-                                        icon-name="utility:cart"
+                                        icon-name="utility:contract_alt"
                                         size="xx-small"
                                         style="margin: 0 1em"></lightning-icon>
                             </button>
                         </template>
                         <button class="slds-button slds-button_neutral slds-button_stretch" style="margin: 0.5em 0;">
-                            <span> Contact With Us </span>
-                            <lightning-icon
+                            <span> Buy This Car  <lightning-icon
                                     class="slds-current-color"
-                                    icon-name="utility:question"
+                                    icon-name="utility:checkout"
                                     size="xx-small"
-                                    style="margin: 0 1em"></lightning-icon>
+                                    style="margin: 0 1em"></lightning-icon> </span>
+<!--                            <lightning-icon-->
+<!--                                    class="slds-current-color"-->
+<!--                                    icon-name="utility:question"-->
+<!--                                    size="xx-small"-->
+<!--                                    style="margin: 0 1em"></lightning-icon>-->
                         </button>
                     </div>
 
                 </div>
-                <div style="position: absolute;    bottom: 5%; right: 2%">
+                <div style="position: absolute;    bottom: 2%; right: 2%">
 
                     <p class={allProductInfo.discountStyle}><strike if:true={allProductInfo.isDiscount}>&nbsp;{allProductInfo.price}€&nbsp; </strike><span
                             if:false={allProductInfo.isDiscount}
@@ -95,7 +99,7 @@
             <lightning-card>
                 <div style="margin-left: 2rem">
                     <lightning-icon icon-name="action:description"></lightning-icon>
-                    <span>
+                    <span style="font-size: large;font-weight: bold;padding: 0 1em">
                     Description
                 </span>
                 </div>
@@ -171,7 +175,7 @@
             <lightning-card>
                 <div style="margin-left: 2rem;position: relative">
                     <lightning-icon icon-name="utility:comments"></lightning-icon>
-                    <span>
+                    <span style="font-size: large;font-weight: bold;padding: 0 1em">
                     Comment Section
                 </span>
                     <div style="position: absolute;right: 1em;top: -1em;">

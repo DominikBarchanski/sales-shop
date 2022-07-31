@@ -10,6 +10,7 @@ import {fireEvent} from 'c/pubsub';
 import deleteFromCart from  '@salesforce/apex/LWC_dmlOperation.deleteFromCart'
 import {CurrentPageReference} from "lightning/navigation";
 import { NavigationMixin } from 'lightning/navigation';
+import CompareIcon from '@salesforce/resourceUrl/compareIcon';
 export default class ShoppingCart extends NavigationMixin(LightningElement) {
     userId = id
     @wire(CurrentPageReference) pageRef;
