@@ -27,6 +27,9 @@ export default class CarOrderPage extends NavigationMixin(LightningElement) {
     @track cardNumber =''
     @track cardPlaceholder=''
     @track cardCvv =''
+    @track Country =''
+    @track City =''
+    @track Street =''
     wallet = wallet;
     walletLogo = [this.wallet + '/google.png', this.wallet + '/apple.png', this.wallet + '/paypal.png'];
     bank = bankLogos
@@ -107,7 +110,8 @@ export default class CarOrderPage extends NavigationMixin(LightningElement) {
     handleCardNumber(event){
 
         console.log(event.target.value)
-        this.cardNumber = event.target.value;
+
+        this.cardNumber = event.target.value.replace(/(\d{4})(?=\S)/g, '$1 ');
     }
     handleCardHolder(event){
         this.cardPlaceholder=event.target.value
@@ -115,19 +119,51 @@ export default class CarOrderPage extends NavigationMixin(LightningElement) {
     handleCardCvv(event){
         this.cardCvv=event.target.value
     }
+    handleCountry(event){
+        this.Country=event.target.value
+    }
+    handleCity(event){
+        this.City=event.target.value
+    }
+    handleStreet(event){
+        this.Street=event.target.value
+    }
+
 
     handleMakeOrder() {
         console.log(this.selectedPayment)
-        if ((this.payCard &&  this.cardNumber != '' && this.cardNumber.length==16&& this.cardCvv !='' && this.cardPlaceholder != '') || (this.payCash) || (this.payTransfer && this.selectedPayment !== null) || (this.payDigital && this.selectedPayment !== null)) {
-
-
+        if (((this.payCard &&  this.cardNumber != '' && this.cardNumber.length==16&& this.cardCvv !='' && this.cardPlaceholder != '') || (this.payCash) || (this.payTransfer && this.selectedPayment !== null) || (this.payDigital && this.selectedPayment !== null))) {
+        let shippingAddress
+        if(this.deliver){
+            if (this.Country !=='' && this.City !=='' && this.Street !==''){
+            shippingAddress =this.Country+' '+this.City+' '+this.Street
+            }else{
+                alert('Type correct address')
+                return;
+            }
+        }else{
+            shippingAddress = this.cartItems.country+' '+this.cartItems.city+' '+this.cartItems.street
+        }
+        let paymentMethod = this.selectedPaymentMethod;
             let orderToSend = {
                 prodId: this.productId,
-                unitPrice: this.cartItems.price
+                unitPrice: this.cartItems.price,
+                shipping: shippingAddress,
+                payment:paymentMethod
+
             }
             createOrder({orderItem: orderToSend}).then(response => {
 
                 console.log('added')
+                console.log(response)
+               sessionStorage.setItem('orderedProduct',response.Id)
+                console.log(sessionStorage.getItem('orderedProduct'))
+                this[NavigationMixin.Navigate]({
+                    type: 'comm__namedPage',
+                    attributes: {
+                        name: 'orderHistory__c'
+                    }
+                })
             }).catch(e => {
                 console.log(e)
             })

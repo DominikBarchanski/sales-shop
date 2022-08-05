@@ -19,10 +19,16 @@ export default class FilterComponent extends LightningElement {
     @track  endYearValue = '';
     @track minPrice = '';
     @track maxPrice = '';
+    @track country = '';
+    @track city = '';
+    @track street = '';
+    @track searchDistance = '';
     @track hpMinVal = 0;
     @track priceMinVal = 0;
     @track hpMaxVal = 1000;
     @track priceMaxVal = 2500000;
+    @track lat;
+    @track lng;
 
     get optionBra() {
         if (this.brandOption) {
@@ -41,7 +47,7 @@ export default class FilterComponent extends LightningElement {
     get optionProdYearStart() {
         if (this.endYearValue === '') {
             return [...this.optionListYear];
-        }else {
+        } else {
             return [...this.handleStartYear(this.endYearValue)]
         }
     }
@@ -49,26 +55,38 @@ export default class FilterComponent extends LightningElement {
     get optionProdYearEnd() {
         if (this.startYearValue === '') {
             return [...this.optionListYear];
-        }else{
+        } else {
             return [...this.handleEndYear(this.startYearValue)]
         }
     }
 
     get optionPriceMin() {
-        if (this.maxPrice ===''){
-        return [...this.optionListPrice];
-        }else {
+        if (this.maxPrice === '') {
+            return [...this.optionListPrice];
+        } else {
             return [...this.handlePriceMin(this.maxPrice)]
         }
     }
+
     get optionPriceMax() {
-        if (this.minPrice ===''){
+        if (this.minPrice === '') {
             return [...this.optionListPrice];
-        }else {
+        } else {
             return [...this.handlePriceMax(this.minPrice)]
         }
     }
 
+    get optionKm() {
+        let pushOpt = [];
+        pushOpt.push({label: 'Select Radius', value: ''})
+        for (let i = 0; i < 10; i++) {
+
+            pushOpt.push({label: (((i + 1) * 5).toString()) + ' Km', value: ((i + 1) * 5).toString()})
+
+        }
+        return pushOpt
+
+    }
 
 
     connectedCallback() {
@@ -77,12 +95,10 @@ export default class FilterComponent extends LightningElement {
 
                 label: "Chose Brand", value: ""
             })
-            console.log(result)
             for (var i = 0; i < result.length; i++) {
                 console.log(result[i])
                 this.brandOption.push({label: result[i], value: result[i]});
             }
-            console.log(this.brandOption)
         }).catch(e => {
             console.log(e)
         })
@@ -105,44 +121,45 @@ export default class FilterComponent extends LightningElement {
         this.optionListPrice.push({label: '2500000€ And More', value: '2500000'})
 
     }
-    handleStartYear(end){
-        console.log(end);
-        let listOfYears=[];
+
+    handleStartYear(end) {
+        let listOfYears = [];
         listOfYears.push({label: 'Select Year', value: ''})
-        for (let i =end ; i > 1900; i--) {
+        for (let i = end; i > 1900; i--) {
             console.log(i)
             listOfYears.push({label: i.toString(), value: i.toString()});
         }
-        console.log(listOfYears)
         return listOfYears;
     }
-    handleEndYear(start){
+
+    handleEndYear(start) {
         console.log(start);
-        let listOfYears=[];
+        let listOfYears = [];
         listOfYears.push({label: 'Select Year', value: ''})
-        for (let i =new Date().getFullYear() ; i >= start; i--) {
+        for (let i = new Date().getFullYear(); i >= start; i--) {
             console.log(i)
             listOfYears.push({label: i.toString(), value: i.toString()});
         }
-        console.log(listOfYears)
         return listOfYears;
     }
-    handlePriceMin(max){
+
+    handlePriceMin(max) {
         let priceList = []
         let value = 2500;
         priceList.push({label: 'Select Price', value: ''})
         for (let i = 2; value < max; i++) {
             priceList.push({label: value.toString() + "€", value: value.toString()});
-                value += value
+            value += value
 
         }
         return priceList;
         // this.optionListPrice.push({label: '2500000€ And More', value: '2500000'})
     }
-    handlePriceMax(min){
+
+    handlePriceMax(min) {
         let value = parseInt(min);
         let priceList = []
-        console.log(min)
+
         priceList.push({label: 'Select Price', value: ''})
         for (let i = 2; value < 7500000; i++) {
 
@@ -152,6 +169,7 @@ export default class FilterComponent extends LightningElement {
         priceList.push({label: '2500000€ And More', value: '2500000'})
         return priceList
     }
+
     handleChangeType(event) {
         this.value = event.detail.value.toString();
     }
@@ -161,34 +179,59 @@ export default class FilterComponent extends LightningElement {
     }
 
     handleChangeStartYear(event) {
-        console.log(event.detail.value)
+
         this.startYearValue = event.detail.value.toString();
     }
 
     handleChangeEndYear(event) {
-        console.log(event.detail.value)
+
         this.endYearValue = event.detail.value.toString();
     }
 
     handleChangeMinPrice(event) {
-        console.log(event.detail.value)
         this.minPrice = event.detail.value;
     }
 
     handleChangeMaxPrice(event) {
-        console.log(event.detail.value)
         this.maxPrice = event.detail.value;
-        console.log(this.maxPrice)
     }
 
-    HandleFilter(event) {
+    handleChangeCountry(event) {
+        this.country = event.detail.value;
+    }
+
+    handleChangeCity(event) {
+        this.city = event.detail.value;
+    }
+
+    handleChangeStreet(event) {
+        this.street = event.detail.value;
+    }
+
+    handleChangeRadius(event) {
+        this.searchDistance = event.detail.value;
+    }
+
+    async HandleFilter(event) {
         let hpMax = sessionStorage.getItem('hp-max');
         let hpMin = sessionStorage.getItem('hp-min');
-        let priceMax = sessionStorage.getItem('price-max');
-        let priceMin = sessionStorage.getItem('price-min');
-        console.log(hpMin + ' ' + hpMax);
-        console.log(priceMin + ' ' + priceMax);
-        console.log(this.minPrice + ' ' + this.maxPrice);
+        // let priceMax = sessionStorage.getItem('price-max');
+        // let priceMin = sessionStorage.getItem('price-min');
+        let position = {};
+        let positionOF ={} ;
+        let pos ;
+        if (this.city !=='' || this.country !== '' || this.street !=='') {
+            position = this.positionLatitude()
+            positionOF = await position;
+            pos = positionOF
+        }
+            // bool = true
+        let toSend = positionOF.hasOwnProperty('lat') ? pos:'';
+            console.log(toSend)
+        // }
+
+
+
         let passObject = {
             type: this.value,
             brand: this.brandValue,
@@ -198,19 +241,45 @@ export default class FilterComponent extends LightningElement {
             hpMax: hpMax == this.hpMaxVal ? '' : hpMax,
             priceMin: this.minPrice,
             priceMax: (parseInt(this.maxPrice) === this.priceMaxVal) ? '' : this.maxPrice,
+            distance: this.searchDistance,
+            position: toSend
         }
-        console.log(passObject);
         sessionStorage.setItem('searchValue', this.searchValue);
         fireEvent(this.pageRef, "filterDetails", passObject)
     }
 
+    async positionLatitude() {
+        let address = this.country + '+' + this.city + '+' + this.street
+        let api_key = 'AIzaSyC6TeiRM56HgxvqR7ncLeZST7Sid6Pky2s';
+        let addres = ("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + '&key=' + api_key).replace(' ', '+')
+        const response = await fetch(addres);
+        const json = await response.json();
+        const latitude = json.results[0].geometry.location.lat;
+        const longitude = json.results[0].geometry.location.lng;
+        let position = {
+            lat: latitude,
+            lan: longitude
+        }
+
+        // console.log(printposs)
+        return position
+    }
+
     HandleClearFilter(event) {
+        console.log('wtf')
         this.brandValue = '';
         this.value = '';
         this.startYearValue = '';
         this.endYearValue = '';
         this.minPrice = '';
         this.maxPrice = '';
+        this.country = '';
+        this.city = '';
+        this.street = '';
+        this.searchDistance = '';
+        // this.position ={};
+
+
         this.isDisplay = false;
         setTimeout(() => {
             this.isDisplay = true

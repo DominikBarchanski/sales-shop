@@ -18,13 +18,13 @@
 
 }
 .price {
-    font-size: x-large;
+    font-size: medium;
 }
 
 .discountPrice {
     color: #c04545;
     font-weight: bold;
-    font-size: xx-large;
+    font-size: large;
 }
 
 s,

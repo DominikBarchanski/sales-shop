@@ -9,8 +9,9 @@ public without sharing class LWC_dmlOperation {
                 SELECT
                         Average_Fuel_Consumption__c,
                         Brands__c,
-                        City__c,
                         Country__c,
+                        City__c,
+                        Street__c,
                         CreatedById,
                         CreatedDate,
                         Cylinder_Capacity__c,
@@ -22,7 +23,6 @@ public without sharing class LWC_dmlOperation {
                         Fuel_Consumption_In_The_City__c,
                         Horsepower__c,
                         Id,
-                        Top_Speed__c,
                         IsActive,
                         IsArchived,
                         IsDeleted,
@@ -38,12 +38,16 @@ public without sharing class LWC_dmlOperation {
                         Production_Year__c,
                         QuantityUnitOfMeasure,
                         StockKeepingUnit,
-                        Street__c,
-                        SystemModstamp
+                        SystemModstamp,
+                        Top_Speed__c,
+                        Latitude__c,
+                        Longitude__c
                 FROM Product2
                 WHERE Name LIKE :forSoql OR Description LIKE :forSoql OR Brands__c LIKE :forSoql OR Family LIKE :forSoql
         ];
+
     }
+
     @AuraEnabled(Cacheable=true) public static List<PricebookEntry> getAllPricebookItems() {
         return [
                 SELECT CreatedById, CreatedDate, Id, IsActive, IsArchived, IsDeleted, LastModifiedById, LastModifiedDate, Name, Pricebook2Id, Product2Id, ProductCode, SystemModstamp, UnitPrice, UseStandardPrice
@@ -159,6 +163,9 @@ public without sharing class LWC_dmlOperation {
         @AuraEnabled public Decimal capacity;
         @AuraEnabled public Decimal places;
         @AuraEnabled public Decimal speed;
+        @AuraEnabled public String lat;
+        @AuraEnabled public String lng;
+
 
 //        @AuraEnabled public String url = 'https://britenet7-dev-ed--c.documentforce.com/sfc/dist/version/download/?oid=00D7Q000004Qv7A&ids=0687Q00000357uZ&d=%2Fa%2F7Q000000TP5r%2FaE5dsVi0EWBYWF_ZFYE_VCQlp_0s.DYJzUsekfPN92k&asPdf=false';
 
@@ -168,6 +175,11 @@ public without sharing class LWC_dmlOperation {
             this.type = product.Family;
             this.brand = product.Brands__c;
             this.hp = product.Horsepower__c;
+            this.country = product.Country__c;
+            this.city = product.City__c;
+            this.street = product.Street__c;
+            this.lat = product.Latitude__c;
+            this.lng = product.Longitude__c;
             this.prodYear = product .Production_Year__c != null ? product .Production_Year__c.year() : null;
             this.description = product.Description;
             this.price = strategy.Standard_Price__c.setScale(2);
@@ -183,12 +195,12 @@ public without sharing class LWC_dmlOperation {
             this.country = product.Country__c;
             this.city = product.City__c;
             this.street = product.Street__c;
-            this.cityConsumption =product.Fuel_Consumption_In_The_City__c;
-            this.avgConsumption=product.Average_Fuel_Consumption__c;
-            this.doors=product.Number_of_Doors__c;
-            this.capacity=product.Cylinder_Capacity__c;
-            this.places=product.Number_of_Places__c;
-            this.speed= product.Top_Speed__c;
+            this.cityConsumption = product.Fuel_Consumption_In_The_City__c;
+            this.avgConsumption = product.Average_Fuel_Consumption__c;
+            this.doors = product.Number_of_Doors__c;
+            this.capacity = product.Cylinder_Capacity__c;
+            this.places = product.Number_of_Places__c;
+            this.speed = product.Top_Speed__c;
             this.prodYear = product .Production_Year__c != null ? product .Production_Year__c.year() : null;
             this.description = product.Description;
             this.price = strategy.Standard_Price__c.setScale(2);
@@ -253,7 +265,7 @@ public without sharing class LWC_dmlOperation {
         return listOfFindedProducts;
     }
     @AuraEnabled
-    public static SearchProductWrapper getSingleProduct(String ProdId,String UserId) {
+    public static SearchProductWrapper getSingleProduct(String ProdId, String UserId) {
         Product2 getProduct = [
                 SELECT
                         Brands__c,
@@ -315,7 +327,8 @@ public without sharing class LWC_dmlOperation {
                         Product_Id__c,
                         Rating__c,
                         SystemModstamp,
-                        User_Id__c
+                        User_Id__c,
+                        Approval__c
                 FROM Product_Rating__c
                 WHERE Product_Id__c = :ProdId
         ];
@@ -334,9 +347,11 @@ public without sharing class LWC_dmlOperation {
                         SystemModstamp,
                         User_Id__c
                 FROM Shopping_Cart__c
-                WHERE Product_Id__c = :ProdId AND
-                User_Id__c = : UserId
+                WHERE CreatedById = :UserId
         ];
+        System.debug(ProdId);
+        System.debug(UserId);
+        System.debug(prodInCart);
         Map<String, ContentDistribution> mapOfContent = new Map<String, ContentDistribution>();
         List<ContentDistribution> allContentDistribution = getAllContentDistribution();
         Map<String, List<String>> mapOfPhoto = new Map<String, List<String>>();
@@ -392,6 +407,7 @@ public without sharing class LWC_dmlOperation {
             toAdd.Rate_Design__c = rateDesign;
             toAdd.Rate_Safety__c = rateSafe;
             toAdd.Rating__c = rate;
+            toAdd.Approval__c = 'new';
             toAdd.Name = title;
             toAdd.Comment__c = body;
             upsert toAdd;
@@ -490,32 +506,44 @@ public without sharing class LWC_dmlOperation {
         @AuraEnabled public Decimal places;
         @AuraEnabled public Decimal speed;
         @AuraEnabled public String photoUrl;
-        public ShoppingCartWrapper(Product2 prodInfo, Shopping_Cart__c cart, Strategy__c price,ContentDistribution mainPhoto) {
+        @AuraEnabled public String country;
+        @AuraEnabled public String city;
+        @AuraEnabled public String street;
+
+
+        public ShoppingCartWrapper(Product2 prodInfo, Shopping_Cart__c cart, Strategy__c price, ContentDistribution mainPhoto) {
             this.id = cart.Id;
+            this.country = prodInfo.Country__c;
+            this.city = prodInfo.City__c;
+            this.street = prodInfo.Street__c;
+
             this.fullAddress = prodInfo.Country__c + ' ' + prodInfo.City__c + ' ' + prodInfo.Street__c;
             this.prodId = prodInfo.Id;
             this.name = prodInfo.Brands__c + ' ' + prodInfo.Name;
             this.price = price.Strategy_price__c .setScale(2);
-            this.cityConsumption =prodInfo.Fuel_Consumption_In_The_City__c;
-            this.avgConsumption=prodInfo.Average_Fuel_Consumption__c;
-            this.doors=prodInfo.Number_of_Doors__c;
-            this.capacity=prodInfo.Cylinder_Capacity__c;
-            this.places=prodInfo.Number_of_Places__c;
-            this.speed= prodInfo.Top_Speed__c;
-            this.photoUrl= mainPhoto.ContentDownloadUrl != null ? mainPhoto.ContentDownloadUrl : PageReference.forResource('display_on_error').getUrl();
+            this.cityConsumption = prodInfo.Fuel_Consumption_In_The_City__c;
+            this.avgConsumption = prodInfo.Average_Fuel_Consumption__c;
+            this.doors = prodInfo.Number_of_Doors__c;
+            this.capacity = prodInfo.Cylinder_Capacity__c;
+            this.places = prodInfo.Number_of_Places__c;
+            this.speed = prodInfo.Top_Speed__c;
+            this.photoUrl = mainPhoto.ContentDownloadUrl != null ? mainPhoto.ContentDownloadUrl : PageReference.forResource('display_on_error').getUrl();
         }
-        public ShoppingCartWrapper(Product2 prodInfo, Strategy__c price,ContentDistribution mainPhoto) {
+        public ShoppingCartWrapper(Product2 prodInfo, Strategy__c price, ContentDistribution mainPhoto) {
             this.fullAddress = prodInfo.Country__c + ' ' + prodInfo.City__c + ' ' + prodInfo.Street__c;
+            this.country = prodInfo.Country__c;
+            this.city = prodInfo.City__c;
+            this.street = prodInfo.Street__c;
             this.prodId = prodInfo.Id;
             this.name = prodInfo.Brands__c + ' ' + prodInfo.Name;
             this.price = price.Strategy_price__c .setScale(2);
-            this.cityConsumption =prodInfo.Fuel_Consumption_In_The_City__c;
-            this.avgConsumption=prodInfo.Average_Fuel_Consumption__c;
-            this.doors=prodInfo.Number_of_Doors__c;
-            this.capacity=prodInfo.Cylinder_Capacity__c;
-            this.places=prodInfo.Number_of_Places__c;
-            this.speed= prodInfo.Top_Speed__c;
-            this.photoUrl= mainPhoto.ContentDownloadUrl != null ? mainPhoto.ContentDownloadUrl : PageReference.forResource('display_on_error').getUrl();
+            this.cityConsumption = prodInfo.Fuel_Consumption_In_The_City__c;
+            this.avgConsumption = prodInfo.Average_Fuel_Consumption__c;
+            this.doors = prodInfo.Number_of_Doors__c;
+            this.capacity = prodInfo.Cylinder_Capacity__c;
+            this.places = prodInfo.Number_of_Places__c;
+            this.speed = prodInfo.Top_Speed__c;
+            this.photoUrl = mainPhoto.ContentDownloadUrl != null ? mainPhoto.ContentDownloadUrl : PageReference.forResource('display_on_error').getUrl();
         }
     }
     @AuraEnabled
@@ -550,19 +578,20 @@ public without sharing class LWC_dmlOperation {
         List<ContentDistribution> allContentDistribution = getAllContentDistribution();
         for (ContentDistribution item : allContentDistribution) {
             mapOfContent.put(item.ContentDocumentId, item);
-            }
+        }
         List<ShoppingCartWrapper> listToFrontCart = new List<LWC_dmlOperation.ShoppingCartWrapper>();
         for (Shopping_Cart__c item : allProdInCart) {
-            ShoppingCartWrapper itemToAdd = new ShoppingCartWrapper(mapOfProduct.get(item.Product_Id__c), item, mapOfStrategy.get(item.Product_Id__c),mapOfContent.get(mapOfProduct.get(item.Product_Id__c).Main_Photo__c));
+            ShoppingCartWrapper itemToAdd = new ShoppingCartWrapper(mapOfProduct.get(item.Product_Id__c), item, mapOfStrategy.get(item.Product_Id__c), mapOfContent.get(mapOfProduct.get(item.Product_Id__c).Main_Photo__c));
             listToFrontCart.add(itemToAdd);
         }
         return listToFrontCart;
     }
     @AuraEnabled
-    public static ShoppingCartWrapper displayProductToBuy(String productId){
+    public static ShoppingCartWrapper displayProductToBuy(String productId) {
         Strategy__c allStrategyPrice = [
                 SELECT CreatedById, CreatedDate, Id, IsDeleted, LastModifiedById, LastModifiedDate, Name, OwnerId, Product2id__c, Standard_Price__c, Strategy_Name__c, Strategy_price__c, SystemModstamp
-                FROM Strategy__c WHERE Product2id__c =:productId
+                FROM Strategy__c
+                WHERE Product2id__c = :productId
         ];
 
         Product2 allProductInCartsProduct2 = [
@@ -576,7 +605,7 @@ public without sharing class LWC_dmlOperation {
         for (ContentDistribution item : allContentDistribution) {
             mapOfContent.put(item.ContentDocumentId, item);
         }
-        ShoppingCartWrapper itemToAdd = new ShoppingCartWrapper(allProductInCartsProduct2, allStrategyPrice,mapOfContent.get(allProductInCartsProduct2.Main_Photo__c));
+        ShoppingCartWrapper itemToAdd = new ShoppingCartWrapper(allProductInCartsProduct2, allStrategyPrice, mapOfContent.get(allProductInCartsProduct2.Main_Photo__c));
         return itemToAdd;
     }
     @AuraEnabled
@@ -598,6 +627,27 @@ public without sharing class LWC_dmlOperation {
                         User_Id__c
                 FROM Shopping_Cart__c
         ];
+    }
+
+    @AuraEnabled
+    public static Product2 apiCall(Product2 item) {
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        String apiAddress = item.Country__c +'+'+item.City__c+'+'+item.Street__c;
+        apiAddress = apiAddress.replace(' ','+');
+        request.setEndpoint('https://maps.googleapis.com/maps/api/geocode/json?address='+apiAddress+'&key=AIzaSyC6TeiRM56HgxvqR7ncLeZST7Sid6Pky2s');
+        request.setMethod('GET');
+        System.debug(request);
+        HttpResponse response = http.send(request);
+        if (response.getStatusCode() == 200) {
+            googleJSON2Apex items = googleJSON2Apex.parse(response.getBody());
+            String lat= String.valueOf(items.results[0].geometry.location.lat);
+            String lng=String.valueOf( items.results[0].geometry.location.lng);
+            item.Latitude__c = lat;
+            item.Longitude__c = lng;
+            return item;
+        }
+        return new Product2();
     }
 
 }

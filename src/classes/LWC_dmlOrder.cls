@@ -8,10 +8,14 @@ public with sharing class LWC_dmlOrder {
         @AuraEnabled public String prodId;
         @AuraEnabled public Decimal unitPrice;
         @AuraEnabled public String pricebookEntryId;
+        @AuraEnabled public String shipping;
+        @AuraEnabled public String payment;
         ItemOrderWrapper(Map<String, Object> itemDetails, PricebookEntry entryId) {
             this.prodId = (String) itemDetails.get('prodId');
             this.unitPrice = (Decimal) itemDetails.get('unitPrice');
             this.pricebookEntryId = entryId.Id;
+            this.shipping= (String) itemDetails.get('shipping');
+            this.payment= (String) itemDetails.get('payment');
         }
     }
 
@@ -23,6 +27,8 @@ public with sharing class LWC_dmlOrder {
         PricebookEntry itemPricebookEntry = [SELECT Id FROM PricebookEntry WHERE Pricebook2Id = :standardPricebook2.Id AND Product2Id = :(String) orderItem.get('prodId')];
         ItemOrderWrapper wrappedItem = new ItemOrderWrapper(orderItem, itemPricebookEntry);
         Order newOrder = new Order(
+                Order_Address__c = wrappedItem.shipping,
+                Description = wrappedItem.payment,
                 AccountId = acc.Id,
                 Status = 'Draft',
                 EffectiveDate = Date.today(),
@@ -52,15 +58,25 @@ public with sharing class LWC_dmlOrder {
 
     }
     public class OrderHistoryWrapper {
+        @AuraEnabled public  String Id;
         @AuraEnabled public Datetime createDate;
         @AuraEnabled public String orderNumber;
         @AuraEnabled public Decimal price;
         @AuraEnabled public List<OrderItem> orderItem;
         @AuraEnabled public String photos;
+        @AuraEnabled public String shipping;
+        @AuraEnabled public String payment;
+        @AuraEnabled public String productName;
+
+
         OrderHistoryWrapper(Order order, List<OrderItem> orderItems,ContentDistribution photos) {
+            this.Id = order.Id;
             this.createDate = order.CreatedDate;
             this.orderNumber = order.OrderNumber;
+            this.productName = orderItems[0].Product2.Brands__c+' '+ orderItems[0].Product2.Name;
             this.photos = photos.ContentDownloadUrl;
+            this.shipping = order.Order_Address__c;
+            this.payment = order.Description;
             Decimal unitPrice = 0;
             for (OrderItem item : orderItems) {
                 unitPrice += item.UnitPrice;
@@ -93,6 +109,7 @@ public with sharing class LWC_dmlOrder {
                 SELECT
                         AccountId,
                         ActivatedById,
+                        Order_Address__c,
                         ActivatedDate,
                         BillingAddress,
                         BillingCity,
@@ -218,6 +235,7 @@ public with sharing class LWC_dmlOrder {
                         PricebookEntryId,
                         Product2Id,
                         Product2.Name,
+                        Product2.Brands__c,
                         Product2.Main_Photo__c,
                         Quantity,
                         QuoteLineItemId,

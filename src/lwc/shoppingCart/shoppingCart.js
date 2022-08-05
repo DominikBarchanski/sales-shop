@@ -17,6 +17,7 @@ export default class ShoppingCart extends NavigationMixin(LightningElement) {
     @track itemInCart
     @track cartToDisplay
     @track sumPrice =0;
+    @track itemToCompare
     connectedCallback() {
         this.getCart()
         registerListener('addRemoveFromCart', this.setUpFilter, this)
@@ -32,13 +33,13 @@ export default class ShoppingCart extends NavigationMixin(LightningElement) {
         allProductsFormCart({userId:this.userId}).then(result=>{
             console.log(result)
             this.itemInCart = result.length
+                this.itemToCompare = !(result.length > 1)
+
             this.cartToDisplay = result
-            let sum=0
+            // let sum=0
             // this.sumPrice =
-                result.forEach(e=> {sum= sum+ parseFloat( e.price)});
+            //     result.forEach(e=> {sum= sum+ parseFloat( e.price)});
             this.sumPrice = sum;
-            console.log(this.sumPrice)
-            console.log(sum)
         }).catch(e=>{
             console.log(e)
         })

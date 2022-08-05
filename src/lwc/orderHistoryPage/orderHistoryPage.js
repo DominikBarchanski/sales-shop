@@ -9,25 +9,35 @@ import orderHistory from '@salesforce/apex/LWC_dmlOrder.userOrderHistory'
 export default class OrderHistoryPage extends LightningElement {
     userId = id;
     @track orderHistory
-
+    @track priceForAllProduct =0;
+    makeComplain = false;
     connectedCallback() {
         orderHistory({userID: this.userId}).then(result => {
+            console.log(result)
             for (const resultElement of result) {
+                this.priceForAllProduct += resultElement.price;
                 let itemDate = new Date(resultElement.createDate);
                 resultElement.createDate = (itemDate.toLocaleTimeString() + " " + itemDate.toLocaleDateString());
-                resultElement._isOpen = false;
+                if (sessionStorage.getItem('orderedProduct')) {
+                    resultElement._isOpen = resultElement.Id == sessionStorage.getItem('orderedProduct');
+                } else {
+                    resultElement._isOpen = false;
+                }
+
             }
+
             this.orderHistory = result
-            console.log(this.orderHistory);
+            sessionStorage.clear();
         }).catch(e => {
             console.log(e);
         })
     }
-    handleClick(event){
-       this.orderHistory.map(item=>{
-           item._isOpen = false;
-       }) ;
-       this.orderHistory[parseInt(event.currentTarget.dataset.index,10)]._isOpen=true;
+
+    handleClick(event) {
+        this.orderHistory.map(item => {
+            item._isOpen = false;
+        });
+        this.orderHistory[parseInt(event.currentTarget.dataset.index, 10)]._isOpen = true;
     }
 
 }

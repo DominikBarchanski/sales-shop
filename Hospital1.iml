@@ -29,11 +29,23 @@
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
+                            <option name="name" value="googleJSON2Apex" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="LWC_dmlOperation" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
                             <option name="name" value="LWC_dmlOrder" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="Product2LocationHelper" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="Product2LocationTriggerHandler" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
@@ -50,6 +62,10 @@
                         <list>
                           <MetadataEntry>
                             <option name="name" value="ContentVersionTrigger" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="ProductLocationTrigger" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                         </list>
@@ -102,6 +118,10 @@
                           </MetadataEntry>
                           <MetadataEntry>
                             <option name="name" value="carOrderPage" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
+                            <option name="name" value="complainModal" />
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>

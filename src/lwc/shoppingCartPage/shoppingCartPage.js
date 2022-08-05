@@ -134,10 +134,9 @@ export default class ShoppingCartPage extends NavigationMixin(LightningElement) 
             10:'speed',
             11:'id'
         };
-        console.log(this.wonTable);
+
         [...this.template.querySelectorAll('.table_selector tr')].forEach((row,i)=>{
             const input = document.createElement('div')
-            console.log(i)
             if(i===0){
                 const removeButton = document.createElement('button')
                 removeButton.setAttribute('value',item[display[11]])
@@ -147,15 +146,13 @@ export default class ShoppingCartPage extends NavigationMixin(LightningElement) 
                 removeButton.innerHTML = '<svg class="slds-button__icon" focusable="false" data-key="delete" aria-hidden="true" viewBox="0 0 52 52"><g><g><path d="M45.5 10H33V6c0-2.2-1.8-4-4-4h-6c-2.2 0-4 1.8-4 4v4H6.5c-.8 0-1.5.7-1.5 1.5v3c0 .8.7 1.5 1.5 1.5h39c.8 0 1.5-.7 1.5-1.5v-3c0-.8-.7-1.5-1.5-1.5zM23 7c0-.6.4-1 1-1h4c.6 0 1 .4 1 1v3h-6V7zM41.5 20h-31c-.8 0-1.5.7-1.5 1.5V45c0 2.8 2.2 5 5 5h24c2.8 0 5-2.2 5-5V21.5c0-.8-.7-1.5-1.5-1.5zM23 42c0 .6-.4 1-1 1h-2c-.6 0-1-.4-1-1V28c0-.6.4-1 1-1h2c.6 0 1 .4 1 1v14zm10 0c0 .6-.4 1-1 1h-2c-.6 0-1-.4-1-1V28c0-.6.4-1 1-1h2c.6 0 1 .4 1 1v14z"></path></g></g></svg>'
                 input.appendChild(removeButton)
             }
-
             else if(i===1){
             const photo = document.createElement('img')
                 input.setAttribute('style','width:50%')
                 photo.setAttribute('src',item[display[i]])
-                // photo.setAttribute('style','width:50%;')
                 input.appendChild(photo);
             }else if(i===11){
-                console.log('weszło to do buttona?')
+
                 const selectButton = document.createElement('button')
                 selectButton.setAttribute('value',item['prodId'])
                 selectButton.setAttribute('class',"slds-button slds-button_brand")
@@ -164,13 +161,12 @@ export default class ShoppingCartPage extends NavigationMixin(LightningElement) 
                 input.appendChild(selectButton)
             }else{
                 if(this.wonTable[display[i]]===item[display[i]]){
-                    console.log('weszło to ');
                     input.setAttribute('style','font-weight:bold;color:lightseagreen')
                 }
                 input.textContent = ( item[display[i]]);
             }
             const cell = document.createElement('td')
-            let widthTd = 'width:calc(((100%-200px)/'+this.numberOfItem+'));text-align: -webkit-center;';
+            let widthTd = 'width:calc(((100%-200px)/'+3+'));text-align: -webkit-center;';
             cell.setAttribute('style',widthTd);
             // console.log(widthTd);
             cell.appendChild(input);

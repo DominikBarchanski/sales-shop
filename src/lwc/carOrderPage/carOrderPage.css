@@ -50,5 +50,14 @@
     text-align: center;
     outline: 0; /* remove if you want input highlight */
 }
+.customRadioCls > *{
+    display : inline-block !important;
+}
 
-
+/*.radio-combo-inline .slds-form-element__control .slds-radio*/
+/*{*/
+/*    display: inline-block !important;*/
+/*}*/
+/*.slds-form-element__control .slds-radio{*/
+/*    display:inline;*/
+/*}*/

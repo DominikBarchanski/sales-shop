@@ -7,10 +7,14 @@
     <div style="margin-left: 2rem;position: relative">
         <div style="display: flex">
 
-            <div>
-                <lightning-icon icon-name="utility:comments"></lightning-icon>
-            </div>
+
             <div style="width: 50%">
+                <div>
+                    <lightning-icon icon-name="utility:comments">
+
+                    </lightning-icon>
+                    <span style="font-size: large;font-weight: bold;padding: 0 1em"> Add Comment</span>
+                </div>
                 <lightning-input label="Title" placeholder="Type Comment Title" value={ComTitle}
                                  onchange={handleTitleChange}></lightning-input>
                 <lightning-textarea

@@ -6,9 +6,9 @@
     border: 1px solid rgba(140, 140, 140, 0.47);
     border-radius: 6px;
     box-shadow: rgb(0 0 0 / 10%) 0 2px 8px 0;
-    margin: 0.5em 0.5em;
+    margin: 0 0.5em 1em;
     height: 350px;
-    width: 23%;
+    width: 250px;
     /*width: 31%;*/
     flex-direction: column;
     flex-wrap: nowrap;
