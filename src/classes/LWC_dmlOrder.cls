@@ -10,12 +10,14 @@ public with sharing class LWC_dmlOrder {
         @AuraEnabled public String pricebookEntryId;
         @AuraEnabled public String shipping;
         @AuraEnabled public String payment;
+        @AuraEnabled public String userId;
         ItemOrderWrapper(Map<String, Object> itemDetails, PricebookEntry entryId) {
             this.prodId = (String) itemDetails.get('prodId');
             this.unitPrice = (Decimal) itemDetails.get('unitPrice');
             this.pricebookEntryId = entryId.Id;
             this.shipping= (String) itemDetails.get('shipping');
             this.payment= (String) itemDetails.get('payment');
+            this.userId = (String) itemDetails.get('userId');
         }
     }
 
@@ -36,6 +38,8 @@ public with sharing class LWC_dmlOrder {
         );
         try {
             insert newOrder;
+            List<Shopping_Cart__c> items= [SELECT Id FROM Shopping_Cart__c WHERE CreatedById =: wrappedItem.userId];
+            delete items;
         } catch (DmlException e) {
             System.debug(e);
         } finally {

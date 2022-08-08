@@ -10,6 +10,10 @@
             <p style="font-size: x-large"><b>Your Order History</b></p>
             <p style="font-size: large"><b>Currently Spend on All Order:</b> {priceForAllProduct}€</p>
         </div>
+        <div style="    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;">
+
         <template for:each={orderHistory} for:index='i' for:item="item">
             <div class="itemInOrder" key={item} style="display: flex; flex-wrap: wrap">
                 <div style="width: 25%"><b>Order Number:</b> {item.orderNumber}</div>
@@ -39,5 +43,6 @@
 
         </template>
 
+        </div>
     </lightning-card>
 </template>

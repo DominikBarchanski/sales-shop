@@ -149,6 +149,10 @@
                             <option name="selected" value="true" />
                           </MetadataEntry>
                           <MetadataEntry>
+                            <option name="name" value="homePage" />
+                            <option name="selected" value="true" />
+                          </MetadataEntry>
+                          <MetadataEntry>
                             <option name="name" value="hoverModalDetails" />
                             <option name="selected" value="true" />
                           </MetadataEntry>

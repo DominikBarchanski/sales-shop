@@ -148,6 +148,7 @@ export default class CarOrderPage extends NavigationMixin(LightningElement) {
             let orderToSend = {
                 prodId: this.productId,
                 unitPrice: this.cartItems.price,
+                userId: this.userId,
                 shipping: shippingAddress,
                 payment:paymentMethod
 

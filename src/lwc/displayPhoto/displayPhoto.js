@@ -27,7 +27,7 @@ export default class DisplayPhoto extends LightningElement {
     }
 
     handleChangePhoto(event) {
-        if (this.mainPhoto.photoList) {
+        if (this.mainPhoto.photoList.length >1) {
             let photoToDisplay = this.mainPhoto.photoList.filter(item=>{return item !== this.mainPhoto.photoUrl})
             let photoListSize = photoToDisplay.length;
             let counter = 0;

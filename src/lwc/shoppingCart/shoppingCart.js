@@ -33,7 +33,7 @@ export default class ShoppingCart extends NavigationMixin(LightningElement) {
         allProductsFormCart({userId:this.userId}).then(result=>{
             console.log(result)
             this.itemInCart = result.length
-                this.itemToCompare = !(result.length > 1)
+            this.itemToCompare = !(result.length > 1)
 
             this.cartToDisplay = result
             // let sum=0
