@@ -11,12 +11,12 @@ import deleteFromCart from  '@salesforce/apex/LWC_dmlOperation.deleteFromCart'
 import {CurrentPageReference} from "lightning/navigation";
 import { NavigationMixin } from 'lightning/navigation';
 import CompareIcon from '@salesforce/resourceUrl/compareIcon';
+import {ShowToastEvent} from "lightning/platformShowToastEvent";
 export default class ShoppingCart extends NavigationMixin(LightningElement) {
     userId = id
     @wire(CurrentPageReference) pageRef;
     @track itemInCart
     @track cartToDisplay
-    @track sumPrice =0;
     @track itemToCompare
     connectedCallback() {
         this.getCart()
@@ -39,7 +39,7 @@ export default class ShoppingCart extends NavigationMixin(LightningElement) {
             // let sum=0
             // this.sumPrice =
             //     result.forEach(e=> {sum= sum+ parseFloat( e.price)});
-            this.sumPrice = sum;
+
         }).catch(e=>{
             console.log(e)
         })
@@ -50,6 +50,12 @@ export default class ShoppingCart extends NavigationMixin(LightningElement) {
         deleteFromCart({cartId: deleteItemId}).then(result => {
             this.getCart();
             fireEvent(this.pageRef,'itemFromCartDeleted',result)
+            const evt = new ShowToastEvent({
+                title: 'Success',
+                message: "Product removed from Compare",
+                variant: 'success',
+            });
+            this.dispatchEvent(evt);
         }).catch(e => {
             console.log(e)
         })

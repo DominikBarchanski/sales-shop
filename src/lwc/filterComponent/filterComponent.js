@@ -2,7 +2,7 @@
  * Created by dominikbarchanski on 19/07/2022.
  */
 
-import {LightningElement, wire, track} from 'lwc';
+import {LightningElement, wire, track, api} from 'lwc';
 import {CurrentPageReference, NavigationMixin} from "lightning/navigation";
 import {fireEvent} from 'c/pubsub';
 import getBrands from '@salesforce/apex/Aura_dmlOperations.getBrands'
@@ -13,6 +13,9 @@ export default class FilterComponent extends LightningElement {
     @track optionListYear = [];
     @track optionListPrice = [];
     @track isDisplay = true
+    @track hpMin = ''
+    @track hpMax = ''
+    @api filterType;
     @track  value = '';
     @track  brandValue = '';
     @track startYearValue = '';
@@ -29,7 +32,6 @@ export default class FilterComponent extends LightningElement {
     @track priceMaxVal = 2500000;
     @track lat;
     @track lng;
-
     get optionBra() {
         if (this.brandOption) {
             return [...this.brandOption];
@@ -37,7 +39,7 @@ export default class FilterComponent extends LightningElement {
     }
 
     get options() {
-        return [{label: 'Chose Type', value: ''}, {label: 'SUV', value: 'new'}, {
+        return [{label: 'Chose Type', value: ''}, {label: 'SUV', value: 'Suv'}, {
             label: 'Hatchback', value: 'Hatchback'
         }, {label: 'Crossover', value: 'Crossover'}, {label: 'Sports Car', value: 'Sports Car'}, {
             label: 'Coupe', value: 'Coupe'
@@ -90,13 +92,13 @@ export default class FilterComponent extends LightningElement {
 
 
     connectedCallback() {
+
         getBrands().then(result => {
             this.brandOption.push({
 
                 label: "Chose Brand", value: ""
             })
             for (var i = 0; i < result.length; i++) {
-                console.log(result[i])
                 this.brandOption.push({label: result[i], value: result[i]});
             }
         }).catch(e => {
@@ -119,25 +121,33 @@ export default class FilterComponent extends LightningElement {
             }
         }
         this.optionListPrice.push({label: '2500000€ And More', value: '2500000'})
+        if(this.filterType){
+            this.value=this.filterType
 
+            // let passObject = {
+            //     type: this.filterType,
+            // }
+            // sessionStorage.setItem('searchValue', this.searchValue);
+            // fireEvent(this.pageRef, "filterDetails", passObject)
+        }
     }
 
     handleStartYear(end) {
         let listOfYears = [];
         listOfYears.push({label: 'Select Year', value: ''})
         for (let i = end; i > 1900; i--) {
-            console.log(i)
+
             listOfYears.push({label: i.toString(), value: i.toString()});
         }
         return listOfYears;
     }
 
     handleEndYear(start) {
-        console.log(start);
+
         let listOfYears = [];
         listOfYears.push({label: 'Select Year', value: ''})
         for (let i = new Date().getFullYear(); i >= start; i--) {
-            console.log(i)
+
             listOfYears.push({label: i.toString(), value: i.toString()});
         }
         return listOfYears;
@@ -227,7 +237,7 @@ export default class FilterComponent extends LightningElement {
         }
             // bool = true
         let toSend = positionOF.hasOwnProperty('lat') ? pos:'';
-            console.log(toSend)
+
         // }
 
 
@@ -261,12 +271,10 @@ export default class FilterComponent extends LightningElement {
             lan: longitude
         }
 
-        // console.log(printposs)
         return position
     }
 
     HandleClearFilter(event) {
-        console.log('wtf')
         this.brandValue = '';
         this.value = '';
         this.startYearValue = '';
@@ -277,7 +285,6 @@ export default class FilterComponent extends LightningElement {
         this.city = '';
         this.street = '';
         this.searchDistance = '';
-        // this.position ={};
 
 
         this.isDisplay = false;

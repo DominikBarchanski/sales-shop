@@ -11,30 +11,32 @@ export default class HomePage extends NavigationMixin(LightningElement) {
     carType = [{
         Label: 'SUV',
         photo: this.picture + '/SUV.jpeg',
-        value:'suv'
+        value:'Suv'
     }, {
         Label: 'Hatchback',
         photo: this.picture + '/Hatchback.jpeg',
-        value:'hatchback'
+        value:'Hatchback'
     }, {
         Label: 'Crossover',
         photo: this.picture + '/Crossover.jpeg',
-        value:'crossover'
+        value:'Crossover'
     }, {
         Label: 'Sports Car',
         photo: this.picture + '/SportsCar.jpeg',
-        value:'sports'
+        value:'Sports Car'
     }, {
         Label: 'Coupe',
         photo: this.picture + '/Coupe.jpeg',
-        value:'coupe'
+        value:'Coupe'
     }, {
         Label: 'Pickup Truck',
         photo: this.picture + '/PickupTruck.jpeg',
-        value:'pickup'
+        value:'Pickup Truck'
     }]
     handleSearchType(event){
         console.log(event.currentTarget.dataset.value)
+        let send = event.currentTarget.dataset.value;
+        sessionStorage.setItem('filterSet',send)
         this[NavigationMixin.Navigate]({
             type:'comm__namedPage',
             attributes:{

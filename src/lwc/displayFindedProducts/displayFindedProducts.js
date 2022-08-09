@@ -19,6 +19,7 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
     itemDisplay = "slds-size_3-of-4"
     errorImage = "https://britenet7-dev-ed--c.documentforce.com/sfc/dist/version/download/?oid=00D7Q000004Qv7A&ids=0687Q00000357uZ&d=%2Fa%2F7Q000000TP5r%2FaE5dsVi0EWBYWF_ZFYE_VCQlp_0s.DYJzUsekfPN92k&asPdf=false";
     setDiscount
+    typeCar
 
     onerrorHandler() {
         return this.errorImage;
@@ -27,10 +28,18 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
     connectedCallback() {
         if (sessionStorage.getItem('searchValue')) {
             this.details = sessionStorage.getItem('searchValue')
-            sessionStorage.clear();
+            // sessionStorage.clear();
         } else {
             this.details = '';
         }
+        if (sessionStorage.getItem('filterSet')) {
+            this.typeCar = sessionStorage.getItem('filterSet')
+            console.log(this.typeCar)
+        }
+        if (sessionStorage.getItem('searchValue') || sessionStorage.getItem('filterSet')) {
+            sessionStorage.clear()
+        }
+
         searchProduct({findBy: this.details}).then((result) => {
 
             let test = JSON.parse(JSON.stringify(result));
@@ -51,33 +60,17 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
                 }
 
             }
-            // for (const testElement of test) {
-            //     let address = testElement.country + '+' + testElement.city + '+' + testElement.street
-            //     let api_key = 'AIzaSyC6TeiRM56HgxvqR7ncLeZST7Sid6Pky2s';
-            //     let addres = ("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + '&key=' + api_key).replace(' ', '+')
-            //
-            //     fetch(addres)
-            //         .then(response => {
-            //         let data =response.json();
-            //             console.log(data);
-            //             if(data.status === 'OK'){
-            //
-            //             const latitude = data.results[0].geometry.location.lat;
-            //             const longitude = data.results[0].geometry.location.lng;
-            //              let post = {
-            //                 lat:latitude,
-            //                 lan:longitude
-            //             }
-            //                 console.log(post)
-            //                 // testElement.pos
-            //             }
-            //             console.log(testElement);
-            //         })
-            //
-            // }
-            console.log(test)
+
+
             this.tempProduct = test;
             this.productToDisplay = test;
+            if (this.typeCar) {
+
+                this.productToDisplay = test.filter(el => {
+                    return (this.typeCar !== '' ? el.type === this.typeCar : true)
+
+                })
+            }
         }).catch((error) => {
             console.log(error);
         })
@@ -90,7 +83,6 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
     }
 
 
-
     getLatLoanFromAddress(country, city, street) {
 
 
@@ -101,14 +93,13 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
         //     Object.fromEntries(Object.entries(obj).filter(predicate));
 
 
-
         console.log(filterValue);
         if (filterValue === 'toClear') {
             console.log('weszło')
             this.productToDisplay = this.tempProduct;
         } else if (typeof filterValue === "object") {
             for (const item of this.tempProduct) {
-                if(filterValue.position.lan !== undefined){
+                if (filterValue.position.lan !== undefined) {
 
                     console.log('tutaj')
                     console.log(item)
@@ -122,9 +113,11 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
                     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                         Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
                     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                    console.log(R*c);
-                    item.distance = R*c
-                }else {item.distance=''}
+                    console.log(R * c);
+                    item.distance = R * c
+                } else {
+                    item.distance = ''
+                }
             }
             this.productToDisplay = this.tempProduct.filter(el => {
                 return (filterValue.type !== '' ? el.type === filterValue.type : true) &&
@@ -134,8 +127,8 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
                     ((filterValue.priceMin !== '' && filterValue.priceMin !== null ? el.price >= parseInt(filterValue.priceMin) : true) || (filterValue.priceMin !== '' && filterValue.priceMin !== null ? el.priceWithDiscount >= parseInt(filterValue.priceMin) : false)) &&
                     ((filterValue.priceMax !== '' && filterValue.priceMax !== null ? el.price <= parseInt(filterValue.priceMax) : true) || (filterValue.priceMax !== '' && filterValue.priceMax !== null ? el.priceWithDiscount <= parseInt(filterValue.priceMax) : false)) &&
                     (filterValue.startYear !== '' && filterValue.startYear !== null ? el.prodYear >= parseInt(filterValue.startYear) : true) &&
-                    (filterValue.endYear !== '' && filterValue.endYear !== null ? el.prodYear <= parseInt(filterValue.endYear) : true)&&
-                    (filterValue.distance !== '' && filterValue.distance !== null && filterValue.distance !== NaN  ?  el.distance < parseInt(filterValue.distance):true)
+                    (filterValue.endYear !== '' && filterValue.endYear !== null ? el.prodYear <= parseInt(filterValue.endYear) : true) &&
+                    (filterValue.distance !== '' && filterValue.distance !== null && filterValue.distance !== NaN ? el.distance < parseInt(filterValue.distance) : true)
 
             })
         }
@@ -143,6 +136,7 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
         // console.log(filtered);
 
     }
+
     // calcCrow(lat11, lon1, lat21, lon2)
     // {
     //     console.log('tutaj')

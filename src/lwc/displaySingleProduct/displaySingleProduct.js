@@ -11,6 +11,7 @@ import {registerListener, unregisterAllListeners} from 'c/pubsub';
 import {fireEvent} from 'c/pubsub';
 import Id from '@salesforce/user/Id';
 import {CurrentPageReference, NavigationMixin} from "lightning/navigation";
+import {ShowToastEvent} from "lightning/platformShowToastEvent";
 
 export default class DisplaySingleProduct extends NavigationMixin(LightningElement) {
     @api recordId;
@@ -187,6 +188,13 @@ export default class DisplaySingleProduct extends NavigationMixin(LightningEleme
             console.log(result)
             this.findInCart(result)
             fireEvent(this.pageRef, "addRemoveFromCart", result)
+            const evt = new ShowToastEvent({
+                title: 'Success',
+                message: "Product added to Compare",
+                variant: 'success',
+            });
+            this.dispatchEvent(evt);
+
         }).catch(e => {
             console.log(e)
         })
@@ -200,6 +208,12 @@ export default class DisplaySingleProduct extends NavigationMixin(LightningEleme
         deleteFromCart({cartId: this.cartProd.Id}).then(result => {
             this.findInCart(result)
             fireEvent(this.pageRef, "addRemoveFromCart", result)
+            const evt = new ShowToastEvent({
+                title: 'Success',
+                message: "Product removed from Compare",
+                variant: 'success',
+            });
+            this.dispatchEvent(evt);
         }).catch(e => {
             console.log(e)
         })
