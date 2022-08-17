@@ -4,14 +4,16 @@
 
 <!-- Display Finded Products -->
 <template>
-    <div class="slds-grid slds-grid_vertical-stretch c-container slds-wrap">
+    <div class="slds-grid slds-grid_vertical-stretch c-container slds-wrap" style="min-height: 80.5vh">
         <div>
             <template if:true={isFilter}>
-                <lightning-button-icon variant="brand-outline" icon-name="utility:chevronleft" onclick={handleHide} style="position: fixed;z-index: 10"></lightning-button-icon>
+                <lightning-button-icon icon-name="utility:chevronleft" onclick={handleHide} style="position: fixed;z-index: 10"
+                                       variant="brand-outline"></lightning-button-icon>
             </template>
 
             <template if:false={isFilter}>
-                <lightning-button-icon variant="brand-outline" icon-name="utility:chevronright" onclick={handleShow} style="position: fixed;z-index: 10"></lightning-button-icon>
+                <lightning-button-icon icon-name="utility:chevronright" onclick={handleShow} style="position: fixed;z-index: 10"
+                                       variant="brand-outline"></lightning-button-icon>
             </template>
         </div>
 
@@ -22,7 +24,7 @@
 
 
             <template if:true={productToDisplay}>
-                <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: center;">
+                <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: center;    min-height: 78vh;">
                     <template for:each={productToDisplay} for:index="i" for:item="object">
                         <div class="singleElementSearch" data-id={object.id} data-value={object.name} key={object.id}
                              onclick={handleProductClick} style="">
@@ -52,6 +54,19 @@
                             </div>
                         </div>
                     </template>
+                </div>
+            </template>
+            <template if:true={displayPagination}>
+
+                <div style="text-align: center">
+                    <lightning-button-icon disabled={disablePreviousFirst} icon-name="utility:arrow_left" onclick={firstPage}
+                                           style="margin: 0.2em" variant="brand"></lightning-button-icon>
+                    <lightning-button-icon disabled={disablePreviousFirst} icon-name="utility:chevronleft" onclick={prevPage}
+                                           style="margin: 0.2em" variant="brand"></lightning-button-icon>
+                    <lightning-button-icon disabled={disableNextLast} icon-name="utility:chevronright" onclick={nextPage}
+                                           style="margin: 0.2em" variant="brand"></lightning-button-icon>
+                    <lightning-button-icon disabled={disableNextLast} icon-name="utility:arrow_right" onclick={lastPage}
+                                           style="margin: 0.2em" variant="brand"></lightning-button-icon>
                 </div>
             </template>
         </div>

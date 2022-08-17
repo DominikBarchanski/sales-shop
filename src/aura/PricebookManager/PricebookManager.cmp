@@ -46,7 +46,7 @@
                     <lightning:input type="search" aura:id="product-name-search" name="searchProduct"
                                      label="Search Product by Name"/>
                 </div>
-                <div style="width: 45%;align-self: center;display: flex;    align-items: center;    justify-content: space-evenly;">
+                <div style="width: 45%;align-self: center;display: flex;margin-right: 2em;align-items: center;justify-content: flex-end;">
                     <div>
                     <p>Current Strategy:<b> {!v.currentStrategy}</b></p>
                     </div>

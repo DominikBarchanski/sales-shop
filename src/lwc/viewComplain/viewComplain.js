@@ -1,5 +1,5 @@
 /**
- * Created by dominikbarchanski on 05/08/2022.
+ * Created by dominikbarchanski on 09/08/2022.
  */
 
 import {api, LightningElement, track, wire} from 'lwc';
@@ -8,9 +8,8 @@ import Id from "@salesforce/user/Id";
 import UserNameFld from '@salesforce/schema/User.Name';
 import userEmailFld from '@salesforce/schema/User.Email';
 import userIsActiveFld from '@salesforce/schema/User.IsActive';
-import {ShowToastEvent} from "lightning/platformShowToastEvent";
 
-export default class ComplainModal extends LightningElement {
+export default class ViewComplain extends LightningElement {
     @api makeComplain
     @track productName
     complainDisplay = false;
@@ -27,9 +26,13 @@ export default class ComplainModal extends LightningElement {
     }
     connectedCallback() {
 
+
     }
 
     handleComplain(){
+        // console.log(this.makeComplain.createdDateCase)
+        // let itemDate = new Date(this.makeComplain.createdDateCase);
+        // this.makeComplain.createdDateCase = (itemDate.toLocaleTimeString() + " " + itemDate.toLocaleDateString());
         let data = JSON.parse(JSON.stringify( this.makeComplain))
         console.log(JSON.parse(JSON.stringify( this.makeComplain)))
         this.productName = data.productName
@@ -51,13 +54,6 @@ export default class ComplainModal extends LightningElement {
 
     }
     handleSuccess(){
-        const evt = new ShowToastEvent({
-            title: 'Success',
-            message: "Complain Created",
-            variant: 'success',
-        });
-        this.dispatchEvent(evt);
         this.complainDisplay = false
     }
-
 }

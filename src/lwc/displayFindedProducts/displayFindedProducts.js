@@ -8,7 +8,7 @@ import {registerListener, unregisterAllListeners} from 'c/pubsub';
 import searchProduct from '@salesforce/apex/LWC_dmlOperation.searchProduct'
 
 export default class DisplayFindedProducts extends NavigationMixin(LightningElement) {
-    @track details;
+    @track details ='';
     @wire(CurrentPageReference) pageRef;
     @track productToDisplay;
     tempProduct;
@@ -20,6 +20,12 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
     errorImage = "https://britenet7-dev-ed--c.documentforce.com/sfc/dist/version/download/?oid=00D7Q000004Qv7A&ids=0687Q00000357uZ&d=%2Fa%2F7Q000000TP5r%2FaE5dsVi0EWBYWF_ZFYE_VCQlp_0s.DYJzUsekfPN92k&asPdf=false";
     setDiscount
     typeCar
+    @track displayPageRecord = 10;
+    @track currentPage = 1;
+    @track disableNextLast;
+    @track disablePreviousFirst;
+    @track displayPagination ;
+    @track filteredList=[];
 
     onerrorHandler() {
         return this.errorImage;
@@ -45,25 +51,30 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
             let test = JSON.parse(JSON.stringify(result));
 
             for (const itemElement of test) {
-
+                let item =parseInt( itemElement.price);
+                let itemdisc =parseInt( itemElement.priceWithDiscount);
                 if (itemElement.price !== itemElement.priceWithDiscount) {
                     itemElement.isDiscount = true;
+
                     itemElement.discountStyle = 'price';
                     itemElement.discountPrice = 'discountPrice';
-
                 } else {
+
                     itemElement.isDiscount = false;
                     itemElement.discountStyle = 'price';
                     itemElement.discountPrice = ''
-
-
                 }
+                 itemElement.price = item.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                 itemElement.priceWithDiscount = itemdisc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
 
             }
 
 
             this.tempProduct = test;
-            this.productToDisplay = test;
+            this.displayPagination = test.length > this.displayPageRecord;
+            this.changePage(1);
+            // this.productToDisplay = test;
             if (this.typeCar) {
 
                 this.productToDisplay = test.filter(el => {
@@ -83,9 +94,50 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
     }
 
 
-    getLatLoanFromAddress(country, city, street) {
+     numPages(){
+        return Math.ceil(this.tempProduct.length / this.displayPageRecord);
+    }
+    changePage(page){
+        if (page < 1) page = 1;
+        if (page > this.numPages()) page = this.numPages();
+        this.productToDisplay=[]
+        for (let i = (page-1) * this.displayPageRecord; i < (page * this.displayPageRecord); i++) {
+            console.log(this.tempProduct[i])
+            if(!(this.filteredList.length >0)){
 
+            if(this.tempProduct[i]!==undefined)
+            this.productToDisplay.push( this.tempProduct[i])
+            }else{
+                if(this.filteredList[i]!==undefined)
+                    this.productToDisplay.push( this.filteredList[i])
 
+            }
+        }
+        page===1? this.disablePreviousFirst = true:this.disablePreviousFirst = false
+        page===this.numPages()? this.disableNextLast = true:this.disableNextLast = false
+    }
+    firstPage(){
+        this.currentPage=1
+        this.changePage(1)
+    }
+    prevPage()
+    {
+        if (this.currentPage > 1) {
+            this.currentPage--;
+            this.changePage(this.currentPage);
+        }
+    }
+
+    nextPage()
+    {
+        console.log(this.numPages())
+        if (this.currentPage < this.numPages()) {
+            this.currentPage++;
+            this.changePage(this.currentPage);
+        }
+    }
+    lastPage(){
+        this.changePage(this.numPages())
     }
 
     setUpFilter(filterValue) {
@@ -96,7 +148,11 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
         console.log(filterValue);
         if (filterValue === 'toClear') {
             console.log('weszło')
-            this.productToDisplay = this.tempProduct;
+            this.filteredList =[];
+            this.changePage(1);
+            this.displayPagination = this.tempProduct.length > this.displayPageRecord;
+
+            // this.productToDisplay = this.tempProduct;
         } else if (typeof filterValue === "object") {
             for (const item of this.tempProduct) {
                 if (filterValue.position.lan !== undefined) {
@@ -119,7 +175,7 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
                     item.distance = ''
                 }
             }
-            this.productToDisplay = this.tempProduct.filter(el => {
+            this.filteredList = this.tempProduct.filter(el => {
                 return (filterValue.type !== '' ? el.type === filterValue.type : true) &&
                     (filterValue.brand !== '' ? el.brand === filterValue.brand : true) &&
                     (filterValue.hpMin !== '' && filterValue.hpMin !== null ? el.hp >= filterValue.hpMin : true) &&
@@ -131,29 +187,14 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
                     (filterValue.distance !== '' && filterValue.distance !== null && filterValue.distance !== NaN ? el.distance < parseInt(filterValue.distance) : true)
 
             })
+            this.displayPagination = this.filteredList.length > this.displayPageRecord;
+            this.changePage(1);
         }
 
-        // console.log(filtered);
 
     }
 
-    // calcCrow(lat11, lon1, lat21, lon2)
-    // {
-    //     console.log('tutaj')
-    //     const lat2 = lat21 * Math.PI / 180;
-    //     const lat1 = lat11 * Math.PI / 180;
-    //     const R = 6371; // km
-    //     const dLat = (lat2 - lat1) * Math.PI / 180;
-    //     const dLon = (lon2 - lon1) * Math.PI / 180;
-    //
-    //     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    //         Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-    //     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    //     console.log(R*c);
-    //     return R * c;
-    // }
 
-    // Converts numeric degrees to radians
 
     handleHide() {
         this.hideClass = this.hideClass + ' slds-hide'
@@ -189,8 +230,10 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
                 }
 
             }
-            console.log(test);
-            this.productToDisplay = test;
+            this.filteredList =[];
+            this.tempProduct = test;
+            this.displayPagination = test.length > this.displayPageRecord;
+            this.changePage(1);
 
         }).catch((error) => {
             console.log(error);
@@ -201,8 +244,6 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
     handleProductClick(event) {
         this.recordId = event.currentTarget.dataset.id;
         this.recordName = event.currentTarget.dataset.value;
-        // let urlString = '/product/' +this.recordName +'/' + this.recordId;
-        // eval("var urlEvent = $A.get('e.force:navigateToURL');urlEvent.setParams({'url': '" + urlString + "'});urlEvent.fire();");
         console.log(this.recordName)
         this[NavigationMixin.Navigate]({
             type: 'standard__webPage',
@@ -213,13 +254,6 @@ export default class DisplayFindedProducts extends NavigationMixin(LightningElem
 
     }
 
-    // handleSwapPhoto(event){
-    //     let test = event.currentTarget.dataset.index
-    //
-    //     console.log(JSON.stringify(this.productToDisplay[test].photoList))
-    //
-    //
-    // }
 
 
 }

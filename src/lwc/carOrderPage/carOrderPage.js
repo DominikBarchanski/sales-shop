@@ -8,6 +8,7 @@ import createOrder from '@salesforce/apex/LWC_dmlOrder.createOrder'
 import {NavigationMixin} from "lightning/navigation";
 import {getRecord} from 'lightning/uiRecordApi';
 import bankLogos from '@salesforce/resourceUrl/bankLogos'
+import {fireEvent} from 'c/pubsub';
 import wallet from '@salesforce/resourceUrl/wallet'
 import Id from '@salesforce/user/Id';
 import UserNameFld from '@salesforce/schema/User.Name';
@@ -24,12 +25,12 @@ export default class CarOrderPage extends NavigationMixin(LightningElement) {
     @track payDigital = false;
     @track selectedPayment
     @track selectedPaymentMethod
-    @track cardNumber =''
-    @track cardPlaceholder=''
-    @track cardCvv =''
-    @track Country =''
-    @track City =''
-    @track Street =''
+    @track cardNumber = ''
+    @track cardPlaceholder = ''
+    @track cardCvv = ''
+    @track Country = ''
+    @track City = ''
+    @track Street = ''
     wallet = wallet;
     walletLogo = [this.wallet + '/google.png', this.wallet + '/apple.png', this.wallet + '/paypal.png'];
     bank = bankLogos
@@ -100,65 +101,69 @@ export default class CarOrderPage extends NavigationMixin(LightningElement) {
     handleDisplayPaymentMethod(event) {
         let clickedValue = event.currentTarget.dataset.value
         console.log(clickedValue)
-        this.selectedPaymentMethod = clickedValue=='card'?"Credit Card": clickedValue=='cash'?'Cash': clickedValue=='transfer'?'Bank Transfer':clickedValue=='digital'?'Digital Wallet':null ;
+        this.selectedPaymentMethod = clickedValue == 'card' ? "Credit Card" : clickedValue == 'cash' ? 'Cash' : clickedValue == 'transfer' ? 'Bank Transfer' : clickedValue == 'digital' ? 'Digital Wallet' : null;
         this.selectedPayment = null;
         this.payCard = clickedValue == 'card' && !this.payCard;
         this.payCash = clickedValue == 'cash' && !this.payCash;
         this.payTransfer = clickedValue == 'transfer' && !this.payTransfer;
         this.payDigital = clickedValue == 'digital' && !this.payDigital;
     }
-    handleCardNumber(event){
+
+    handleCardNumber(event) {
 
         console.log(event.target.value)
 
         this.cardNumber = event.target.value.replace(/(\d{4})(?=\S)/g, '$1 ');
     }
-    handleCardHolder(event){
-        this.cardPlaceholder=event.target.value
+
+    handleCardHolder(event) {
+        this.cardPlaceholder = event.target.value
     }
-    handleCardCvv(event){
-        this.cardCvv=event.target.value
+
+    handleCardCvv(event) {
+        this.cardCvv = event.target.value
     }
-    handleCountry(event){
-        this.Country=event.target.value
+
+    handleCountry(event) {
+        this.Country = event.target.value
     }
-    handleCity(event){
-        this.City=event.target.value
+
+    handleCity(event) {
+        this.City = event.target.value
     }
-    handleStreet(event){
-        this.Street=event.target.value
+
+    handleStreet(event) {
+        this.Street = event.target.value
     }
 
 
     handleMakeOrder() {
         console.log(this.selectedPayment)
-        if (((this.payCard &&  this.cardNumber != '' && this.cardNumber.length==16&& this.cardCvv !='' && this.cardPlaceholder != '') || (this.payCash) || (this.payTransfer && this.selectedPayment !== null) || (this.payDigital && this.selectedPayment !== null))) {
-        let shippingAddress
-        if(this.deliver){
-            if (this.Country !=='' && this.City !=='' && this.Street !==''){
-            shippingAddress =this.Country+' '+this.City+' '+this.Street
-            }else{
-                alert('Type correct address')
-                return;
+        if (((this.payCard && this.cardNumber != '' && this.cardNumber.length == 16 && this.cardCvv != '' && this.cardPlaceholder != '') || (this.payCash) || (this.payTransfer && this.selectedPayment !== null) || (this.payDigital && this.selectedPayment !== null))) {
+            let shippingAddress
+            if (this.deliver) {
+                if (this.Country !== '' && this.City !== '' && this.Street !== '') {
+                    shippingAddress = this.Country + ' ' + this.City + ' ' + this.Street
+                } else {
+                    alert('Type correct address')
+                    return;
+                }
+            } else {
+                shippingAddress = this.cartItems.country + ' ' + this.cartItems.city + ' ' + this.cartItems.street
             }
-        }else{
-            shippingAddress = this.cartItems.country+' '+this.cartItems.city+' '+this.cartItems.street
-        }
-        let paymentMethod = this.selectedPaymentMethod;
+            let paymentMethod = this.selectedPaymentMethod;
             let orderToSend = {
                 prodId: this.productId,
                 unitPrice: this.cartItems.price,
                 userId: this.userId,
                 shipping: shippingAddress,
-                payment:paymentMethod
+                payment: paymentMethod
 
             }
+
             createOrder({orderItem: orderToSend}).then(response => {
 
-                console.log('added')
-                console.log(response)
-               sessionStorage.setItem('orderedProduct',response.Id)
-                console.log(sessionStorage.getItem('orderedProduct'))
+                sessionStorage.setItem('orderedProduct', response.Id)
                 this[NavigationMixin.Navigate]({
                     type: 'comm__namedPage',
                     attributes: {

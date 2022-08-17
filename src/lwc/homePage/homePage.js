@@ -11,7 +11,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
     carType = [{
         Label: 'SUV',
         photo: this.picture + '/SUV.jpeg',
-        value:'Suv'
+        value:'SUV'
     }, {
         Label: 'Hatchback',
         photo: this.picture + '/Hatchback.jpeg',
@@ -33,6 +33,10 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         photo: this.picture + '/PickupTruck.jpeg',
         value:'Pickup Truck'
     }]
+    connectedCallback() {
+        sessionStorage.clear()
+    }
+
     handleSearchType(event){
         console.log(event.currentTarget.dataset.value)
         let send = event.currentTarget.dataset.value;

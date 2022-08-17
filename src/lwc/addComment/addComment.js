@@ -5,6 +5,7 @@
 import {LightningElement, track,api} from 'lwc';
 import Id from '@salesforce/user/Id';
 import addComment from '@salesforce/apex/LWC_dmlOperation.AddCommentAndRate'
+import {ShowToastEvent} from "lightning/platformShowToastEvent";
 
 export default class AddComment extends LightningElement {
     @api productId;
@@ -79,8 +80,12 @@ export default class AddComment extends LightningElement {
             console.log(commentId);
             addComment({commentId:commentId,userId:this.userId,productId:this.productId,rate:this.overallStar,title:this.ComTitle,body:this.ComBody,rateSafe:this.safetyStar,ratePrice:this.priceStar,rateDesign:this.designStar}).then(result=>{
                 this.listOfComment = result;
-                console.log('przed')
-                console.log(result);
+                const evt = new ShowToastEvent({
+                    title: 'Success',
+                    message: "Comment Created",
+                    variant: 'success',
+                });
+                this.dispatchEvent(evt);
                 const refreshAddEvent = new CustomEvent("resultlist",{
                     detail:result
                 });

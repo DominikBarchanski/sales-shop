@@ -4,8 +4,9 @@
 
 <!-- Complain Modal -->
 <template>
-    <lightning-button style="margin-left: 0.4em" data-index={i} data-value={item} label="Complain" onclick={handleComplain}
-                      variant="destructive-text"></lightning-button>
+    <button class="slds-button slds-button_text-destructive" style="width:150px; margin-left: 0.4em" data-index={i} data-value={item} onclick={handleComplain}>Complain</button>
+<!--    <lightning-button class="slds-size_12-of-12 slds-button  slds-button_stretch" style=" margin-left: 0.4em" data-index={i} data-value={item} label="Complain" onclick={handleComplain}-->
+<!--                      variant="destructive-text"></lightning-button>-->
     <template if:true={complainDisplay}>
         <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">

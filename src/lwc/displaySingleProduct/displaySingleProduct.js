@@ -60,10 +60,10 @@ export default class DisplaySingleProduct extends NavigationMixin(LightningEleme
                 item._isYourApproved = (item.Approval__c != 'approve' && this.userId == item.CreatedById)
             })
             this.commentList = this.allProductInfo.prodRatings
-            console.log(this.allProductInfo.prodRatings)
+
             this.makeCommentListForDisplay(this.commentList)
             let shoppingcart = this.allProductInfo.prodCart;
-            console.log((response))
+
             this.findInCart(shoppingcart)
 
             if (this.allProductInfo.price !== this.allProductInfo.priceWithDiscount) {
@@ -76,6 +76,10 @@ export default class DisplaySingleProduct extends NavigationMixin(LightningEleme
                 this.allProductInfo.discountStyle = 'price';
                 this.allProductInfo.discountPrice = ''
             }
+            let price = parseInt( this.allProductInfo.price)
+            let pricedisc = parseInt( this.allProductInfo.priceWithDiscount)
+            this.allProductInfo.price = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            this.allProductInfo.priceWithDiscount = pricedisc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
         }).catch(e => {
             console.log(e);
         })
@@ -92,21 +96,21 @@ export default class DisplaySingleProduct extends NavigationMixin(LightningEleme
         item.forEach(item =>{ item.CreatedById === this.userId ? val++:val})
         this.isInCart = findedInCart !== undefined
         this.maxCart = !(val >=3);
-        console.log(this.maxCart)
+
 
 
     }
 
     findInCart(inList) {
         let findinCart = inList.find(elem => elem.Product_Id__c === this.recordId)
-        console.log(inList);
+
         let val = 0;
         inList.forEach(item =>{ item.CreatedById === this.userId ? val++:val})
-        console.log(val)
+
         this.cartProd = findinCart;
         this.maxCart = !(val >=3);
         this.isInCart = findinCart !== undefined
-        console.log(this.maxCart)
+
     }
 
     makeCommentListForDisplay(commentlist) {
@@ -128,12 +132,16 @@ export default class DisplaySingleProduct extends NavigationMixin(LightningEleme
                 responseElement.todelete = false
             }
             let sumForAvg = 0;
+            let numberOfApprovedComment=0;
+            console.log(commentlist)
             commentlist.forEach(i => {
-                sumForAvg += i.Rating__c
+                if(i.Approval__c =="approve") {
+                    sumForAvg += i.Rating__c
+                    numberOfApprovedComment++
+                }
             })
-            this.starProductRate = sumForAvg / commentlist.length
-            // findedElem += responseElement.CreatedById == this.userId ? 1:0
-            // console.log( this.addOrEdit = responseElement.includes(this.userId));
+            this.starProductRate = sumForAvg / numberOfApprovedComment
+
 
         }
         if (findedElem > 0) {
@@ -180,12 +188,9 @@ export default class DisplaySingleProduct extends NavigationMixin(LightningEleme
             userId: this.userId,
             prodId: this.recordId
         }
-        console.log(prod)
-        console.log(this.maxCart)
         if(this.maxCart){
 
         addToCart({productWrapper: prod}).then(result => {
-            console.log(result)
             this.findInCart(result)
             fireEvent(this.pageRef, "addRemoveFromCart", result)
             const evt = new ShowToastEvent({
@@ -199,7 +204,13 @@ export default class DisplaySingleProduct extends NavigationMixin(LightningEleme
             console.log(e)
         })
         }else{
-            alert('Already 3 items in Compare. Remove Item From Compare To Add Another')
+            const evt = new ShowToastEvent({
+                title: 'Warning',
+                message: "Already 3 items in Compare. Remove Item From Compare To Add Another",
+                variant: 'warning',
+            });
+            this.dispatchEvent(evt);
+            // alert('Already 3 items in Compare. Remove Item From Compare To Add Another')
         }
     }
 
@@ -220,8 +231,6 @@ export default class DisplaySingleProduct extends NavigationMixin(LightningEleme
     }
 
     handleBuyThisItem() {
-        console.log('test')
-        console.log(this.recordId)
         let productId = this.recordId;
 
         sessionStorage.setItem('orderItem', productId);
@@ -229,6 +238,16 @@ export default class DisplaySingleProduct extends NavigationMixin(LightningEleme
             type: 'comm__namedPage',
             attributes: {
                 name: 'orderPage__c'
+            }
+        })
+    }
+    handleBackToSearch(){
+        let str = '';
+        fireEvent(this.pageRef,"searchDetails",str)
+        this[NavigationMixin.Navigate]({
+            type:'comm__namedPage',
+            attributes:{
+                name:'searchProducts__c'
             }
         })
     }

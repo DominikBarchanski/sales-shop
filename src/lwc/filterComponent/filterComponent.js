@@ -39,7 +39,7 @@ export default class FilterComponent extends LightningElement {
     }
 
     get options() {
-        return [{label: 'Chose Type', value: ''}, {label: 'SUV', value: 'Suv'}, {
+        return [{label: 'Chose Type', value: ''}, {label: 'SUV', value: 'SUV'}, {
             label: 'Hatchback', value: 'Hatchback'
         }, {label: 'Crossover', value: 'Crossover'}, {label: 'Sports Car', value: 'Sports Car'}, {
             label: 'Coupe', value: 'Coupe'

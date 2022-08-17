@@ -71,6 +71,12 @@ public with sharing class LWC_dmlOrder {
         @AuraEnabled public String shipping;
         @AuraEnabled public String payment;
         @AuraEnabled public String productName;
+        @AuraEnabled public String statusCase;
+        @AuraEnabled public String subjectCase;
+        @AuraEnabled public String numberCase;
+        @AuraEnabled public Datetime createdDateCase;
+
+
 
 
         OrderHistoryWrapper(Order order, List<OrderItem> orderItems,ContentDistribution photos) {
@@ -81,6 +87,33 @@ public with sharing class LWC_dmlOrder {
             this.photos = photos.ContentDownloadUrl;
             this.shipping = order.Order_Address__c;
             this.payment = order.Description;
+            Decimal unitPrice = 0;
+            for (OrderItem item : orderItems) {
+                unitPrice += item.UnitPrice;
+            }
+            this.price = unitPrice;
+            this.orderItem = orderItems;
+
+        } OrderHistoryWrapper(Order order, List<OrderItem> orderItems,ContentDistribution photos,Case orderCase) {
+            this.Id = order.Id;
+            this.createDate = order.CreatedDate;
+            this.orderNumber = order.OrderNumber;
+            this.productName = orderItems[0].Product2.Brands__c+' '+ orderItems[0].Product2.Name;
+            this.photos = photos.ContentDownloadUrl;
+            this.shipping = order.Order_Address__c;
+            this.payment = order.Description;
+            if (orderCase !=null){
+                this.statusCase = orderCase.Status;
+                this.subjectCase= orderCase.Subject ;
+                this.numberCase= orderCase.CaseNumber ;
+                this.createdDateCase= orderCase.CreatedDate;
+            }else {
+                this.statusCase ='';
+                this.subjectCase='';
+                this.numberCase='';
+                this.createdDateCase=Datetime.now();
+            }
+
             Decimal unitPrice = 0;
             for (OrderItem item : orderItems) {
                 unitPrice += item.UnitPrice;
@@ -170,6 +203,67 @@ public with sharing class LWC_dmlOrder {
                 FROM Order
                 WHERE Id IN :userOrderId
         ]);
+        List<Case> userCase = [
+                SELECT
+                        AccountId,
+                        AssetId,
+                        BusinessHoursId,
+                        CaseNumber,
+                        ClosedDate,
+                        Comments,
+                        ContactEmail,
+                        ContactFax,
+                        ContactId,
+                        ContactMobile,
+                        ContactPhone,
+                        CreatedById,
+                        CreatedDate,
+                        Data_Quality_Description__c,
+                        Data_Quality_Score__c,
+                        Description,
+                        EngineeringReqNumber__c,
+                        EntitlementId,
+                        Id,
+                        IsClosed,
+                        IsClosedOnCreate,
+                        IsDeleted,
+                        IsEscalated,
+                        IsStopped,
+                        LastModifiedById,
+                        LastModifiedDate,
+                        LastReferencedDate,
+                        LastViewedDate,
+                        MasterRecordId,
+                        MilestoneStatus,
+                        Order__c,
+                        Origin,
+                        OwnerId,
+                        ParentId,
+                        PotentialLiability__c,
+                        Priority,
+                        Product__c,
+                        ProductId,
+                        Reason,
+                        ServiceContractId,
+                        Skill__c,
+                        SlaExitDate,
+                        SlaStartDate,
+                        SLAViolation__c,
+                        SourceId,
+                        Status,
+                        StopStartDate,
+                        Subject,
+                        SuppliedCompany,
+                        SuppliedEmail,
+                        SuppliedName,
+                        SuppliedPhone,
+                        SystemModstamp,
+                        Type
+                FROM Case WHERE CreatedById=:userID];
+        Map<String,Case> caseMap = new Map<String, Case>();
+        for (Case item :userCase ){
+            caseMap.put(item.Order__c,item);
+        }
 
         List<OrderHistoryWrapper> returnList = new List<OrderHistoryWrapper>();
         List<ContentDistribution> photoList = [
@@ -213,7 +307,7 @@ public with sharing class LWC_dmlOrder {
             List<OrderItem> orderItemsList = getOrderItemsList(item.OrderId);
             System.debug(orderItemsList[0].Product2.Main_Photo__c);
             System.debug(mapOfPhoto.get(orderItemsList[0].Product2.Main_Photo__c));
-            OrderHistoryWrapper itemToList = new OrderHistoryWrapper(orderList.get(item.OrderId), orderItemsList,mapOfPhoto.get(orderItemsList[0].Product2.Main_Photo__c));
+            OrderHistoryWrapper itemToList = new OrderHistoryWrapper(orderList.get(item.OrderId), orderItemsList,mapOfPhoto.get(orderItemsList[0].Product2.Main_Photo__c),caseMap.get(item.OrderId));
             returnList.add(itemToList);
         }
         System.debug(returnList);

@@ -1,6 +1,9 @@
 /**
  * Created by dominikbarchanski on 19/07/2022.
  */
+.itemDisplay{
+    height: 78vh;
+}
 .singleElementSearch {
     background: #fcfcfc;
     border: 1px solid rgba(140, 140, 140, 0.47);
