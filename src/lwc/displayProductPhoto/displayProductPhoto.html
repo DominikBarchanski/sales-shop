@@ -1,0 +1,47 @@
+<!--
+ - Created by dominikbarchanski on 21/07/2022.
+ -->
+
+<!-- Display Product Photo -->
+<template>
+    <template if:true={photoList}>
+        <div class="container">
+            <div class='btnLeft'>
+                <lightning-button-icon icon-name="utility:chevronleft" onclick={prevPhoto} size="large" variant="bare"
+                                       alternative-text="Settings"
+                                       title="Settings"></lightning-button-icon>
+            </div>
+
+            <!--                <span onclick={this.parentElement.style.display='none'} class="closebtn">&times;</span>-->
+            <img data-id="expandedImg" style='width:100%; display:block;height: 45vh;object-fit: scale-down' src={expandingPhoto}>
+
+            <div class='btnRight'>
+                <lightning-button-icon icon-name="utility:chevronright" onclick={nextPhoto} size="large" variant="bare"
+                                       alternative-text="Add user"
+                                       class="slds-m-left_xx-small" title="Add user"></lightning-button-icon>
+            </div>
+        </div>
+        <div style="display: flex">
+            <div class="slick-wrapper">
+                <div data-id="slick1" style="display:flex">
+                    <template for:each={photoList} for:item="object" for:index="i">
+                        <div key={object} class="slide-item">
+                            <img data-value={object} key={object} src={object} style="height: 100%; object-fit: scale-down;"
+                                 onclick={myFunction}>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+
+    </template>
+    <template if:false={photoList}>
+        <!--    <p>elo</p>-->
+        <div>
+            <img src={expandingPhoto} style="width: 100%;height: 65vh;object-fit: contain;" alt=""/>
+        </div>
+
+    </template>
+
+</template>

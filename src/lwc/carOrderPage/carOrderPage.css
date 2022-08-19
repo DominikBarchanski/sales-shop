@@ -1,0 +1,63 @@
+/**
+ * Created by dominikbarchanski on 28/07/2022.
+ */
+.paymentLabel {
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    border: 1px solid grey;
+    font-size:large;
+    font-weight: bold;
+}
+.paymentLabel:hover {
+
+    background: #777777;
+}
+.paymentSelect {
+    width: 100%;
+    min-height: 10em;
+    border:1px grey solid;
+    padding: 1em;
+}
+.paymentBox {
+    border: 1px grey solid;
+    border-radius: 4px;
+    padding: 1em;
+    height: 100%;
+    position: relative;
+}
+.selectedIcon{
+    border:1px grey solid;
+    border-radius: 4px;
+}
+.imgWrapper{
+    padding: 0.2em;
+    width: 24%;
+    border: 1px solid grey;
+    border-radius: 4px;
+    margin: 0.1em;
+    display: flex;
+    align-items: center;
+}
+.imgWrapper:hover{
+    box-shadow: rgb(0 0 0 / 10%) 0 2px 8px 0;
+    border: 2px solid grey;
+}
+.expiration {
+    border: 1px solid #bbb;
+}
+.inputBox {
+    border: 0;
+    text-align: center;
+    outline: 0; /* remove if you want input highlight */
+}
+.customRadioCls > *{
+    display : inline-block !important;
+}
+
+/*.radio-combo-inline .slds-form-element__control .slds-radio*/
+/*{*/
+/*    display: inline-block !important;*/
+/*}*/
+/*.slds-form-element__control .slds-radio{*/
+/*    display:inline;*/
+/*}*/

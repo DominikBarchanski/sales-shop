@@ -21,6 +21,16 @@
         <aura:attribute name="ProductType" type="String"/>
         <aura:attribute name="ProductHorsepower" type="String"/>
         <aura:attribute name="ProductBrand" type="String"/>
+        <aura:attribute name="ProductYear" type="Date"/>
+        <aura:attribute name="ProductCountry" type="String"/>
+        <aura:attribute name="ProductCity" type="String"/>
+        <aura:attribute name="ProductStreet" type="String"/>
+        <aura:attribute name="ProductCityConsum" type="Decimal"/>
+        <aura:attribute name="ProductAvgConsum" type="Decimal"/>
+        <aura:attribute name="ProductCapacity" type="Integer"/>
+        <aura:attribute name="ProductDoors" type="Integer"/>
+        <aura:attribute name="ProductPlaces" type="Integer"/>
+        <aura:attribute name="ProductSpeed" type="Integer"/>
     </aura:method>
     <aura:method name="closeAdd" action="{!c.handleClose}">
     </aura:method>

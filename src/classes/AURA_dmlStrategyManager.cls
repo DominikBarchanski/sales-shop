@@ -90,7 +90,7 @@ public with sharing class AURA_dmlStrategyManager {
         List<Strategy__c> listForUpdateStrategy = new List<Strategy__c>();
         switch on selectedStrategy {
             when 'standard' {
-                listForUpdateStrategy = setStandard(allStrategy, productList);
+                listForUpdateStrategy = setStandard(allStrategy);
             }
             when 'lowest' {
                 listForUpdateStrategy = setLowest(allStrategy, productList);
@@ -105,7 +105,7 @@ public with sharing class AURA_dmlStrategyManager {
         update listForUpdateStrategy ;
 //        System.debug(listForUpdateStrategy);
     }
-    public static List<Strategy__c> setStandard(List<Strategy__c> allStrategy, Map<String, List<PricebookEntry>> allPrice) {
+    public static List<Strategy__c> setStandard(List<Strategy__c> allStrategy) {
         for (Strategy__c item : allStrategy) {
             item.Strategy_price__c = item.Standard_Price__c;
             item.Strategy_Name__c = 'standard';

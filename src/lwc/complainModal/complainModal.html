@@ -1,0 +1,49 @@
+<!--
+ - Created by dominikbarchanski on 05/08/2022.
+ -->
+
+<!-- Complain Modal -->
+<template>
+    <button class="slds-button slds-button_text-destructive" style="width:150px; margin-left: 0.4em" data-index={i} data-value={item} onclick={handleComplain}>Complain</button>
+<!--    <lightning-button class="slds-size_12-of-12 slds-button  slds-button_stretch" style=" margin-left: 0.4em" data-index={i} data-value={item} label="Complain" onclick={handleComplain}-->
+<!--                      variant="destructive-text"></lightning-button>-->
+    <template if:true={complainDisplay}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+<!--                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>-->
+                    </svg>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Make Complain</h1>
+                    <p>{productName}</p>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-record-edit-form object-api-name="Case" onsubmit={handleSubmit} onsuccess={handleSuccess}>
+                        <lightning-input-field field-name="Origin"></lightning-input-field>
+                        <lightning-input-field field-name="Subject"></lightning-input-field>
+                        <label for="email">Email</label>
+                        <lightning-input-field field-name="SuppliedEmail" id="email" variant="label-hidden" disabled="true" value={currentUserEmailId}></lightning-input-field>
+                        <label for="phone">Phone</label>
+                        <lightning-input-field id="phone" field-name="SuppliedPhone"  variant="label-hidden"></lightning-input-field>
+                        <lightning-input-field field-name="Description"></lightning-input-field>
+                        <lightning-input-field field-name="Comments"></lightning-input-field>
+                        <lightning-button class="slds-m-top_small slds-m-right_small"
+                                          type="submit"
+                                          label="Send Complain">
+
+                        </lightning-button>
+                    <button class="slds-button slds-button_brand" onclick={handleComplainClose}>close</button>
+                    </lightning-record-edit-form>
+                </div>
+<!--                <div class="slds-modal__footer slds-modal__footer_directional">-->
+<!--                    <button class="slds-button slds-button_neutral">Skip This Step</button>-->
+<!--                </div>-->
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+
+    </template>
+</template>

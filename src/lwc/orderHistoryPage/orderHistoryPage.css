@@ -1,0 +1,10 @@
+/**
+ * Created by dominikbarchanski on 31/07/2022.
+ */
+.itemInOrder{
+    width: 95%;
+    border: 1px grey solid;
+    border-radius: 4px;
+    margin:0.4em;
+    padding: 0.5em;
+}

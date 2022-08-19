@@ -1,0 +1,88 @@
+<!--
+ - Created by dominikbarchanski on 26/07/2022.
+ -->
+
+<!-- Shopping Cart Page -->
+<template>
+    <div style=min-height:80.5vh>
+
+    <lightning-card>
+        <!--        <div style="display: flex;flex-wrap: wrap;position: relative">-->
+
+
+        <!--            <div style="width: 100%;text-align: -webkit-center;">-->
+        <template if:true={refresh}>
+
+            <table aria-labelledby="element-with-table-label other-element-with-table-label" class="slds-table slds-table_cell-buffer slds-table_bordered table_selector"
+                   id="tabledata"
+                   style="width:100%;text-align-last: center">
+                <tr class="slds-line-height_reset" style="max-width:200px">
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Opportunity Name"></div>
+                    </th>
+                </tr>
+                <tr class="slds-line-height_reset" style="max-width:200px">
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Opportunity Name">Photo</div>
+                    </th>
+                </tr>
+                <tr class="slds-line-height_reset" style="max-width:200px">
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Opportunity Name">Product Name</div>
+                    </th>
+                </tr>
+                <tr class="slds-line-height_reset" style="max-width:200px">
+
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Seller Address"> Price</div>
+                    </th>
+                </tr>
+                <tr class="slds-line-height_reset" style="max-width:200px">
+
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Price">Seller Address</div>
+                    </th>
+                </tr>
+                <tr class="slds-line-height_reset" style="max-width:200px">
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Action">Fuel Consumption In The City</div>
+                    </th>
+                </tr>
+                <tr class="slds-line-height_reset" style="max-width:200px">
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Action">Average Fuel Consumption</div>
+                    </th>
+                </tr>
+                <tr class="slds-line-height_reset" style="max-width:200px">
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Action">Number Of Doors</div>
+                    </th>
+                </tr>
+                <tr class="slds-line-height_reset" style="width:200px">
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Action">Number Of Places</div>
+                    </th>
+                </tr>
+                <tr class="slds-line-height_reset" style="max-width:200px">
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Action">Engine Capacity</div>
+                    </th>
+                </tr>
+                <tr class="slds-line-height_reset" style="max-width:200px">
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Action">Top Speed</div>
+                    </th>
+                </tr>
+                <tr class="slds-line-height_reset" style="max-width:200px">
+                    <th style="width:200px">
+                        <div class="slds-truncate" title="Action"></div>
+                    </th>
+                </tr>
+
+
+            </table>
+        </template>
+
+    </lightning-card>
+    </div>
+</template>

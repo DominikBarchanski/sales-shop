@@ -3,7 +3,7 @@
  */
 
 public with sharing class ContentVersionTriggerHandler extends TriggerHandler{
-     public override void  afterInsert (){
+     public override void  afterUpdate (){
         ContentVersionHelper.insertContentDistribution(Trigger.new);
     }
 }

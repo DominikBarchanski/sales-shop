@@ -4,7 +4,6 @@
 
 <!-- Search Products -->
 <template>
-    <div>
-        <lightning-input  label="Search Product" value={searchValue} onkeypress= {passData}></lightning-input>
-    </div>
+        <label style="color: white;padding-left:1em" for="search">&nbsp;&nbsp;&nbsp;Search Product</label>
+        <lightning-input  id="search" variant="label-hidden"  style="margin: 0 2em;width: 80%;;padding-bottom: 1em;" label="Search Product" value={searchValue} onkeypress= {passData}></lightning-input>
 </template>

@@ -2,6 +2,6 @@
  - Created by dominikbarchanski on 18/07/2022.
  -->
 
-<aura:component description="searchData" implements="forceCommunity:searchInterface" access="global">
-<!--    <c:searchProdicts/>-->
+<aura:component implements="forceCommunity:searchInterface,flexipage:availableForAllPageTypes" >
+    <c:searchProducts ></c:searchProducts>
 </aura:component>

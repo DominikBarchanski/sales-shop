@@ -8,7 +8,7 @@ public with sharing class ContentVersionHelper {
         for (ContentVersion item : listOfContentVersion) {
             ContentDistribution newitem = new ContentDistribution();
             newitem.ContentVersionId=item.Id;
-            newitem.Name = item.Id;
+            newitem.Name = item.Product__c;
             content.add(newitem);
         }
         insert content;

@@ -4,7 +4,7 @@
 
 <aura:component description="ProductPhotos" controller="Aura_dmlOperations">
     <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="filetype" type="List" default="['.png', '.jpg', '.jpeg']"/>
+    <aura:attribute name="filetype" type="List" default="['.png', '.jpg', '.jpeg','.webp']"/>
     <aura:attribute type="String" name="MainPhoto" default=""/>
     <aura:attribute name="multiple" type="Boolean" default="true"/>
     <aura:attribute name="disabled" type="Boolean" default="true"/>

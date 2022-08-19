@@ -8,29 +8,32 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <lightning:card>
         <fieldset class="slds-form-element">
-            <legend class="slds-form-element__legend slds-form-element__label">Select main photo by click (default first)</legend>
+            <legend class="slds-form-element__legend slds-form-element__label">Select main photo by click (default
+                first)
+            </legend>
             <div class="slds-form-element__control" style="display: flex;flex-direction: row;overflow: auto; ">
                 <aura:iteration items="{!v.product.photoList}" var="items" indexVar="i">
                     <div class="slds-visual-picker slds-visual-picker_medium" style="margin: 0 2em">
                         <div data-index="{!i}"
                              data-value="{!items}" style="text-align: center;">
-                        <input type="radio" id="{!'visual-picker-'+i}"
-                               value="{!'visual-picker-'+i}"
-                               name="example-unique-name-38"/>
-                        <label for="{!'visual-picker-'+i}">
-                            <div onclick="{!c.handleSetMainPhoto}" class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                            <input type="radio" id="{!'visual-picker-'+i}"
+                                   value="{!'visual-picker-'+i}"
+                                   name="example-unique-name-38"/>
+                            <label for="{!'visual-picker-'+i}">
+                                <div onclick="{!c.handleSetMainPhoto}"
+                                     class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
 
-                                <lightning:fileCard fileId="{!items}"/>
+                                    <lightning:fileCard fileId="{!items}"/>
 
 
-                            </div>
-                        </label>
-<!--                            <lightning:buttonIcon iconName="utility:photo" size="small" name="4"-->
-<!--                                                  onclick="{!c.handleSetMainPhoto}" title="Set Main Photo"-->
-<!--                                                  value="{!index}"-->
-<!--                                                  alternativeText="set main">-->
+                                </div>
+                            </label>
+                            <!--                            <lightning:buttonIcon iconName="utility:photo" size="small" name="4"-->
+                            <!--                                                  onclick="{!c.handleSetMainPhoto}" title="Set Main Photo"-->
+                            <!--                                                  value="{!index}"-->
+                            <!--                                                  alternativeText="set main">-->
 
-<!--                            </lightning:buttonIcon>-->
+                            <!--                            </lightning:buttonIcon>-->
                             <lightning:buttonIcon iconName="utility:clear" size="small" name="4"
                                                   onclick="{!c.handleClickDelete}" title="Delete Photo" value="{!index}"
                                                   alternativeText="delete"/>
@@ -51,10 +54,41 @@
                              label="Car Horsepower"
                              aura:id="enter-product-horsepower" name="enter-horsepower"/>
             <lightning:input class="displayInput" disabled="true" value="{!v.product.type}" required="false"
-                             label="Car Horsepower"
+                             label="Type"
                              aura:id="enter-product-type" name="enter-type"/>
             <lightning:input class="displayInput" disabled="true" value="{!v.product.brand}" required="false"
-                             label="Car Horsepower"
+                             label="Brand"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodCountry}" required="false"
+                             label="Country"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodCity}" required="false"
+                             label="City"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodStreet}" required="false"
+                             label="Street"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodCityConsum}" required="false"
+                             label="Fuel Consumption In The City"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodAvgConsum}" required="false"
+                             label="Average Fuel Consumption"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodCapacity}" required="false"
+                             label="Cylinder Capacity"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodDoors}" required="false"
+                             label="Number of Doors"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodPlaces}" required="false"
+                             label="Number of Places"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodSpeed}" required="false"
+                             label="Top Speed"
+                             aura:id="enter-product-brand" name="enter-brand"/>
+
+            <lightning:input class="displayInput" disabled="true" value="{!v.product.prodYear}" required="false"
+                             label="Production Year"
                              aura:id="enter-product-brand" name="enter-brand"/>
 
             <!--            <lightning:select disabled="true" value="{!v.product.type}" aura:id="enter-product-type"-->
