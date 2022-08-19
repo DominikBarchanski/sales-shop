@@ -32,6 +32,7 @@ export default class FilterComponent extends LightningElement {
     @track priceMaxVal = 2500000;
     @track lat;
     @track lng;
+    @track TextResponse
     get optionBra() {
         if (this.brandOption) {
             return [...this.brandOption];
@@ -264,6 +265,7 @@ export default class FilterComponent extends LightningElement {
         let addres = ("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + '&key=' + api_key).replace(' ', '+')
         const response = await fetch(addres);
         const json = await response.json();
+        this.TextResponse = JSON.stringify(json);
         const latitude = json.results[0].geometry.location.lat;
         const longitude = json.results[0].geometry.location.lng;
         let position = {

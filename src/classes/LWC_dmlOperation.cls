@@ -214,7 +214,6 @@ public without sharing class LWC_dmlOperation {
 
     @AuraEnabled(Cacheable=true) public static List<SearchProductWrapper> searchProduct(String findBy) {
         List<Product2> findedProduct = getAllProducts(findBy);
-//        List<PricebookEntry> findedPricebookEntries = getAllPricebookItems();
         List<ContentDistribution> allContentDistribution = getAllContentDistribution();
         List<Strategy__c> allStrategyPrice = [
                 SELECT
@@ -516,7 +515,6 @@ public without sharing class LWC_dmlOperation {
             this.country = prodInfo.Country__c;
             this.city = prodInfo.City__c;
             this.street = prodInfo.Street__c;
-
             this.fullAddress = prodInfo.Country__c + ' ' + prodInfo.City__c + ' ' + prodInfo.Street__c;
             this.prodId = prodInfo.Id;
             this.name = prodInfo.Brands__c + ' ' + prodInfo.Name;

@@ -205,8 +205,6 @@ public with sharing class AURA_dmlPriceBookController {
             newPricebook.Name = wrappedJS.pricebookName;
             newPricebook.IsActive = wrappedJS.isActive;
             newPricebook.Description = wrappedJS.pricebookDescription;
-            System.debug(Date.valueOf(wrappedJS.startDate));
-            System.debug(Date.valueOf(wrappedJS.endDate));
             newPricebook.Start_Date__c = Date.valueOf(wrappedJS.startDate);
             newPricebook.End_date__c = Date.valueOf(wrappedJS.endDate);
 

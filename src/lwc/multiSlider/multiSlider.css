@@ -47,6 +47,3 @@
 .end {
     top: calc( ( var( --slider-height ) + var( --slider-top-position ) + var( --thumb-height )*1) * -1);
 }
-
-
-

@@ -32,7 +32,7 @@ public with sharing class LWC_dmlOrder {
                 Order_Address__c = wrappedItem.shipping,
                 Description = wrappedItem.payment,
                 AccountId = acc.Id,
-                Status = 'Draft',
+                Status = 'Paid',
                 EffectiveDate = Date.today(),
                 Pricebook2Id = standardPricebook2.Id
         );
@@ -61,6 +61,7 @@ public with sharing class LWC_dmlOrder {
 
 
     }
+    @TestVisible
     public class OrderHistoryWrapper {
         @AuraEnabled public  String Id;
         @AuraEnabled public Datetime createDate;
@@ -79,6 +80,7 @@ public with sharing class LWC_dmlOrder {
 
 
 
+        @TestVisible
         OrderHistoryWrapper(Order order, List<OrderItem> orderItems,ContentDistribution photos) {
             this.Id = order.Id;
             this.createDate = order.CreatedDate;
@@ -94,7 +96,9 @@ public with sharing class LWC_dmlOrder {
             this.price = unitPrice;
             this.orderItem = orderItems;
 
-        } OrderHistoryWrapper(Order order, List<OrderItem> orderItems,ContentDistribution photos,Case orderCase) {
+        }
+        @TestVisible
+        OrderHistoryWrapper(Order order, List<OrderItem> orderItems,ContentDistribution photos,Case orderCase) {
             this.Id = order.Id;
             this.createDate = order.CreatedDate;
             this.orderNumber = order.OrderNumber;

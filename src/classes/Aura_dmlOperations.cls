@@ -7,16 +7,7 @@ public without sharing class Aura_dmlOperations {
     public static void deleteAfterCancel(List<String> photoList) {
         delete [SELECT Id FROM ContentDocument WHERE Id IN :photoList];
     }
-//    @AuraEnabled
-//    public static List<Object> getProducts(String name){
-//        List<Id,Currency> priceList= new List<Id,Currency>( [SELECT Product2Id, UnitPrice FROM PricebookEntry]);
-//        String soqlValue= '%'+ name +'%';
-//        List<Product2> productList = [SELECT Id,Name,Family,Horsepower__c,Brands__c FROM Product2];
-//        List<Object> retList = new List<Object>();
-//        for (Product2 item: productList){
-//
-//        }
-//    }
+
     @AuraEnabled
     public static String deleteDocuments(String docId) {
         try {
@@ -112,6 +103,7 @@ public without sharing class Aura_dmlOperations {
             HttpResponse response = http.send(request);
             if (response.getStatusCode() == 200) {
                 googleJSON2Apex items = googleJSON2Apex.parse(response.getBody());
+                System.debug(items);
                 String lat = String.valueOf(items.results[0].geometry.location.lat);
                 String lng = String.valueOf(items.results[0].geometry.location.lng);
                 toAdd.Latitude__c = lat;
