@@ -1,0 +1,10 @@
+{
+  "packageDirectories": [{
+    "path": "src",
+    "default": true
+  }],
+  "name": "ForceAcademyProject",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "54.0"
+}
