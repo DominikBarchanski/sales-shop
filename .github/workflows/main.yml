@@ -6,7 +6,7 @@ on:
     pull_request:
       branches: [ main ]
       paths:
-        - 'src'
+        - 'src/**'
 jobs:
   build:
     runs-on: ubuntu-latest
