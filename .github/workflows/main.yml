@@ -4,9 +4,9 @@ name: Pull request deploy to master branch.
 # Definition when the workflow should run
 on:
     pull_request:
-      branches: [ main ]
-      paths:
-        - 'src/**'
+        branches: [ main ]
+        paths:
+            - 'src/**'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -34,5 +34,5 @@ jobs:
     - name: 'Authenticate to Production Org'
       run: sfdx auth:sfdxurl:store -f SFDX_QA -s -a production
       
-    - name: 'Run deploy'
-      run: sfdx force:source:deploy -x manifest/package.xml --testlevel RunLocalTests --json
+    - name: 'Run tests'
+      run: sfdx force:apex:test:run --resultformat tap --codecoverage 
