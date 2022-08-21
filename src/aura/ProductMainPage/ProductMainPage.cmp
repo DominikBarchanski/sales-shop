@@ -3,12 +3,48 @@
  -->
 
 <aura:component description="ProductMainPage" implements="force:appHostable">
-    <lightning:card >
-        <lightning:button label="Add Product">
 
-        </lightning:button>
-    </lightning:card>
-    <lightning:card >
-        <c:AddNewProduct ></c:AddNewProduct>
-    </lightning:card>
+<!--    <aura:attribute name="displayAdd" type="Boolean" default="false" />-->
+<!--    <aura:attribute name="prodList" type="Product2"/>-->
+<!--    <lightning:card  >-->
+<!--        <lightning:button aura:id="disabledOnClick" disabled="{!v.displayAdd}"  label="Add Product" onclick="{!c.handledClick}">-->
+
+<!--        </lightning:button>-->
+<!--    </lightning:card>-->
+<!--    <lightning:card >-->
+<!--        <c:AddNewProduct isDetails="{!v.displayAdd}"></c:AddNewProduct>-->
+
+<!--        <div style="display: flex">-->
+<!--            <div style="width: 60%;padding: 5px">-->
+<!--                <lightning:card title="Account List">-->
+<!--                    <table class="slds-table slds-table_cell-buffer slds-table_bordered" style="table-layout:fixed;-->
+<!--    width:100%; white-space: nowrap; overflow: hidden;text-overflow: ellipsis;  ">-->
+<!--                        <thead>-->
+<!--                        <tr class="slds-line-height_reset">-->
+<!--                            <th>Name</th>-->
+<!--                            <th>Account Number</th>-->
+<!--                            <th>Phone</th>-->
+<!--                            <th>City</th>-->
+<!--                            <th>Street</th>-->
+<!--                            <th>Country</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <aura:iteration items="{!v.account}" var="row" indexVar="index">-->
+<!--                            <tr aura:id="{!index}" data-myid="{!index}" onclick="{!c.showRow }" data-record-id="{!index}">-->
+<!--                                <td hidden="hidden" >{! row.Id}</td>-->
+<!--                                <td>{! row.Name}</td>-->
+<!--                                <td>{! row.AccountNumber}</td>-->
+<!--                                <td>{! row.Phone}</td>-->
+<!--                                <td>{! row.BillingCity}</td>-->
+<!--                                <td>{! row.BillingStreet}</td>-->
+<!--                                <td>{! row.BillingCountry}</td>-->
+<!--                            </tr>-->
+<!--                        </aura:iteration>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </lightning:card>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </lightning:card>-->
 </aura:component>

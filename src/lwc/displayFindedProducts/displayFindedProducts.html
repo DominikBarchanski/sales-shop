@@ -1,0 +1,74 @@
+<!--
+ - Created by dominikbarchanski on 13/07/2022.
+ -->
+
+<!-- Display Finded Products -->
+<template>
+    <div class="slds-grid slds-grid_vertical-stretch c-container slds-wrap" style="min-height: 80.5vh">
+        <div>
+            <template if:true={isFilter}>
+                <lightning-button-icon icon-name="utility:chevronleft" onclick={handleHide} style="position: fixed;z-index: 10"
+                                       variant="brand-outline"></lightning-button-icon>
+            </template>
+
+            <template if:false={isFilter}>
+                <lightning-button-icon icon-name="utility:chevronright" onclick={handleShow} style="position: fixed;z-index: 10"
+                                       variant="brand-outline"></lightning-button-icon>
+            </template>
+        </div>
+
+        <div class={hideClass}>
+            <c-filter-component filter-type={typeCar}></c-filter-component>
+        </div>
+        <div class={itemDisplay}>
+
+
+            <template if:true={productToDisplay}>
+                <div style="display: flex;flex-wrap: wrap;flex-direction: row;justify-content: center;    min-height: 78vh;">
+                    <template for:each={productToDisplay} for:index="i" for:item="object">
+                        <div class="singleElementSearch" data-id={object.id} data-value={object.name} key={object.id}
+                             onclick={handleProductClick} style="">
+                            <c-display-photo main-photo={object}></c-display-photo>
+                            <div style="margin: 1em ;    display: flex;flex-wrap: nowrap;flex-direction: column;">
+                                <div class="productName">
+                                    <p class="productName" key={object.id}>{object.brand} {object.name}</p>
+                                </div>
+                                <section style="display: block">
+                                    <ul class="ulListClass overflow">
+                                        <li if:true={object.description}><span
+                                                class="liDisplay">{object.description}</span>
+                                        </li>
+                                        <li if:true={object.prodYear}><span class="liDisplay">{object.prodYear}</span>
+                                        </li>
+                                        <li if:true={object.hp}><span class="liDisplay">{object.hp}HP</span></li>
+                                    </ul>
+                                </section>
+                                <div style="position: absolute;bottom: 0;">
+                                    <p class={object.discountStyle} key={object.id}><strike if:true={object.isDiscount}>&nbsp;{object.price}€&nbsp; </strike><span
+                                            if:false={object.isDiscount}
+                                            style="font-size: x-large">{object.price}€</span></p>
+                                    <p class={object.discountPrice} if:true={object.isDiscount} key={object.id}>
+                                        {object.priceWithDiscount}€</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <template if:true={displayPagination}>
+
+                <div style="text-align: center">
+                    <lightning-button-icon disabled={disablePreviousFirst} icon-name="utility:arrow_left" onclick={firstPage}
+                                           style="margin: 0.2em" variant="brand"></lightning-button-icon>
+                    <lightning-button-icon disabled={disablePreviousFirst} icon-name="utility:chevronleft" onclick={prevPage}
+                                           style="margin: 0.2em" variant="brand"></lightning-button-icon>
+                    <lightning-button-icon disabled={disableNextLast} icon-name="utility:chevronright" onclick={nextPage}
+                                           style="margin: 0.2em" variant="brand"></lightning-button-icon>
+                    <lightning-button-icon disabled={disableNextLast} icon-name="utility:arrow_right" onclick={lastPage}
+                                           style="margin: 0.2em" variant="brand"></lightning-button-icon>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

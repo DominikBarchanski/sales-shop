@@ -1,0 +1,81 @@
+<!--
+ - Created by dominikbarchanski on 08/07/2022.
+ -->
+
+<aura:component description="EditPricebook" controller="AURA_dmlPriceBookController">
+    <aura:attribute type="Aura.Component" name="parent"/>
+    <aura:attribute type="String" name="pricebookId"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="rowsToDelete" type="List"/>
+    <aura:attribute name="discount" type="Boolean" default="true"/>
+    <aura:attribute type="Object" name="PricebookDetails"/>
+    <aura:attribute type="Object" name="listOfStandardPrice"/>
+    <aura:attribute type="Boolean" name="displayAdd" default="false"/>
+    <aura:attribute type="Boolean" name="isEditPrice" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:method name="closeModalAllPricebook" action="{!c.handleClose}">
+    </aura:method>
+    <aura:method name="addProducts" action="{!c.handleAddProduct}">
+        <aura:attribute type="Object" name="AddedProduct"/>
+    </aura:method>
+    <div style="margin: 0 2em">
+        <div class="buttonWrapper">
+            <lightning:button name="backToStandard" onclick="{!c.handleBackToMain}" label="Back"/>
+            <lightning:button name="goToView" onclick="{!c.handleViewPage}" label="View" variant="brand"/>
+        </div>
+        <div class="inputWrapper">
+            <lightning:input class="inputDisplay" label="Pricebook Name" value="{!v.PricebookDetails.Name}"
+                             type="text"/>
+            <lightning:input class="inputDisplay" label="Description" value="{!v.PricebookDetails.Description}"
+                             type="text"/>
+            <lightning:input class="inputDisplay" label="Pricebook Active" checked="{!v.PricebookDetails.isActive}"
+                             type="checkbox"/>
+        </div>
+        <div style="text-align: center;margin: 1em 0">
+            <lightning:button label="Add Products" variant="brand" onclick="{!c.addProductToPricebook}"/>
+            <lightning:button label="Delete Products" onclick="{!c.deleteProductFromPricebook}"/>
+            <lightning:button label="Edit Price" onclick="{!c.displayEditPrice}"/>
+        </div>
+        <aura:if isTrue="{!v.isEditPrice}">
+
+
+            <div style="display: flex;align-content: center;align-items: flex-end;">
+                <div style="width: 30%;margin: 0 0.5em" onkeyup="{!c.checkDiscountValue}">
+                    <lightning:input label="Discount / increase amount:" placeholder="Enter discount/increase value"
+                                     type="number" aura:id="discount-value"/>
+                </div>
+                <div class="input-group">
+                    <lightning:input type="toggle" messageToggleActive="Discount"
+                                     messageToggleInactive="Increase" name="inputResizable"
+                                     checked="{! v.discount }"/>
+                </div>
+                <div style="width: 20%;margin: 0 0.5em">
+                    <lightning:select aura:id="discount-type" label="Type of Discount" name="flavor"
+                                      required="true">
+                        <option value="percent">%</option>
+                        <option value="currency">€</option>
+                    </lightning:select>
+                </div>
+
+            </div>
+            <div style="margin: 1em 0">
+                <lightning:button label="Set new price" variant="brand" onclick="{!c.setNewPrice}"/>
+            </div>
+        </aura:if>
+        <div style="margin: 0 0.5em">
+            <lightning:datatable
+                    columns="{! v.columns }"
+                    data="{! v.PricebookDetails.listOfProducts }"
+                    onrowselection="{!c.handleRowSelect}"
+                    keyField="id"
+
+            />
+        </div>
+        <div style="text-align: center;margin: 1em 0">
+            <lightning:button label="Save" onclick="{!c.saveAfterEdit}" variant="brand"/>
+        </div>
+        <aura:if isTrue="{!v.displayAdd}">
+            <c:addPrductToPricebook parent="{!this}" currentPricebookDetails="{!v.PricebookDetails.listOfProducts}"/>
+        </aura:if>
+    </div>
+</aura:component>

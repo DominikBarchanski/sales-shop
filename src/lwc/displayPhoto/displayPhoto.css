@@ -1,0 +1,9 @@
+/**
+ * Created by dominikbarchanski on 19/07/2022.
+ */
+.displayImg{
+    width: 120%;
+    height: 180px;
+    object-fit:cover;
+    border-radius: 6px 6px 0 0 ;
+}

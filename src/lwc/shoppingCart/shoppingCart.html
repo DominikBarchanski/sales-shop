@@ -1,0 +1,52 @@
+<!--
+ - Created by dominikbarchanski on 25/07/2022.
+ -->
+
+<!-- Shopping Cart -->
+<template>
+    <div class="slds-p-around_medium lgc-bg positionOfButton container">
+        <lightning-button-menu alternative-text="Show menu" icon-name="utility:contract_alt" menu-alignment="right">
+
+            <div style="width: 300px;height: 400px;position: relative;display: flex">
+                <div style="width: 100%">
+                    <div style="text-align: center;padding: 0.4em 0;background: #8080804a;">
+                        <span style="font-size: large;font-weight: bold">Product To Compare</span> </br>
+                        <span>Compare {itemInCart} of 3 (Minimum 2)</span>
+                    </div>
+                    <div style="overflow:auto; height:330px;width: 100%;text-align: -webkit-center">
+                        <template for:each={cartToDisplay} for:item="item">
+                            <div key={item.id}
+                                 style="width: 95%;height:4em;position:relative;display:flex;align-items: center;;border:1px solid grey;border-radius: 5px;margin:4px 0">
+                                <div style="text-align: center; padding: 0.6em;">
+                                    {item.name}
+
+                                    <span style="position: absolute;right: 1%;bottom: 20%;margin: auto">{item.price}€  <lightning-button-icon
+                                            alternative-text="Delete" class="slds-m-left_xx-small"
+                                            data-value={item.id} icon-name="utility:delete" onclick={handleDeleteFromCart}
+                                            style="margin:auto;margin-left:0.6em"
+                                            title="Delete"></lightning-button-icon></span>
+
+                                </div>
+                                <!--                               <div style="position:absolute;right: 0" >-->
+                                <!--                                   -->
+                                <!--                               </div>-->
+                            </div>
+
+                        </template>
+
+                    </div>
+                </div>
+                <div style="position: absolute;bottom:1px;display: flex;flex-wrap: wrap;align-items: center;justify-content: center; width: 100%">
+
+                    <div style="width: 100%;text-align: center;padding: 0.4em 0;background: #8080804a;">
+                        <lightning-button label='Compare Cars' onclick={handleMoveToCart} disabled={itemToCompare}
+                                          variant="brand"></lightning-button>
+
+                    </div>
+                </div>
+            </div>
+
+        </lightning-button-menu>
+        <span class="count">{itemInCart}</span>
+    </div>
+</template>

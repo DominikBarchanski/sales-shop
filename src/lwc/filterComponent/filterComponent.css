@@ -1,0 +1,9 @@
+/**
+ * Created by dominikbarchanski on 20/07/2022.
+ */
+.test_card  {
+    border: none;
+    box-shadow: rgb(0 0 0 / 10%) 0 2px 8px 0;
+    width: 23vw;
+    position: fixed;
+}

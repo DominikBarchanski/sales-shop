@@ -1,0 +1,133 @@
+/**
+ * Created by dominikbarchanski on 19/07/2022.
+ */
+.itemDisplay{
+    height: 78vh;
+}
+.singleElementSearch {
+    background: #fcfcfc;
+    border: 1px solid rgba(140, 140, 140, 0.47);
+    border-radius: 6px;
+    box-shadow: rgb(0 0 0 / 10%) 0 2px 8px 0;
+    margin: 0 0.5em 1em;
+    height: 350px;
+    width: 250px;
+    /*width: 31%;*/
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    position: relative;
+}
+
+.productName {
+    font-size: x-large;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.price {
+    font-size: large;
+}
+
+.discountPrice {
+    color: #c04545;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+s,
+strike {
+    text-decoration: none;
+    /*we're replacing the default line-through*/
+    position: relative;
+    display: inline-block;
+    /* keeps it from wrapping across multiple lines */
+}
+
+s:after,
+strike:after {
+    content: "";
+    /* required property */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 2px solid red;
+    height: 45%;
+    /* adjust as necessary, depending on line thickness */
+    /* or use calc() if you don't need to support IE8: */
+    height: calc(60% - 1px);
+    /* 1px = half the line thickness */
+    width: 100%;
+    transform: rotateZ(-8deg);
+}
+.ulListClass{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+ ul {
+    list-style: none;
+}
+.ulListClass > li:not(:first-of-type) {
+    padding: 0px 8px;
+}
+.ulListClass > li {
+    display: inline-block;
+    position: relative;
+}
+.ulListClass > li:first-of-type {
+    padding-right: 8px;
+}
+/*li {*/
+/*    text-align: -webkit-match-parent;*/
+/*    margin: 0 0.3em;*/
+/*}*/
+ .ulListClass > li:not(:last-of-type)::after {
+     display: block;
+     position: absolute;
+     content: "";
+     width: 2px;
+     height: 2px;
+     background: rgb(2, 3, 9);
+     border-radius: 50%;
+     top: 50%;
+     right: 0px;
+     transform: translateY(-50%);
+ }
+*, ::after, ::before {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+.liDisplay {font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    letter-spacing: 0.16px;
+    font-style: normal;}
+.overflow {
+    --lh : 1.4rem;
+    --max-lines: 2;
+    position: relative;
+    max-height: calc(var(--lh) * var(--max-lines));
+    overflow: hidden;
+    padding-right: 1rem; /* space for ellipsis */
+}
+.overflow::before {
+    position: absolute;
+    content: "";
+    /*   inset-block-end: 0;
+      inset-inline-end: 0; */
+    bottom: 0;
+    right: 0;
+}
+.overflow::after {
+    content: "";
+    position: absolute;
+    /*   inset-inline-end: 0; */
+    right: 0;
+    width: 1rem;
+    height: 1rem;
+    background: white;
+}

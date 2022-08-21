@@ -1,0 +1,75 @@
+<!--
+ - Created by dominikbarchanski on 07/07/2022.
+ -->
+
+<aura:component description="AddNewPricebook" controller="AURA_dmlPriceBookController">
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute type="List" name="listOfProduct"/>
+    <aura:attribute name="discount" type="Boolean" default="true"/>
+    <aura:attribute name="columns" type="List"/>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+             class="slds-modal slds-fade-in-open slds-modal_medium">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">New Pricebook</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <div style="display: flex;flex-direction: row;flex-wrap: wrap;">
+                    <div style="width: 48%;margin-right:0.5em">
+                        <lightning:input label="Pricebook name" type="text" required="true" placeholder="Enter pricebook name ..."
+                                         aura:id="pricebook-name"/>
+                    </div>
+                    <div style="width: 48%;margin-left: 0.5em">
+                        <lightning:textarea label="Description" placeholder="Enter pricebook description ..."
+                                            aura:id="pricebook-description"/>
+                    </div>
+                    <div>
+                        <label>Activate Pricebook?</label>
+                        <ui:inputCheckbox aura:id="pricebook-active" label="Active"  name="isActive"/>
+                    </div>
+                </div>
+                <div>
+                    <lightning:input label="Start Date" required="true" aura:id="start-date" type="date"/>
+                    <lightning:input label="End Date" required="true" aura:id="end-date" type="date"/>
+
+                </div>
+                <div style="display: flex;align-content: center;align-items: flex-end;">
+                    <div style="width: 30%;margin: 0 0.5em" onkeyup="{!c.checkDiscountValue}">
+                        <lightning:input label="Discount / increase amount:" placeholder="Enter discount/increase value" type="number" aura:id="discount-value"/>
+                    </div>
+                    <div class="input-group">
+                        <lightning:input type="toggle"  messageToggleActive="Discount"
+                                         messageToggleInactive="Increase" name="inputResizable"
+                                         checked="{! v.discount }"/>
+                    </div>
+                    <div style="width: 20%;margin: 0 0.5em">
+                        <lightning:select aura:id="discount-type" label="Type of Discount" name="flavor"
+                                          required="true">
+                            <option value="percent">%</option>
+                            <option value="currency">€</option>
+                        </lightning:select>
+                    </div>
+
+                </div>
+                <div style="margin: 1em 0">
+                    <lightning:button label="Set new price" variant="brand" onclick="{!c.setNewPrice}"/>
+                </div>
+                <lightning:datatable
+                        columns="{! v.columns }"
+                        data="{! v.listOfProduct }"
+                        keyField="id"
+                        onrowselection="{! c.handleRowAction }"
+                />
+            </div>
+            <div class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+                        onclick="{!c.handleCloseModal}">Close
+                </button>
+                <lightning:button onclick="{!c.handleCreatePricebook}" variant="brand" label="Save Pricebook"/>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+
+</aura:component>

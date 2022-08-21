@@ -1,0 +1,21 @@
+<!--
+ - Created by dominikbarchanski on 08/08/2022.
+ -->
+
+<!-- Home Page -->
+<template>
+    <div style=display:flex;flex-wrap:wrap;justify-content:center;height:80.4vh;overflow:overlay;>
+        <template for:each={carType} for:item="item">
+            <div class="containerBox container" key={item} onclick={handleSearchType} data-value={item.value}>
+                <div style="width:100%">
+
+                    <img src={item.photo} class="image" style="object-fit: scale-down;width: 600px;height: 400px;" alt="Img"/>
+                    <div class="middle">
+                        <div class="text">{item.Label}</div>
+                    </div>
+                </div>
+
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,125 @@
+<!--
+ - Created by dominikbarchanski on 19/07/2022.
+ -->
+
+<!-- Filter Component -->
+<template>
+
+    <div style="height:80vh">
+        <lightning-card class="test_card">
+            <div style="margin: 0 1em">
+
+                <lightning-combobox
+                        name="progress"
+                        label="Car Type"
+                        value={value}
+                        options={options}
+                        onchange={handleChangeType}></lightning-combobox>
+            </div>
+            <div style="margin: 0 1em">
+
+                <lightning-combobox
+                        name="new"
+                        label="Car Brand"
+                        value={brandValue}
+                        options={optionBra}
+                        onchange={handleChangeBrand}></lightning-combobox>
+            </div>
+            <div style="display: flex; flex-direction: row;flex-wrap: wrap">
+                <div style="width:100%;display: flex">
+                    <div style="margin: 0 1em; width:45%">
+                        <lightning-combobox
+                                name="startYear"
+                                label="Start Year"
+                                value={startYearValue}
+                                options={optionProdYearStart}
+                                onchange={handleChangeStartYear}></lightning-combobox>
+                    </div>
+                    <div style="margin: 0 1em; width:45%">
+
+                        <lightning-combobox
+                                name="endYear"
+                                label="End Year"
+                                value={endYearValue}
+                                options={optionProdYearEnd}
+                                onchange={handleChangeEndYear}></lightning-combobox>
+                    </div>
+
+                </div>
+                <div style="width:100%;display: flex">
+                    <div style="margin: 0 1em; width:45%">
+
+                        <lightning-combobox
+                                name="new"
+                                label="Min Price"
+                                value={minPrice}
+                                options={optionPriceMin}
+                                onchange={handleChangeMinPrice}></lightning-combobox>
+                    </div>
+
+                    <div style="margin: 0 1em; width:45%">
+
+                        <lightning-combobox
+                                name="new"
+                                label="Max Price"
+                                value={maxPrice}
+                                options={optionPriceMax}
+                                onchange={handleChangeMaxPrice}></lightning-combobox>
+                    </div>
+                </div>
+            </div >
+            <div style="margin: 0 1em" if:true={isDisplay}>
+                <c-multi-slider min={hpMinVal} max={hpMaxVal} step="10" start={hpMinVal} end={hpMaxVal}
+                                label-for-slider="Horsepower"
+                                type-of-data='hp'></c-multi-slider>
+            </div>
+            <div style="width:100%;display: flex">
+                <div style="margin: 0 1em; width:45%">
+
+                    <lightning-input label='Country' value={country} onchange={handleChangeCountry}></lightning-input>
+                </div>
+
+                <div style="margin: 0 1em; width:45%">
+
+                    <lightning-input label='City' value={city} onchange={handleChangeCity}></lightning-input>
+
+                </div>
+            </div>
+            <div style="width:100%;display: flex">
+                <div style="margin: 0 1em; width:45%">
+
+                    <lightning-input label='Street' value={street} onchange={handleChangeStreet}></lightning-input>
+                </div>
+
+                <div style="margin: 0 1em; width:45%">
+
+                    <lightning-combobox
+                            name="range"
+                            label="Search Radius"
+                            value={searchDistance}
+                            options={optionKm}
+                            onchange={handleChangeRadius}></lightning-combobox>
+
+                </div>
+            </div>
+            <!--            <div style="margin: 0 1em" if:true={isDisplay}>-->
+
+            <!--                <c-multi-slider min={priceMinVal} max={priceMaxVal} step="1000" start={priceMinVal} end={priceMaxVal}-->
+            <!--                                label-for-slider="Price"-->
+            <!--                                type-of-data='price'></c-multi-slider>-->
+            <!--            </div>-->
+            <div style="padding-bottom:26vh ;text-align: center;margin: 1em 0;display: flex;flex-wrap: nowrap;justify-content: center;">
+
+                <div style="margin: 0 0.5em">
+                    <lightning-button label="Apply Filter" onclick={HandleFilter}></lightning-button>
+                </div>
+                <div style="margin: 0 0.5em">
+                    <lightning-button label="Clear Filter" onclick={HandleClearFilter}></lightning-button>
+                </div>
+            </div>
+            <br/>
+            {TextResponse}
+        </lightning-card>
+
+    </div>
+</template>

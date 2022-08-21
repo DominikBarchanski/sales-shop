@@ -1,0 +1,38 @@
+<!--
+ - Created by dominikbarchanski on 07/07/2022.
+ -->
+
+<aura:component description="PricebookListModal" controller="AURA_dmlPriceBookController">
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:attribute type="String" name="pricebookName" default=""/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="pricebookIdToDelete" type="String"/>
+    <aura:attribute type="Object" name="listOfPriceBook"/>
+    <aura:attribute name="columns" type="List"/>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_medium">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">All Pricebook</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <div onkeyup="{!c.handleSearch}">
+                    <lightning:input type="search" aura:id="pricebook-name-search" name="searchPricebook"
+                                     label="Search Pricebook by Name"/>
+                </div>
+                <lightning:datatable
+                        columns="{! v.columns }"
+                        data="{! v.listOfPriceBook }"
+                        hideCheckboxColumn="true"
+                        keyField="id"
+                        onrowaction="{! c.handleRowAction }"
+                />
+
+            </div>
+            <div class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" aria-label="Cancel and close" onclick="{!c.handleCloseModal}">Close</button>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+
+</aura:component>

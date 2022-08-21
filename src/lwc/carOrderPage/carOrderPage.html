@@ -1,0 +1,280 @@
+<!--
+ - Created by dominikbarchanski on 26/07/2022.
+ -->
+
+<!-- Car Order Page -->
+<template>
+    <lightning-card>
+        <template if:true={cartItems}>
+
+            <div style="display:flex;flex-wrap: wrap;height: 76.6vh">
+                <div style="width:58%;height: 100%;text-align: -webkit-center;margin:0.4em">
+                    <div class="paymentBox" style="width: 100%;height: 65%">
+                        <div style="width:50%;">
+                            <img src={cartItems.photoUrl} style='object-fit: scale-down;'/>
+                        </div>
+                        <div style="text-align: center;padding: 3em;">
+                            <p>{cartItems.name}</p>
+                            <p>{cartItems.price}€</p>
+                            <p>Seller Address: {cartItems.fullAddress}</p>
+                        </div>
+                    </div>
+                    <div class="paymentBox" style="height: 35%">
+                        <p>Order details</p>
+                        <!--                        <fieldset class="slds-form-element">-->
+                        <!--                            <legend class="slds-form-element__legend slds-form-element__label">{label}</legend>-->
+                        <!--                            <div class="slds-form-element__control">-->
+
+                        <!--                                <template for:each={options} for:item="option">-->
+
+                        <!--                                    <span class={radioClass} data-key={option.key} data-value={option.value} for:index={option.index}-->
+                        <!--                                          key={option.key} onclick={handleClick}>-->
+                        <!--                                      <input checked={option.checked} class={option.inputClass}/ disabled={option.disabled} name={name} type="radio"-->
+                        <!--                                             value={option.value}>-->
+                        <!--                                      <label class="slds-radio__label">-->
+                        <!--                                        <span class="slds-radio_faux"></span>-->
+                        <!--                                        <span class="slds-form-element__label">{option.label}</span>-->
+                        <!--                                      </label>-->
+                        <!--                                    </span>-->
+
+                        <!--                                </template>-->
+
+                        <!--                            </div>-->
+                        <!--                        </fieldset>-->
+                        <div style="display: flex;width: 100%;justify-content: center; flex-wrap: wrap">
+                            <div style="width: 100%">
+                                <p><b>Delivery Method:</b></p>
+                            </div>
+                            <template for:each={options} for:item="item">
+                                <fieldset key={item.value} style="display: block; float: left;">
+                                    <div class="slds-form-element__control">
+                        <span class="slds-radio">
+                            <input id={item.value} name="radiogroup" onchange={handleDeliverySelect} type="radio"
+                                   value={item.value}>
+                            <label class="slds-radio__label" for={item.value}>
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">{item.label}</span>
+                            </label>
+                        </span>
+                                    </div>
+                                </fieldset>
+                            </template>
+                        </div>
+
+                        <template if:true={deliver}>
+                            <div style="width: 100%;display:flex;flex-wrap: wrap;padding: 0.3em">
+
+                                <div style="width:100%;padding: 0.4em;display: flex;flex-wrap: wrap">
+                                    <div style="width:50%; box-sizing: border-box; padding: 0.4em">
+                                        <lightning-input label="Collect Address Country" required="true" value={Country} onchange={handleCountry}
+                                        ></lightning-input>
+                                    </div>
+                                    <div style="width:50%; box-sizing: border-box; padding: 0.4em">
+                                        <lightning-input label="Collect Address City" required="true" value={City}   onchange={handleCity}
+                                        ></lightning-input>
+                                    </div>
+                                    <div style="width:50%; box-sizing: border-box; padding: 0.4em">
+                                        <lightning-input label="Collect Address Street" required="true" value={Street} onchange={handleStreet}
+                                        ></lightning-input>
+                                    </div>
+                                </div>
+                                <!--                                <div style="width:33%;padding: 0.4em">-->
+                                <!--                                    <lightning-input label="City"></lightning-input>-->
+                                <!--                                </div>-->
+                                <!--                                <div style="width:33%;padding: 0.4em">-->
+                                <!--                                    <lightning-input label="Street"></lightning-input>-->
+                                <!--                                </div>-->
+                            </div>
+                        </template>
+                        <template if:false={deliver}>
+                            <div style="width: 100%;display:flex;flex-wrap: wrap;padding: 0.3em">
+                                <div style="width:100%;padding: 0.4em;display: flex;flex-wrap: wrap">
+                                    <div style="width:50%; box-sizing: border-box; padding: 0.4em">
+                                        <lightning-input disabled="true" label="Collect Address Country"
+                                                         value={cartItems.country}></lightning-input>
+                                    </div>
+                                    <div style="width:50%; box-sizing: border-box; padding: 0.4em">
+                                        <lightning-input disabled="true" label="Collect Address City"
+                                                         value={cartItems.city}></lightning-input>
+                                    </div>
+                                    <div style="width:50%; box-sizing: border-box; padding: 0.4em">
+                                        <lightning-input disabled="true" label="Collect Address Street"
+                                                         value={cartItems.street}></lightning-input>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--                            <p>collect Address:</p>-->
+                            <!--                            <p></p>-->
+                        </template>
+                    </div>
+
+                </div>
+                <div style="width:38%;margin:0.4em">
+
+                    <div class="paymentBox">
+                        <div style="padding: 1em 0">
+                            <div>
+                                Payments
+                            </div>
+                            Your data
+                            <lightning-input disabled="true" label='Full Name'
+                                             value={currentUserName}></lightning-input>
+                            <lightning-input disabled="true" label='E-mail'
+                                             value={currentUserEmailId}></lightning-input>
+
+                        </div>
+                        <div style="width: 100% ">
+                            <p> Select Payment Method</p>
+                        </div>
+                        <div>
+                            <!--tutaj-->
+
+                            <div class="paymentLabel" data-value='cash' onclick={handleDisplayPaymentMethod}><p>Cash</p>
+                            </div>
+                            <template if:true={payCash}>
+
+                                <div class="paymentSelect">
+                                    <fieldset class="slds-form-element">
+                                        <div style="display: flex;flex-wrap: wrap">
+                                            <div class="slds-visual-picker " key={item}
+                                                 style="margin: 0.4em 0.4em;width: 30%">
+                                                <input id='cashs' name="example-unique-name-38"
+                                                       type="radio"
+                                                       value='cash'/>
+                                                <label for='cashs'>
+                                                    <div class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center selectedIcon "
+                                                         data-value='cashs'
+                                                         onclick={handleSelectedMethod} style="text-align: center;">
+                                                        <lightning-icon icon-name='utility:money'
+                                                                        size="large"></lightning-icon>
+                                                    </div>
+
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </template>
+                        </div>
+                        <div>
+                            <div class="paymentLabel" data-value='card' onclick={handleDisplayPaymentMethod}><p>Card</p>
+                            </div>
+                            <template if:true={payCard}>
+                                <div class="paymentSelect">
+                                    <div style="display: flex;flex-wrap: wrap;">
+                                        <div style="width: 100%;padding: 0.4em">
+<!--                                                             pattern="^(0|[1-9][0-9]*)$"-->
+<!--                                                             pattern="^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$"-->
+                                            <lightning-input label='Card number' max-length='19' min-length='16'
+                                                             onchange={handleCardNumber} required="true" type="decimal"
+                                                             value={cardNumber}></lightning-input>
+                                        </div>
+                                        <div style="width:100%;padding: 0.4em">
+                                            <lightning-input label='Place Holder' onchange={handleCardHolder}
+                                                             required="true"
+                                                             value={cardPlaceholder}></lightning-input>
+                                        </div>
+                                        <div style="width:50%;padding: 0.4em">
+                                            <lightning-input label='CVV' max-length='3' onchange={handleCardCvv}
+                                                             required="true"
+                                                             type="number"
+                                                             value={cardCvv}></lightning-input>
+                                        </div>
+                                        <div style="width:50%;padding: 0.4em">
+
+                                            <label for="expiry">Expiration Date:</label>
+                                            <input class="inputCard"
+                                                   id="expiry" name="expiry"
+                                                   required="required" style="width:100%;margin-top: 0.35em;line-height: 28px;
+    border: var(--lwc-borderWidthThin,1px) solid var(--slds-c-input-color-border, var(--sds-c-input-color-border, var(--lwc-colorBorderInput,#D4D4D4)));
+    border-radius: var(--slds-c-input-radius-border, var(--sds-c-input-radius-border, var(--lwc-borderRadiusMedium,0.25rem)));"
+                                                   type="month"/>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <div>
+                            <div class="paymentLabel" data-value='transfer' onclick={handleDisplayPaymentMethod}><p>Bank
+                                Transfer</p></div>
+                            <template if:true={payTransfer}>
+                                <div class="paymentSelect">
+                                    <fieldset class="slds-form-element">
+                                        <div style="display: flex;flex-wrap: wrap">
+                                            <template for:each={logo} for:index="i" for:item='item'>
+                                                <div class="slds-visual-picker " key={item}
+                                                     style="margin: 0.4em 0.4em;width: 30%">
+                                                    <input id={item} name="example-unique-name-38"
+                                                           type="radio"
+                                                           value={item}/>
+                                                    <label for={item}>
+                                                        <div class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center " data-value={item}
+                                                             key={item}
+                                                             onclick={handleSelectedMethod}>
+                                                            <img key={item} src={item}/>
+                                                        </div>
+                                                    </label>
+                                                </div>
+
+                                            </template>
+
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </template>
+                        </div>
+                        <div>
+                            <div class="paymentLabel" data-value='digital' onclick={handleDisplayPaymentMethod}><p>
+                                Digital Wallet</p></div>
+
+                            <template if:true={payDigital}>
+                                <div class="paymentSelect">
+                                    <fieldset class="slds-form-element">
+                                        <div style="display: flex;flex-wrap: wrap">
+                                            <template for:each={walletLogo} for:item='item'>
+                                                <div class="slds-visual-picker " key={item}
+                                                     style="margin: 0.4em 0.4em;width: 30%;height: 4.5em">
+                                                    <input id={item} name="example-unique-name-38"
+                                                           type="radio"
+                                                           value={item}/>
+                                                    <label for={item}>
+                                                        <div class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center "
+                                                             data-value={item} key={item}
+                                                             onclick={handleSelectedMethod}
+                                                             style="height: 4.5em">
+                                                            <img key={item} src={item}/>
+                                                        </div>
+                                                    </label>
+                                                </div>
+
+                                            </template>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </template>
+                        </div>
+                        <div>
+                            <p><b>Selected Payment Method:</b> {selectedPaymentMethod}</p>
+                        </div>
+                        <div style="position: absolute; bottom: 2%;width: 100%;    text-align: center;">
+
+                            <lightning-button label="Make Order" onclick={handleMakeOrder}
+                                              variant="brand"></lightning-button>
+                        </div>
+                    </div>
+
+                    <!--                    <lightning-combobox-->
+                    <!--                            label="Max Price"-->
+                    <!--                            name="new"-->
+                    <!--                            onchange={handleChangeMaxPrice}-->
+                    <!--                            options={paymentOption}-->
+                    <!--                            value={paymentValue}></lightning-combobox>-->
+
+                </div>
+            </div>
+
+        </template>
+    </lightning-card>
+
+</template>

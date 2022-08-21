@@ -2,9 +2,10 @@
  - Created by dominikbarchanski on 04/07/2022.
  -->
 
-<aura:component description="ProductPhotos">
+<aura:component description="ProductPhotos" controller="Aura_dmlOperations">
     <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="filetype" type="List" default="['.png', '.jpg', '.jpeg']"/>
+    <aura:attribute name="filetype" type="List" default="['.png', '.jpg', '.jpeg','.webp']"/>
+    <aura:attribute type="String" name="MainPhoto" default=""/>
     <aura:attribute name="multiple" type="Boolean" default="true"/>
     <aura:attribute name="disabled" type="Boolean" default="true"/>
     <aura:attribute name="allAddedFile" type="List" default="[]"/>
@@ -12,20 +13,27 @@
     <aura:attribute name="isPhoto" type="Boolean" default="false"/>
     <lightning:card>
         <aura:renderIf isTrue="{!v.isPhoto}">
-            <div style="display: flex;flex-direction: row;justify-content: center;">
-                <aura:iteration items="{!v.allAddedFile}" var="items">
-                    <div style="margin: 0 5px">
-                    <lightning:fileCard fileId="{!items.val}"/>
+            <div style="display: flex;flex-direction: row;overflow: auto; margin: 0 2em">
+                <aura:iteration items="{!v.allAddedFile}" var="items" indexVar="i">
+
+                    <div style="margin: 0 5px" data-index="{!i}" data-value="{!items}"
+                         onclick="{!c.handleSelectMainPhoto}" aura:id="{!items}">
+                        <lightning:fileCard fileId="{!items}"/>
                     </div>
                 </aura:iteration>
             </div>
         </aura:renderIf>
+        <div class="buttonSection">
         <lightning:fileUpload label="Attach receipt"
                               name="fileUploader"
                               multiple="true"
                               accept="{!v.filetype}"
                               recordId="{!v.recordId}"
                               onuploadfinished="{!c.handleUploadFinished}"/>
+        </div>
+    <div class="buttonSection">
+        <lightning:button variant="brand" label="Next Step" onclick="{!c.callParentMethod}"/>
+        <lightning:button onclick="{!c.handleClose}" label="Close"></lightning:button>
+    </div>
     </lightning:card>
-    <lightning:button variant="brand" label="Next Step" onclick="{!c.callParentMethod}" />
 </aura:component>

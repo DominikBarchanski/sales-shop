@@ -1,0 +1,191 @@
+/**
+ * Created by dominikbarchanski on 13/07/2022.
+ */
+:host{
+    --button-width: 20vw;
+
+}
+.productName {
+    font-size: x-large;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.prodFonts {
+    font-size: large;
+    font-weight:normal;
+
+}
+.price {
+    font-size: large;
+    font-weight: bold;
+}
+
+.discountPrice {
+    color: #c04545;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+s,
+strike {
+    text-decoration: none;
+    /*we're replacing the default line-through*/
+    position: relative;
+    display: inline-block;
+    /* keeps it from wrapping across multiple lines */
+}
+
+s:after,
+strike:after {
+    content: "";
+    /* required property */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 2px solid red;
+    height: 45%;
+    /* adjust as necessary, depending on line thickness */
+    /* or use calc() if you don't need to support IE8: */
+    height: calc(60% - 1px);
+    /* 1px = half the line thickness */
+    width: 100%;
+    transform: rotateZ(-8deg);
+}
+.buttonStyle{
+    width: 250px;
+    height: 100px;
+}
+.container123{
+    background: linear-gradient(130deg, #ffffff, #a2a2a2);
+    height:100%;
+    width:100%;
+    position: absolute;
+    margin: 0;
+    padding:0;
+}
+.center{
+    position: relative;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+
+
+.text{
+    color:black;
+    position:absolute;
+    font-size: medium;
+    /*left:30%;*/
+}
+.button:hover>.text{
+    color: #ffffff;
+    transition:0.3s;
+}
+.button{
+    padding:0;
+    width:var(--button-width) ;
+    height:60px;
+    margin:10px;
+    border: 1px solid gray;
+    float: left;
+    background-color: #ffffff;
+    overflow: hidden;
+    cursor:pointer;
+}
+
+.up{
+    width:var(--button-width) ;
+    height:30px;
+    background-color: #777777;
+    left:var(--button-width) ;
+    position:relative;
+}
+.button:hover > .up{
+    left:0px;
+    transition: 0.3s ease-out;
+}
+
+.button:not(:hover) > .up{
+    left:var(--button-width) ;
+    transition: 0.3s ease-out;
+}
+
+.down{
+    width:var(--button-width) ;
+    height:30px;
+    background-color:#777777;
+    left:calc( var(--button-width) * -1) ;
+    position:relative;
+}
+.button:hover > .down{
+    left:0px;
+    transition: 0.3s ease-out;
+}
+
+.button:not(:hover) > .down{
+    left: calc( var(--button-width) * -1) ;
+    transition: 0.3s ease-out;
+}
+.line{
+    width:40px;
+    height:1px;
+    display:block;
+    background-color:gray;
+    position:absolute;
+    left:120px;
+    top:50%;
+    transform:translateY(-50%);
+}
+.button:hover>.line{
+    width:60px;
+    background-color: #b0b0b0;
+    left:110px;
+    transition:0.3s ease-out;
+}
+
+.button:not(:hover)>.line{
+    width:40px;
+    background-color:white;
+    transform:translateX(0px);
+    transition:0.3s ease-out;
+}
+.iconHover {
+    color: black;
+}
+.button:hover .iconHover{
+    color: #b0b0b0;
+}
+.commentWrapper{
+    border: rgba(119, 119, 119, 0.63) solid 1px;
+    margin: 1em;
+    padding: 1em;
+    border-radius: 4px;
+}
+.desc__label{
+    color: #898989;
+    float: left;
+    width: 170px;
+}
+
+.desc__value{
+    color: #505152;
+    display: inline-block;
+    float: left;
+    font-weight: normal;
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.list__item{
+    clear: both;
+}
+li{
+    list-style: none;
+}
+.backButton:hover{
+    font-weight: bold;
+    text-shadow: 1px 1px rgba(100, 149, 237, 0.4);
+}

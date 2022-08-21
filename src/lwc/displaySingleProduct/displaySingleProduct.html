@@ -1,0 +1,281 @@
+<!--
+ - Created by dominikbarchanski on 13/07/2022.
+ -->
+
+<!-- Display Single Product -->
+<template>
+    <template if:true={allProductInfo}>
+
+        <span style="color: cornflowerblue" class="backButton" onclick={handleBackToSearch}>&lt; Back</span>
+        <lightning-card>
+            <div class="slds-grid slds-grid_vertical-stretch c-container slds-wrap">
+
+
+                <div class='slds-size_2-of-3'>
+
+                    <template if:true={displayItem}>
+                        <div style="padding: 2em">
+
+                            <!--            <c-display-product-photo whole-object={allProductInfo} main-photo={allProductInfo.photoUrl} photo-list={listOfPhoto}></c-display-product-photo>-->
+                            <c-display-product-photo whole-object={allProductInfo}></c-display-product-photo>
+                        </div>
+                    </template>
+                </div>
+                <div class='slds-size_1-of-3' style="position: relative">
+                    <div>
+
+
+                        <p class="productName">{allProductInfo.brand} {allProductInfo.name}</p>
+                        <p class={allProductInfo.discountStyle}><strike if:true={allProductInfo.isDiscount}>&nbsp;{allProductInfo.price}€&nbsp; </strike><span
+                                if:false={allProductInfo.isDiscount}
+                                style="font-size:medium">{allProductInfo.price}€</span>
+                        <span class={allProductInfo.discountPrice} if:true={allProductInfo.isDiscount}>
+                            {allProductInfo.priceWithDiscount}€</span>
+                        </p>
+                        <div>
+                            <p style="font-size: large">Product Rate:</p>
+                            <c-star-ratings rating={starProductRate} read-only-star="ture" show-half-stars="true"
+                                            size="medium" static-color="green"></c-star-ratings>
+                        </div>
+                        <div style="">
+
+
+                            <p class="prodFonts">Seller Address:
+                            </p>
+                            <div style="margin-left: 3em">
+                                <lightning-map map-markers={markersMap} style="width:60%"
+                                               zoom-level={zoomLevel}></lightning-map>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1.5rem;width: 95%">
+                        <template if:false={isInCart}>
+
+                            <button class="slds-button slds-button_brand slds-button_stretch" onclick={handleCartAdd}
+                                    style="margin: 0.5em 0"><span
+                                    style="font-weight: bold;font-size: large"> Add To Compare</span>
+                                <lightning-icon
+                                        class="slds-current-color"
+                                        icon-name="utility:contract_alt"
+                                        size="xx-small"
+                                        style="margin: 0 1em"></lightning-icon>
+                            </button>
+                        </template>
+                        <template if:true={isInCart}>
+
+                            <button class="slds-button slds-button_destructive slds-button_stretch"
+                                    onclick={handleCartRemove} style="margin: 0.5em 0"><span
+                                    style="font-weight: bold;font-size: large"> Remove From Compare</span>
+                                <lightning-icon
+                                        class="slds-current-color"
+                                        icon-name="utility:contract_alt"
+                                        size="xx-small"
+                                        style="margin: 0 1em"></lightning-icon>
+                            </button>
+                        </template>
+                        <button class="slds-button slds-button_neutral slds-button_stretch" onclick={handleBuyThisItem} style="margin: 0.5em 0;">
+                            <span> Buy This Car  <lightning-icon
+                                    class="slds-current-color"
+                                    icon-name="utility:checkout"
+                                    size="xx-small"
+                                    style="margin: 0 1em"></lightning-icon> </span>
+<!--                            <lightning-icon-->
+<!--                                    class="slds-current-color"-->
+<!--                                    icon-name="utility:question"-->
+<!--                                    size="xx-small"-->
+<!--                                    style="margin: 0 1em"></lightning-icon>-->
+                        </button>
+                    </div>
+
+                </div>
+<!--                <div style="position: absolute;    bottom: 2%; right: 2%">-->
+
+<!--                    <p class={allProductInfo.discountStyle}><strike if:true={allProductInfo.isDiscount}>&nbsp;{allProductInfo.price}€&nbsp; </strike><span-->
+<!--                            if:false={allProductInfo.isDiscount}-->
+<!--                            style="font-size: x-large">{allProductInfo.price}€</span></p>-->
+<!--                    <p class={allProductInfo.discountPrice} if:true={allProductInfo.isDiscount}>-->
+<!--                        {allProductInfo.priceWithDiscount}€</p>-->
+
+<!--                </div>-->
+            </div>
+
+
+        </lightning-card>
+        <div class="slds-m-top_small" style="min-height: 100px">
+            <lightning-card>
+                <div style="margin-left: 2rem">
+                    <lightning-icon icon-name="action:description"></lightning-icon>
+                    <span style="font-size: large;font-weight: bold;padding: 0 1em">
+                    Description
+                </span>
+                </div>
+                <div style="display: flex;flex-wrap: wrap;width: 95%;margin: auto;">
+                    <div style="width:50%;margin-top: 1em">
+                        <ul style="float: left;width: 50%">
+                            <li class="list__item">
+                                <span class="desc__label">Horse Power:</span>
+                                <div class="desc__value">{allProductInfo.hp}</div>
+                            </li>
+                            <li class="list__item">
+
+                                <span class="desc__label">Engine Capacity:</span>
+                                <div class="desc__value">{allProductInfo.capacity} cm<sup>3</sup></div>
+                            </li>
+                            <li class="list__item">
+                                <span class="desc__label">Fuel Consumption In The City:</span>
+                                <div class="desc__value">{allProductInfo.cityConsumption} l/100km</div>
+                            </li>
+                            <li class="list__item">
+
+                                <span class="desc__label">Average Fuel Consumption:</span>
+                                <div class="desc__value">{allProductInfo.avgConsumption} l/100km</div>
+                            </li>
+
+                        </ul>
+                        <ul style="float: left;width: 50%">
+                            <li class="list__item">
+                                <span class="desc__label">Production Year:</span>
+                                <div class="desc__value">{allProductInfo.prodYear}</div>
+                            </li>
+                            <li  class="list__item">
+
+                                <span class="desc__label">Top Speed:</span>
+                                <div class="desc__value">{allProductInfo.speed} km/h</div>
+                            </li>
+                            <li  class="list__item">
+
+                                <span class="desc__label">Place Number:</span>
+                                <div class="desc__value">{allProductInfo.places}</div>
+                            </li>
+                            <li class="list__item">
+                                <span class="desc__label">Doors number:</span>
+                                <div class="desc__value">{allProductInfo.doors}</div>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div style="width:50%;margin-top: 1em;">
+                        <span style="margin-left:3rem;display: block;text-align: justify;text-justify: inter-word;">
+                            {allProductInfo.description}
+                        </span>
+                    </div>
+
+                </div>
+
+
+            </lightning-card>
+        </div>
+        <template if:true={isDisplayAddComment}>
+
+
+            <div class="slds-m-top_small">
+                <lightning-card>
+                    <c-add-comment current-comm={addedByCurrentUser} onresultlist={handleCommentEditAdd}
+                                   product-id={allProductInfo.id}></c-add-comment>
+
+
+                </lightning-card>
+            </div>
+        </template>
+        <div class="slds-m-top_small">
+            <lightning-card>
+                <div style="margin-left: 2rem;position: relative">
+                    <lightning-icon icon-name="utility:comments"></lightning-icon>
+                    <span style="font-size: large;font-weight: bold;padding: 0 1em">
+                    Comment Section
+                </span>
+                    <div style="position: absolute;right: 1em;top: -1em;">
+                        <template if:false={addOrEdit}>
+
+                            <button class="slds-button slds-button_brand " onclick={handleDisplayComment}
+                                    style="margin: 0.5em 0;"><span style="margin-left:1em"> Add Opinion </span>
+                                <lightning-icon
+                                        class="slds-current-color"
+                                        icon-name="utility:comments"
+                                        size="xx-small"
+                                        style="margin: 0 1em"></lightning-icon>
+                            </button>
+                        </template>
+                        <template if:true={addOrEdit}>
+                            <button class="slds-button slds-button_brand " onclick={handleDisplayComment}
+                                    style="margin: 0.5em 0;"><span style="margin-left:1em"> Edit Opinion </span>
+                                <lightning-icon
+                                        class="slds-current-color"
+                                        icon-name="utility:comments"
+                                        size="xx-small"
+                                        style="margin: 0 1em"></lightning-icon>
+                            </button>
+                            <button class="slds-button slds-button_destructive " onclick={handleDeleteComment}
+                                    style="margin: 0.5em 0.5em;"><span
+                                    style="margin-left:1em"> Delete Your Opinion </span>
+                                <lightning-icon
+                                        class="slds-current-color"
+                                        icon-name="utility:delete"
+                                        size="xx-small"
+                                        style="margin: 0 1em"></lightning-icon>
+                            </button>
+                        </template>
+                        <!--                        <div class="button center" style="width: 20em" onclick={handleDisplayComment}>-->
+                        <!--                            <div class="up"></div>-->
+                        <!--                            <div class="down"></div>-->
+                        <!--                            <div class="text center"> Add Opinion <span class="iconHover"> <lightning-icon-->
+                        <!--                                    class="slds-current-color" icon-name="utility:comments"> </lightning-icon></span>-->
+                        <!--                            </div>-->
+
+                        <!--                        </div>-->
+                    </div>
+                </div>
+
+                <template if:true={isCommentSection}>
+                    <div style="margin-top: 2rem">
+
+                        <template for:each={commentList} for:item="object">
+                            <div class="commentWrapper" key={object.Id} if:true={object._isApproved}>
+                                <div style="position:relative;display: flex;flex-wrap: wrap;">
+                                    <div style="width: 100%">
+                                        <p key={object.Id} style="font-size: large;font-weight: bold">{object.Name}</p>
+                                    </div>
+                                    <div style="width:20% ">
+                                        <c-star-ratings rating={object.Rating__c} read-only-star="ture"
+                                                        show-half-stars="true"
+                                                        size="small" static-color="green"></c-star-ratings>
+                                    </div>
+                                    <div style="position: absolute;right: 0;">
+                                        <p key={object.Id} style="color: gray"> {object.LastModifiedDate},
+                                            {object.CreatedBy.Name}
+                                        </p>
+                                        <p key={object.Id} style="color: red" if:true={object._isYourApproved}> Your Comment Wait For Approval</p>
+                                    </div>
+                                    <div>
+
+                                    </div>
+
+                                </div>
+                                <p key={object.Id}>{object.Comment__c}</p>
+
+                                <!--                                <p key={object.Id}> {object.CreatedBy}</p>-->
+
+                            </div>
+
+                        </template>
+                    </div>
+
+                </template>
+                <template if:false={isCommentSection}>
+                    <div class="commentWrapper" key={object.Id}>
+                        <div style="position:relative;display: flex;flex-wrap: wrap;">
+                            <p>
+                                This product has not been rated yet
+                            </p>
+
+                        </div>
+                        <!--                                <p key={object.Id}> {object.CreatedBy}</p>-->
+
+                    </div>
+                </template>
+
+            </lightning-card>
+        </div>
+
+    </template>
+</template>

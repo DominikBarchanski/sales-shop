@@ -1,0 +1,81 @@
+<!--
+ - Created by dominikbarchanski on 15/07/2022.
+ -->
+
+<aura:component description="StrategyManager" controller="AURA_dmlStrategyManager">
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="pricebookIdToDelete" type="String"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="activePricebook" type="Object"/>
+    <aura:attribute type="Boolean" name="isStandard"/>
+    <aura:attribute type="Boolean" name="isLowest"/>
+    <aura:attribute type="Boolean" name="isHighest"/>
+    <aura:attribute type="Boolean" name="isAvg"/>
+    <aura:attribute type="Object" name="products"/>
+    <aura:attribute type="String" name="strategyType"/>
+
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+             class="slds-modal slds-fade-in-open slds-modal_medium">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Set Sell Strategy</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning:select label="Select Strategy" aura:id="selected-strategy" value="{!v.strategyType}" onchange="{!c.handleSelectStrategy}">
+                    <option value="">Select Strategy</option>
+                    <option value="standard">Standard</option>
+                    <option value="lowest">Lowest Price</option>
+                    <option value="highest">Highest Price</option>
+                    <option value="avg">Average Promotion</option>
+                </lightning:select>
+                <h2><b>
+                    Strategy Description:
+                    </b>
+                </h2>
+
+                <aura:if isTrue="{!v.isStandard}">
+                    <p>
+                        Use standard price of products
+                    </p>
+                </aura:if>
+               <aura:if isTrue="{!v.isLowest}">
+                    <p>
+                        Use lowest discount price
+                    </p>
+                </aura:if>
+               <aura:if isTrue="{!v.isHighest}">
+                    <p>
+                        Use highest discount price
+                    </p>
+                </aura:if>
+               <aura:if isTrue="{!v.isAvg}">
+                    <p>
+                        Use average discount price
+                    </p>
+                </aura:if>
+                <p>
+                </p>
+                <div>
+                    <h2>
+                        <b>
+                            Active Pricebook:
+                        </b>
+                    </h2>
+                    <lightning:datatable
+                            columns="{! v.columns }"
+                            data="{! v.activePricebook }"
+                            keyField="id"
+                    />
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <lightning:button label="Save" variant="brand" onclick="{!c.handleSaveStrategy}"/>
+                <button class="slds-button slds-button_neutral" aria-label="Cancel and close"
+                        onclick="{!c.handleCloseModal}">Close
+                </button>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</aura:component>

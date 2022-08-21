@@ -1,17 +1,35 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+    <inspection_tool class="CssUnknownProperty" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myCustomPropertiesEnabled" value="true" />
+      <option name="myIgnoreVendorSpecificProperties" value="false" />
+      <option name="myCustomPropertiesList">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="webkit-text-fill-color" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
     <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <Languages>
         <language minSize="99" name="JavaScript" />
+        <language minSize="67" name="Apex" />
       </Languages>
     </inspection_tool>
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="2">
+          <list size="8">
             <item index="0" class="java.lang.String" itemvalue="parent" />
             <item index="1" class="java.lang.String" itemvalue="style" />
+            <item index="2" class="java.lang.String" itemvalue="data-index" />
+            <item index="3" class="java.lang.String" itemvalue="data-value" />
+            <item index="4" class="java.lang.String" itemvalue="ontouchmove" />
+            <item index="5" class="java.lang.String" itemvalue="ontouchstart" />
+            <item index="6" class="java.lang.String" itemvalue="ontouchend" />
+            <item index="7" class="java.lang.String" itemvalue="returnlistcomment" />
           </list>
         </value>
       </option>

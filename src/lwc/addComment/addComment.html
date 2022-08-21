@@ -1,0 +1,48 @@
+<!--
+ - Created by dominikbarchanski on 22/07/2022.
+ -->
+
+<!-- Add Comment -->
+<template>
+    <div style="margin-left: 2rem;position: relative">
+        <div style="display: flex">
+
+
+            <div style="width: 50%">
+                <div>
+                    <lightning-icon icon-name="utility:comments">
+
+                    </lightning-icon>
+                    <span style="font-size: large;font-weight: bold;padding: 0 1em"> Add Comment</span>
+                </div>
+                <lightning-input label="Title" placeholder="Type Comment Title" value={ComTitle}
+                                 onchange={handleTitleChange}></lightning-input>
+                <lightning-textarea
+                        placeholder="Type here your opinion..."
+                        label="What are you thinking about?"
+                        max-length="500"
+                        value={ComBody}
+                        onchange={handleBodyChange}
+                >
+                </lightning-textarea>
+            </div>
+            <div style="width: 50%;padding: 0 10rem">
+
+                <c-star-ratings label-text="Overall" size="small" read-only-star="true" show-half-stars="true" rating={overallStar}></c-star-ratings>
+
+                <c-star-ratings label-text="Design" size="small" onratingchange={handleChangeDesignStar} rating={designStar}></c-star-ratings>
+
+                <c-star-ratings label-text="Price&nbsp;&nbsp;&nbsp;&nbsp;" size="small" onratingchange={handleChangePriceStar} rating={priceStar}></c-star-ratings>
+
+                <c-star-ratings label-text="Safety&nbsp;" size="small" onratingchange={handleChangeSafetyStar} rating={safetyStar}></c-star-ratings>
+
+
+            </div>
+
+        </div>
+
+        <div>
+            <lightning-button label="Save Rate & Comment" variant="brand" onclick={handleAddComment}></lightning-button>
+        </div>
+    </div>
+</template>

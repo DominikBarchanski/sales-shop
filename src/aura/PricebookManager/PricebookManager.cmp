@@ -1,0 +1,92 @@
+<!--
+ - Created by dominikbarchanski on 06/07/2022.
+ -->
+
+<aura:component description="PricebookManager" implements="flexipage:availableForRecordHome,force:appHostable"
+                controller="AURA_dmlPriceBookController">
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:attribute type="Object" name="listOfProducts"/>
+    <aura:attribute type="List" name="listOfProductsSelected"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute type="String" name="pricebookToChild"/>
+    <aura:attribute type="String" name="productName" default=""/>
+    <aura:attribute type="Boolean" name="isPricebookList" default="false"/>
+    <aura:attribute type="Boolean" name="isNewPricebook" default="false"/>
+    <aura:attribute type="Boolean" name="isDisplayStandardProduct" default="true"/>
+    <aura:attribute type="Boolean" name="isDisplayViewPricebook" default="false"/>
+    <aura:attribute type="Boolean" name="isDisplayEditPricebook" default="false"/>
+    <aura:attribute type="Boolean" name="isDisplayStrategy" default="false"/>
+    <aura:attribute type="String" name="currentStrategy"/>
+    <aura:method name="typeOfAction" action="{!c.handleTypeOfAction}">
+        <aura:attribute name="actionType" type="String"/>
+        <aura:attribute name="pricebookId" type="String"/>
+    </aura:method>
+    <aura:method name="closeModalAllPricebook" action="{!c.handleCloseNodalAllPricebook}">
+        <aura:attribute name="childCloseModal" type="Boolean"/>
+    </aura:method>
+    <aura:method name="closeModalAddPricebook" action="{!c.handleCloseNodalAddPricebook}">
+        <aura:attribute name="childCloseModalAdd" type="Boolean"/>
+    </aura:method>
+    <aura:method name="closeModalStrategy" action="{!c.handleCloseModalStrategy}">
+        <aura:attribute name="childCloseModalStrategy" type="Boolean"/>
+    </aura:method>
+    <aura:renderIf isTrue="{!v.isDisplayStandardProduct}">
+        <lightning:card>
+            <div style="display: flex;flex-direction: row-reverse; margin: 0 2em">
+                <div style="margin: 0 0.5em">
+                    <lightning:button variant="brand" label="Display All Pricebook" onclick="{!c.showPricebookModal}"/>
+                </div>
+
+                <div style="margin: 0 0.5em">
+                    <lightning:button variant="brand" label="New pricebook" onclick="{!c.showModalNewPricebook}"/>
+                </div>
+            </div>
+            <div style="display: flex">
+                <div onkeyup="{!c.handleSearch}" style="width: 50%;margin: 0 3em">
+                    <lightning:input type="search" aura:id="product-name-search" name="searchProduct"
+                                     label="Search Product by Name"/>
+                </div>
+                <div style="width: 45%;align-self: center;display: flex;margin-right: 2em;align-items: center;justify-content: flex-end;">
+                    <div>
+                    <p>Current Strategy:<b> {!v.currentStrategy}</b></p>
+                    </div>
+                    <div style="margin: 0 0.5em">
+                        <lightning:button variant="brand" label="Change Sale Strategy" onclick="{!c.showStrategyModal}"/>
+                    </div>
+                </div>
+            </div>
+            <div style="height: 3em">
+            </div>
+            <div style="margin: 0 2em">
+                <lightning:datatable
+                        columns="{! v.columns }"
+                        data="{! v.listOfProducts }"
+                        keyField="id"
+                        onrowselection="{! c.handleRowAction }"
+                />
+            </div>
+            <aura:if isTrue="{!v.isPricebookList}">
+                <c:PricebookListModal parent="{!this}"/>
+            </aura:if>
+            <aura:if isTrue="{!v.isNewPricebook}">
+                <c:AddNewPricebook parent="{!this}" listOfProduct="{!v.listOfProductsSelected}"/>
+            </aura:if>
+
+        </lightning:card>
+    </aura:renderIf>
+    <aura:if isTrue="{!v.isDisplayViewPricebook}">
+        <lightning:card>
+            <c:ViewPricebook parent="{!this}" pricebookId="{!v.pricebookToChild}"
+                             listOfStandardPrice="{!v.listOfProducts}"/>
+        </lightning:card>
+    </aura:if>
+    <aura:if isTrue="{!v.isDisplayEditPricebook}">
+        <lightning:card>
+            <c:EditPricebook parent="{!this}" pricebookId="{!v.pricebookToChild}"
+                             listOfStandardPrice="{!v.listOfProducts}"/>
+        </lightning:card>
+    </aura:if>
+    <aura:if isTrue="{!v.isDisplayStrategy}">
+        <c:StrategyManager parent="{!this}" products="{!v.listOfProducts}"/>
+    </aura:if>
+</aura:component>
