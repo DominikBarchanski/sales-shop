@@ -1,6 +1,6 @@
 {
   "packageDirectories": [{
-    "path": "force-app",
+    "path": "src",
     "default": true
   }],
   "name": "ForceAcademyProject",
