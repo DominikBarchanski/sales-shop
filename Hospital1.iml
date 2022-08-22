@@ -14,96 +14,10 @@
                 <option name="types">
                   <set>
                     <MetadataType>
-                      <option name="entries">
-                        <list>
-                          <MetadataEntry>
-                            <option name="name" value="Aura_dmlOperationTest" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="AURA_dmlPriceBookController_TGN_TEST" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="AURA_dmlStrategyManager_TGN_TEST" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="AutocreatedRegHandler1657700749895" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="ContentVersionHelper" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="ContentVersionHelperTest" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="ContentVersionTriggerHandler" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="dmlOrderTest" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="dmltest" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="googleJSON2Apex" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="LWC_dmlOperation" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="LWC_dmlOperationTest" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="LWC_dmlOrder" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="scheduleProcessTest" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="SsoTest" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="testBatch" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="TriggerHandler" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                          <MetadataEntry>
-                            <option name="name" value="TriggerHandler_test" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                        </list>
-                      </option>
                       <option name="name" value="ApexClass" />
-                      <option name="wildcard" value="false" />
                     </MetadataType>
                     <MetadataType>
-                      <option name="entries">
-                        <list>
-                          <MetadataEntry>
-                            <option name="name" value="ContentVersionTrigger" />
-                            <option name="selected" value="true" />
-                          </MetadataEntry>
-                        </list>
-                      </option>
                       <option name="name" value="ApexTrigger" />
-                      <option name="wildcard" value="false" />
                     </MetadataType>
                     <MetadataType>
                       <option name="entries">
@@ -140,6 +54,12 @@
                       </option>
                       <option name="name" value="AuraDefinitionBundle" />
                       <option name="wildcard" value="false" />
+                    </MetadataType>
+                    <MetadataType>
+                      <option name="name" value="CustomField" />
+                    </MetadataType>
+                    <MetadataType>
+                      <option name="name" value="CustomObject" />
                     </MetadataType>
                     <MetadataType>
                       <option name="entries">
