@@ -1,0 +1,38 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy
+
+# Controls when the workflow will run
+on:
+    pull_request:
+        types:
+        - closed
+jobs:
+  build:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.ref }}
+        fetch-depth: 0
+        
+
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '>=14'
+        check-latest: true
+   
+    - name: Install Salesforce CLI
+      run: |
+        wget https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
+        mkdir sfdx-cli
+        tar xJf sfdx-linux-amd64.tar.xz -C sfdx-cli --strip-components 1
+        ./sfdx-cli/install
+    - name: 'Populate auth file with SFDX_DEPLOY_URL secret'
+      shell: bash
+      run: 'echo ${{ secrets.SFDX_DEPLOY_URL}} > SFDX_QA'
+    - name: 'Authenticate to Production Org'
+      run: sfdx auth:sfdxurl:store -f SFDX_QA -s -a production
+    - name: 'Deploy source'
+      run: sfdx force:source:deploy -x manifest/package.xml --testlevel RunLocalTests --json --checkonly
