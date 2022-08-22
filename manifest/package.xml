@@ -1,5 +1,3 @@
-
-
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
@@ -33,6 +31,27 @@
 	<types>
 		<members>ContentVersionTrigger</members>
 		<name>ApexTrigger</name>
+	</types>
+	<types>
+		<members>ContentVersion</members>
+		<members>Contract</members>
+		<members>Opportunity</members>
+		<members>Order</members>
+		<members>OrderItem</members>
+		<members>Pricebook2</members>
+		<members>PricebookEntry</members>
+		<members>Product2</members>
+		<members>Product_Rating__c</members>
+		<members>Shopping_Cart__c</members>
+		<members>Strategy__c</members>
+		<members>test_setting__c</members>
+		<members>tgn__Test_Class__c</members>
+		<members>tgn__Test_Gen__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>carBrand</members>
+		<name>GlobalValueSet</name>
 	</types>
 	<types>
 		<members>*</members>
