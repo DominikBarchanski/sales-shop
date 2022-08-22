@@ -29,11 +29,11 @@ jobs:
         mkdir sfdx-cli
         tar xJf sfdx-linux-amd64.tar.xz -C sfdx-cli --strip-components 1
         ./sfdx-cli/install
-    - name: 'Authenticate to Production Org'
-      run: sfdx auth:sfdxurl:store -f SFDX_QA -s -a production
     - name: 'Populate auth file with SFDX_DEPLOY_URL secret'
       shell: bash
       run: 'echo ${{ secrets.SFDX_DEPLOY_URL}} > SFDX_QA'
+    - name: 'Authenticate to Production Org'
+      run: sfdx auth:sfdxurl:store -f SFDX_QA -s -a production
     - name: 'Convert Metadata'
       run: sfdx force:source:convert --rootdir=src --outputdir=convert
     - name: 'Run Test on Metadata'
