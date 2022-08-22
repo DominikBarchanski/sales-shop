@@ -35,7 +35,5 @@ jobs:
       
     - name: 'Authenticate to Production Org'
       run: sfdx auth:sfdxurl:store -f SFDX_QA -s -a production
-    - name: 'Convert Metadata'
-      run: sfdx force:source:convert --rootdir=src --outputdir=convert
     - name: 'Run Test on Metadata'
       run: sfdx force:mdapi:deploy --deploydir=convert --testlevel=RunLocalTests --checkonly -u https://cunning-koala-33ysnj-dev-ed.lightning.force.com 
