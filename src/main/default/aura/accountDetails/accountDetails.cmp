@@ -1,0 +1,32 @@
+<!--
+ - Created by dominikbarchanski on 06/06/2022.
+ -->
+
+<aura:component description="accountDetails" controller="AURA_AccountSearcherController">
+
+    <aura:attribute name="rowObject" type="List"/>
+    <aura:attribute name="objectId" type="String"/>
+    <aura:attribute name="isSingleRowSelected" type="Boolean" default="false"/>
+    <aura:attribute name="formMode" type="String" default="view"/>
+    <aura:handler name="change" value="{!v.rowObject}" action="{!c.itemsChange}"/>
+    <lightning:card>
+        <aura:renderIf isTrue="{!v.isSingleRowSelected}">
+            <div>
+
+<!--                <lightning:button variant="brand" label="Edit" title="Search" onclick="{!c.handleEdit}"/>-->
+                <lightning:button variant="brand" label="Delete" title="New" onclick="{!c.handleDelete}"/>
+            </div>
+            <lightning:recordForm
+                    aura:id="toEdit"
+                    recordId="{!v.rowObject[0].Id}"
+                    objectApiName="Account"
+                    layoutType="Full"
+                    columns="2"
+                    mode="{!v.formMode}"
+            />
+            <aura:set attribute="else">
+                <p>Wrong number of selected row</p>
+            </aura:set>
+        </aura:renderIf>
+    </lightning:card>
+</aura:component>

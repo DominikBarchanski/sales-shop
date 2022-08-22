@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approval__c</fullName>
+    <externalId>false</externalId>
+    <label>Approval</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>new</fullName>
+                <default>true</default>
+                <label>new</label>
+            </value>
+            <value>
+                <fullName>waiting</fullName>
+                <default>false</default>
+                <label>waiting</label>
+            </value>
+            <value>
+                <fullName>approve</fullName>
+                <default>false</default>
+                <label>approve</label>
+            </value>
+            <value>
+                <fullName>reject</fullName>
+                <default>false</default>
+                <label>reject</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,113 @@
+<!--
+ - Created by dominik.barchanski on 26.04.2022.
+ -->
+
+<apex:page id="SearchDoctor" controller="SearchDoctorController">
+    <apex:slds />
+    <div class="slds-scope">
+        <apex:form >
+            <apex:pageBlock id="results">
+
+                <apex:pageBlockSection >
+
+                    <apex:inputField value="{!doc.First_Name__c}" required="false" style="width:12rem"/>
+                    <apex:inputField value="{!doc.Name}" required="true" style="width:12rem" />
+                    <apex:inputField value="{!doc.Country__c}" required="false" style="width:12rem;height:2em"/>
+
+                </apex:pageBlockSection>
+                <div class="slds-align_absolute-center slds-m-bottom_large">
+                    <apex:commandButton value="{!$Label.Search}" action="{!search}" rerender="results,testList"
+                                        styleClass="slds-button slds-button_brand"/>
+                    <apex:commandButton action="{!clear}" value="{!$Label.Clear}" reRender="results"
+                                        styleClass="slds-button slds-button_brand"/>
+                    <apex:commandButton action="{!exportCSV}" value="{!$Label.Export_CSV}" reRender="results"
+                                        styleClass="slds-button slds-button_brand" disabled="{!exportDisabled}">
+<!--                        <apex:actionSupport event="onclick"-->
+<!--                                            action="{!exportDataCsv}"/>-->
+                    </apex:commandButton>
+                    <apex:commandButton action="{!exportXLS}" value="{!$Label.Export_XLS}" reRender="results"
+                                        styleClass="slds-button slds-button_brand" disabled="{!exportDisabled}"/>
+
+                </div>
+
+
+                <apex:pageBlock rendered="{!toggleVisibleTable}">
+                    <apex:pageBlockTable value="{!doctorList}" var="d">
+
+                        <apex:column >
+                            <apex:facet name="header">
+                                {!$Label.Action}
+                            </apex:facet>
+                            <apex:outputLink title="" value="/apex/ViewDoctor?id={!d.id}"
+                                             style="font-weight:bold">Edit
+                            </apex:outputLink>&nbsp;|&nbsp;
+                            <apex:outputLink title="" value="/apex/ViewDoctor?id={!d.id}"
+                                             style="font-weight:bold">View
+                            </apex:outputLink>&nbsp;|&nbsp;
+                            <apex:commandLink action="{!DeleteDoctor}" value="Del"
+                                              onclick="if(!confirm({!$Label.Delete_Object})) return false;"
+                                              style="font-weight:bold">
+                                <apex:param name="doctorId" value="{!d.Id}" assignTo="{!selectedDoctorId}"/>
+                            </apex:commandLink>
+                            <apex:facet name="footer">
+                                <apex:outputText style="float:left">{!PageNumber} of {!TotalPages} </apex:outputText>
+                            </apex:facet>
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">
+                                {!$Label.First_name}
+                            </apex:facet>
+                            <apex:outputField value="{!d.First_Name__c}"/>
+                        </apex:column>
+
+                        <apex:column >
+                            <apex:facet name="header">
+                                {!$Label.Last_name}
+                            </apex:facet>
+                            <apex:outputField value="{!d.Name}"/>
+
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">
+                                {!$Label.Country}
+                            </apex:facet>
+                            <apex:outputField value="{!d.Country__c}"/>
+                            <apex:facet name="footer">
+                                <apex:selectList value="{!searchLimit}" size="1" multiSelect="false"
+                                                 style="float:right">
+                                    <apex:actionSupport event="onchange" action="{!ChangeLimit}" reRender="results"/>
+                                    <apex:selectOptions value="{!sizeOption}"/>
+                                </apex:selectList>
+
+                            </apex:facet>
+                        </apex:column>
+
+
+                    </apex:pageBlockTable>
+
+                    <!--                    <apex:pageBlockButtons location="bottom" rendered="{!toggleVisibleTable}" id="myButton">-->
+                    <div class="slds-align_absolute-center">
+                        <apex:commandButton action="{!Beg}" title="Beginning" value="<<"
+                                            disabled="{!disablePrevious}" reRender="myButtons,results"
+                                            styleClass="slds-button slds-button_brand"/>
+                        <apex:commandButton action="{!Prev}" title="Previous" value="<"
+                                            disabled="{!disablePrevious}" reRender="myButtons,results"
+                                            styleClass="slds-button slds-button_brand"/>
+                        <apex:commandButton action="{!Next}" title="Next" value=">" disabled="{!disableNext}"
+                                            reRender="myButtons,results"
+                                            styleClass="slds-button slds-button_brand"/>
+                        <apex:commandButton action="{!Last}" title="End" value=">>" disabled="{!disableNext}"
+                                            reRender="myButtons,results"
+                                            styleClass="slds-button slds-button_brand"/>
+                    </div>
+                    <!--                    </apex:pageBlockButtons>-->
+
+                </apex:pageBlock>
+
+
+            </apex:pageBlock>
+
+        </apex:form>
+    </div>
+
+</apex:page>

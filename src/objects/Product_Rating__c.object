@@ -153,121 +153,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <fields>
-        <fullName>Approval__c</fullName>
-        <externalId>false</externalId>
-        <label>Approval</label>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Picklist</type>
-        <valueSet>
-            <restricted>true</restricted>
-            <valueSetDefinition>
-                <sorted>false</sorted>
-                <value>
-                    <fullName>new</fullName>
-                    <default>true</default>
-                    <label>new</label>
-                </value>
-                <value>
-                    <fullName>waiting</fullName>
-                    <default>false</default>
-                    <label>waiting</label>
-                </value>
-                <value>
-                    <fullName>approve</fullName>
-                    <default>false</default>
-                    <label>approve</label>
-                </value>
-                <value>
-                    <fullName>reject</fullName>
-                    <default>false</default>
-                    <label>reject</label>
-                </value>
-            </valueSetDefinition>
-        </valueSet>
-    </fields>
-    <fields>
-        <fullName>Comment__c</fullName>
-        <externalId>false</externalId>
-        <label>Comment</label>
-        <length>255</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Product_Id__c</fullName>
-        <externalId>false</externalId>
-        <label>Product Id</label>
-        <length>30</length>
-        <required>true</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Rate_Design__c</fullName>
-        <externalId>false</externalId>
-        <label>Rate Design</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Rate_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>Rate Price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Rate_Safety__c</fullName>
-        <externalId>false</externalId>
-        <label>Rate Safety</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Rating__c</fullName>
-        <externalId>false</externalId>
-        <label>Rating</label>
-        <precision>18</precision>
-        <required>true</required>
-        <scale>0</scale>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>User_Id__c</fullName>
-        <externalId>false</externalId>
-        <label>User Id</label>
-        <length>30</length>
-        <required>true</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
     <label>Product Rating</label>
     <nameField>
         <label>Product Rating Name</label>
         <type>Text</type>
     </nameField>
     <pluralLabel>Product Ratings</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

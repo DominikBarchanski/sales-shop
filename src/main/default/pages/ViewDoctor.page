@@ -1,0 +1,310 @@
+<!--
+ - Created by dominik.barchanski on 27.04.2022.
+ -->
+
+<apex:page id="ViewDoctor" extensions="ViewEditDoctorController" standardController="Doctor__c">
+    <apex:includeScript value="https://code.jquery.com/jquery-3.6.0.js"/>
+    <apex:includeScript value="https://code.jquery.com/ui/1.13.1/jquery-ui.js"/>
+    <apex:stylesheet value="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css"/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <link href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" rel="stylesheet"/>
+    <apex:stylesheet value="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css"/>
+    <apex:includescript value="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"/>
+
+    <style>
+        div#datePicker{
+            z-index:1000;
+        }
+.errorMessage { color:red;}
+
+
+
+
+
+
+
+
+
+    </style>
+    <script type="text/javascript">
+
+  function displayModal() {
+    $( "#dialog" ).dialog({
+      height: 600,
+      width: 750,
+      modal: true,
+      close: function() {
+            $( this ).dialog( "close" );
+            clearValue();
+             $('#hireDoctorSection').css('display','none');
+
+        }
+    });
+  } ;
+
+function cancelDialog(){
+    clearValue();
+     $('#message').css('display','none');
+     $( "#dialog" ).dialog( "close" );
+
+}
+function passDataToController(){
+    var h_name = document.getElementById("{!$Component.myForm.displaySectionFirst.sectionWrapperSearch.hospitalName}").value;
+    var h_email = document.getElementById("{!$Component.myForm.displaySectionFirst.sectionWrapperSearch.email}").value;
+    var h_country = document.getElementById("{!$Component.myForm.displaySectionFirst.sectionWrapperSearch.Phone}").value;
+    if(h_name != ''){
+        $("#message").css('display','none');
+        $("#errorMessageDisplay").css('display','none');
+        pass(h_name,h_email,h_country);
+        toggle();
+    }else{
+        $("#errorMessageDisplay").css('display','block');
+
+
+    }
+
+
+}
+function passDateToNewContract(){
+    $('#message').css('display','block');
+    var startDate = document.getElementById("{!$Component.myForm.hireDoctor.sectionWrapperHire.startDate}").value;
+    var endDate = document.getElementById("{!$Component.myForm.hireDoctor.sectionWrapperHire.endDate}").value;
+    passContract(startDate,endDate);
+
+setTimeout(function(){
+    if($("#message").hasClass("success")){
+        $("#message").css('display','none');
+        $( "#dialog" ).dialog( "close" );
+        $("#message").removeClass("success");
+        clearValue();
+
+    }
+},1000);
+
+}
+
+function clearValue(){
+    document.getElementById("{!$Component.myForm.displaySectionFirst.sectionWrapperSearch.hospitalName}").value = '';
+    document.getElementById("{!$Component.myForm.displaySectionFirst.sectionWrapperSearch.email}").value = '';
+    document.getElementById("{!$Component.myForm.displaySectionFirst.sectionWrapperSearch.Phone}").value = '';
+    clearList();
+     $('#doctorList').css('display','none');
+     $("#errorMessageDisplay").css('display','none');
+     $('#message').css('display','none');
+
+}
+
+function toggle (){
+    $('#doctorList').css('display','block');
+}
+function displayHireDoctor(){
+    $('#hireDoctorSection').css('display','block');
+    displayThirdSection();
+}
+$( function() {
+    $( "#startDate" ).datepicker({
+      showOtherMonths: true,
+      selectOtherMonths: true
+    });
+  } );
+  $( function() {
+    $( "#endDate" ).datepicker({
+      showOtherMonths: true,
+      selectOtherMonths: true
+    });
+  } );
+
+//a
+
+
+
+
+
+    </script>
+
+
+    <apex:form id="myForm">
+
+        <div id="dialog" title="Hire Doctor" style="display:none" class="ui-widget">
+            <apex:pageBlock id="displaySectionFirst">
+
+                <apex:pageBlockSection id="sectionWrapperSearch">
+                    <apex:outputText label="{!$Label.Hospital_Name}">
+
+                        <apex:inputText id="hospitalName" required="true"
+                                        style="display:flex;flex-direction: column-reverse;">
+
+                        </apex:inputText>
+                        <span class="errorMessage"
+                              style="overflow-wrap:anywhere;display:none" id="errorMessageDisplay">Pleas type Hospital Name</span>
+
+                    </apex:outputText>
+
+                    <apex:inputText id="email" label="{!$Label.Email}"/>
+
+                    <apex:inputText id="Phone" label="{!$Label.Phone}"/>
+
+                </apex:pageBlockSection>
+                <apex:pageBlockButtons location="bottom">
+                    <apex:commandButton value="{!$Label.Search}"
+                                        reRender="doctorList,displaySectionFirst,sectionWrapperSearch"
+                                        onClick="passDataToController();return"/>
+                    <apex:commandButton value="{!$Label.Clear}" reRender="doctorList" onClick="clearValue();return"/>
+
+                </apex:pageBlockButtons>
+            </apex:pageBlock>
+
+            <div id="doctorList" style="display:none;">
+                <apex:pageBlock id="sectionTwo">
+                    <apex:pageBlockTable value="{!hosp}" var="h">
+                        <apex:column >
+                            <apex:facet name="header">
+                                {!$Label.Select}
+                            </apex:facet>
+                            <apex:commandButton value="Select" onClick="displayHireDoctor()" reRender="hireDoctor">
+                                <!--                                                reRender="hireDoctor">-->
+                                <!--                                                action="{!selectHospital}"-->
+                                <apex:param value="{!h.Id}" name="selectedButtonId" assignTo="{!singleHospital.Id}"/>
+                                <apex:param value="{!h.Name}" name="selectedButtonName"
+                                            assignTo="{!singleHospital.Name}"/>
+                                <!--                                <apex:actionSupport onComplete=""-->
+                            </apex:commandButton>
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">
+                                {!$Label.Name}
+                            </apex:facet>
+                            <apex:outputField value="{!h.Name}"/>
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">
+                                {!$Label.Email}
+                            </apex:facet>
+                            <apex:outputField value="{!h.Email__c}"/>
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">
+                                {!$Label.Phone}
+                            </apex:facet>
+                            <apex:outputField value="{!h.Phone__c}"/>
+                        </apex:column>
+                    </apex:pageBlockTable>
+
+                </apex:pageBlock>
+            </div>
+
+            <div id="hireDoctorSection" style="display:none">
+                <apex:pageBlock id="hireDoctor">
+                    <apex:pageBlockSection id="sectionWrapperHire">
+                        <apex:outputText value="{!fullName}" label="{!$Label.Full_Name}"/>
+                        <apex:outputField value="{!singleHospital.Name}"/>
+                        <apex:inputField value="{!newContract.Start_Date__c}" required="true" id="startDate"/>
+                        <apex:inputField value="{!newContract.End_date__c}" id="endDate"/>
+
+                    </apex:pageBlockSection>
+                    <apex:pageBlockButtons location="bottom">
+                        <apex:commandButton value="{!$Label.Hire}" onClick="passDateToNewContract();return"
+                                            onComplete="getvalue()"
+                                            reRender="allContracts,secondSectionForm"/>
+                        <apex:commandButton value="{!$Label.Calcle}" onClick="cancelDialog();return"
+                                            reRender="hireDoctor,allContracts,mid,secondSectionForm,viewPage"/>
+
+                    </apex:pageBlockButtons>
+                    <p id="message" class="{!infoCssClass}" style="color:{!messageColor};text-align:center"  >{!errorMessage} </p>
+
+
+
+                </apex:pageBlock>
+            </div>
+
+        </div>
+
+        <apex:pageMessages />
+        <apex:actionFunction name="pass" action="{!findHospital}" reRender="sectionTwo">
+            <apex:param name="p1" assignTo="{!hospitalName}" value=""/>
+            <apex:param name="p2" assignTo="{!hospitalEmail}" value=""/>
+            <apex:param name="p3" assignTo="{!hospitalPhone}" value=""/>
+        </apex:actionFunction>
+        <apex:actionFunction name="passContract" action="{!hireDoctor}" reRender="hireDoctor,allContracts">
+            <apex:param name="paramStart" assignTo="{!startDate}" value=""/>
+            <apex:param name="paramEnd" assignTo="{!endDate}" value=""/>
+        </apex:actionFunction>
+        <apex:actionFunction name="displayThirdSection" action="{!selectHospital}" reRender="asdfasdf"/>
+        <apex:actionFunction name="clearList" action="{!clearLists}" reRender="test,hireDoctor,secondSectionForm"/>
+        <apex:param value="{!testVar}" id="size"/>
+
+
+    </apex:form>
+    <apex:form id="secondSectionForm">
+
+        <apex:pageBlock title="{!$Label.View}" mode="inlineEdit" id="viewPage">
+            <div style=" display: flex; flex-direction: row">
+                <div style="display:flex; flex-direction: column; width: 12%">
+                    <apex:image value="/servlet/servlet.FileDownload?file={!ImageId}"
+                                rendered="{!Not(ISBLANK(ImageId))}" width="95%" height="95%"/>
+
+
+                </div>
+                <div style="width: 100%">
+                    <apex:pageBlockSection >
+                        <apex:facet name="header">
+                            {!$Label.General}
+                        </apex:facet>
+                        <apex:outputField value="{!doc.First_Name__c}"/>
+                        <apex:outputField value="{!doc.Name}"/>
+                        <apex:outputField value="{!doc.Phone__c}"/>
+                        <apex:outputField value="{!doc.Email__c}"/>
+                        <apex:outputField value="{!doc.Specialization__c}"/>
+                        <apex:outputField value="{!doc.Date_of_birth__c}"/>
+                    </apex:pageBlockSection>
+                </div>
+            </div>
+
+            <apex:pageBlockSection >
+                <apex:facet name="header">
+                    {!$Label.Adress}
+                </apex:facet>
+                <apex:outputField value="{!doc.City__c}"/>
+                <apex:outputField value="{!doc.Street__c}"/>
+                <apex:outputField value="{!doc.Country__c}"/>
+
+                <!--                <div id="osm-map"></div>-->
+                <apex:pageBlockSection rendered="{!displayMap}">
+
+                    <div id="map" style="width: 300px; height: 300px;z-index:0"></div>
+                    <head>
+                        <script>
+                        var loa ={!loa};
+                        var lati ={!lati};
+            var map = L.map('map').setView([{!lati}, {!loa}], 12);
+            mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+            L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; ' + mapLink + ' Contributors', maxZoom: 18,}).addTo(map);
+            var m = L.marker([{!lati}, {!loa}], { 'title': 'Your adress' })
+                .bindPopup('Title')
+                .addTo(map)
+
+
+
+                        </script>
+                    </head>
+                </apex:pageBlockSection>
+
+            </apex:pageBlockSection>
+
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="{!$Label.Edit}" action="/apex/EditDoctor?id={!docId}"/>
+                <apex:commandButton value="{!$Label.Delete}" action="{!DeleteDoctor}"
+                                    onclick="if(!confirm({!$Label.Delete_Object})) return false;"/>
+                <apex:commandButton value="{!$Label.Hire}" id="Hire" onClick="displayModal()" reRender="dialog">
+                </apex:commandButton>
+
+            </apex:pageBlockButtons>
+
+
+        </apex:pageBlock>
+
+    </apex:form>
+
+    <apex:relatedList list="Contracts__r" title="Contract" id="allContracts"/>
+    <div id='map' style='width:600px;height:400px'></div>
+</apex:page>

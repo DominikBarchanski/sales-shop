@@ -1,0 +1,81 @@
+<!--
+ - Created by dominikbarchanski on 07/06/2022.
+ -->
+
+<!-- Music App Finder -->
+<template>
+    <lightning-card title="Music Finder" icon-name="custom:custom71">
+        <div style="display: flex; justify-content: center ; width: 30%;flex-wrap: wrap;margin:  0 auto">
+
+            <div style="width: 100%">
+
+                <lightning-input type="text" label="Enter Song Name" value={songName}
+                                 name="songNameInput"></lightning-input>
+            </div>
+
+
+            <div style="width: 100%">
+                <lightning-combobox
+                        name="progress"
+                        label="Type"
+                        value={value}
+                        placeholder="Select Type"
+                        options={options}
+                        onchange={handleChangeCbBox}></lightning-combobox>
+
+                <lightning-combobox
+                        name="progress"
+                        label="Page Limit"
+                        value={valueLimit}
+
+                        placeholder="Select Type"
+                        options={limitList}
+                        onchange={handleChangeCbBoxLimits}></lightning-combobox>
+            </div>
+            <div style="margin: 10px;display: flex" >
+
+                <div class="setButtons">
+                    <lightning-button label="Find Song" onclick={handleChange}></lightning-button>
+                </div>
+                <div class="setButtons">
+                    <lightning-button label="Add artist" onclick={createArtist}></lightning-button>
+                </div>
+                <div class="setButtons">
+                    <lightning-button label="Add track" onclick={createTrack}></lightning-button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-m-around_medium" style="display: flex">
+            <template if:true={showModalArtist}>
+                <div>
+                    <c-create-new-artist onclosedetailsmodal={hideModalDetails}></c-create-new-artist>
+                </div>
+            </template>
+            <template if:true={showModalTrack}>
+                <div>
+                    <c-create-new-track onclosemodaltrack={hideModalTrack}></c-create-new-track>
+                </div>
+            </template>
+
+            <template if:true={boolDisplayArtist}>
+                <c-display-atrist artist-data={records} class="itemDisplay"
+                                  onrefreshblockedlist={refreshBlockedList}></c-display-atrist>
+            </template>
+            <template if:true={boolDisplayTrack}>
+                <c-display-track track-data={records} class="itemDisplay"
+                                 onrefreshblockedlist={refreshBlockedList}></c-display-track>
+            </template>
+
+        </div>
+
+        <div style="display: flex; justify-content: center">
+            <template if:true={displayButtons}>
+                <lightning-button label="First" onclick={handleFirst}></lightning-button>
+                <lightning-button label="Prev" onclick={handlePrev}></lightning-button>
+                <lightning-button label="Next" onclick={handleNext}></lightning-button>
+                <lightning-button label="Last" onclick={handleLast}></lightning-button>
+            </template>
+        </div>
+    </lightning-card>
+
+</template>

@@ -1,0 +1,316 @@
+<!--
+ - Created by dominikbarchanski on 23/06/2022.
+ -->
+
+<apex:page id="Web2LeadPage" controller="Web2LeadController" showHeader="false">
+    <style>
+        body {
+            align-items: center;
+            background-color: #b09f9f;
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .form {
+            background-color: #15172b;
+            border-radius: 20px;
+            box-sizing: border-box;
+            height: 600px;
+            padding: 20px;
+            width: 640px;
+        }
+
+        .title {
+            color: #eee;
+            font-family: sans-serif;
+            font-size: 36px;
+            font-weight: 600;
+            margin-top: 30px;
+        }
+
+        .subtitle {
+            color: #eee;
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .input-container {
+            height: 50px;
+            position: relative;
+            width: 100%;
+        }
+
+        .ic1 {
+            margin-top: 40px;
+        }
+
+        .ic2 {
+            margin-top: 30px;
+        }
+
+        .input {
+            background-color: #303245;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            font-size: 18px;
+            height: 100%;
+            outline: 0;
+            padding: 4px 20px 0;
+            width: 100%;
+        }
+
+        .cut {
+            background-color: #373954;
+            border-radius: 10px;
+            height: 20px;
+            left: 20px;
+            position: absolute;
+            top: -20px;
+            transform: translateY(0);
+            transition: transform 200ms;
+            width: 95px;
+        }
+
+        .cut-short {
+            width: 50px;
+        }
+
+        .input:focus~.cut,
+        .input:not(:placeholder-shown)~.cut {
+            transform: translateY(8px);
+        }
+
+        .placeholder {
+            color: #808097;
+            font-family: sans-serif;
+            left: 28px;
+            line-height: 14px;
+            pointer-events: none;
+            position: absolute;
+            transform-origin: 0 50%;
+            transition: transform 200ms, color 200ms;
+            top: -17px;
+            z-index: 2;
+        }
+
+        .input:focus~.placeholder,
+        .input:not(:placeholder-shown)~.placeholder {
+            transform: translateY(-30px) translateX(10px) scale(0.75);
+        }
+
+        .input:not(:placeholder-shown)~.placeholder {
+            color: #808097;
+        }
+
+        .input:focus~.placeholder {
+            color: #dc2f55;
+        }
+
+        .submit {
+            background-color: #08d;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            cursor: pointer;
+            font-size: 18px;
+            height: 50px;
+            margin-top: 38px;
+            / / outline: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .submit:active {
+            background-color: #06b;
+        }
+
+        .huj>div {
+            width: 45%;
+            margin: 20px auto;
+        }
+
+        .displayInfo {
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .formDisplay {
+            display: flex;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+    <html>
+
+    <!--  NOTE: Please add the following <META> element to your page <HEAD>.      -->
+    <!--  If necessary, please modify the charset parameter to specify the        -->
+    <!--  character set of your HTML page.                                        -->
+    <!--  ----------------------------------------------------------------------  -->
+
+    <META HTTP-EQUIV="Content-type" CONTENT="text/html; charset=UTF-8" />
+
+    <!--  ----------------------------------------------------------------------  -->
+    <!--  NOTE: Please add the following <FORM> element to your page.             -->
+    <!--  ----------------------------------------------------------------------  -->
+    <div style="display: flex;justify-content: center;align-items: center;">
+        <div class="{!info}">
+
+            Thanks for send your contact
+        </div>
+    </div>
+
+    <form class="{!form}" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST">
+        <div class="form">
+            <div class="title">
+                Welcome
+            </div>
+            <div class="subtitle">
+                Let's send us your contact!
+            </div>
+            <input type="hidden" name="oid" value="00D7Q000004Qv7A" />
+            <input type="hidden" name="retURL" value="https://menage-doctors-developer-edition.eu44.force.com/web2lead?success=true"
+            />
+
+            <!--  ----------------------------------------------------------------------  -->
+            <!--  NOTE: These fields are optional debugging elements. Please uncomment    -->
+            <!--  these lines if you wish to test in debug mode.                          -->
+            <!--  <input type="hidden" name="debug" value=1>                              -->
+            <!--  <input type="hidden" name="debugEmail"                                  -->
+            <!--  value="dominik.barchanski@britenet.com.pl">                             -->
+            <!--  ----------------------------------------------------------------------  -->
+
+            <div class="huj" style="display: flex">
+                <div class="input-container ic1">
+                    <label for="first_name" class="placeholder">First Name</label>
+                    <div class="cut"></div>
+                    <input id="first_name" placeholder=" " class="input" maxlength="40" name="first_name" size="20" type="text" />
+
+                </div>
+
+                <div class="input-container ic1">
+                    <label for="last_name" class="placeholder">Last Name</label>
+                    <div class="cut"></div>
+                    <input id="last_name" placeholder=" " required="required" class="input" maxlength="80" name="last_name" size="20" type="text"
+                    />
+                </div>
+            </div>
+            <div class="huj" style="display: flex">
+                <div class="input-container ic2">
+                    <label for="email" class="placeholder">Email</label>
+                    <div class="cut"></div>
+                    <input id="email" placeholder=" " class="input" required="required" maxlength="80" name="email" size="20" type="text" />
+                </div>
+                <div class="input-container ic2">
+                    <label for="company" class="placeholder">Company</label>
+                    <div class="cut"></div>
+                    <input id="company" placeholder=" " required="required" class="input" maxlength="40" name="company" size="20" type="text"
+                    />
+                </div>
+            </div>
+            <div class="huj" style="display: flex">
+                <div class="input-container ic2">
+                    <label for="city" class="placeholder">City</label>
+                    <div class="cut"></div>
+                    <input id="city" class="input" placeholder=" " maxlength="40" name="city" size="20" type="text" />
+                </div>
+                <div class="input-container ic2">
+                    <label for="state" class="placeholder">State/Province</label>
+                    <div class="cut"></div>
+                    <input id="state" class="input" placeholder=" " maxlength="20" name="state" size="20" type="text" />
+                </div>
+            </div>
+            <div class="huj" style="display: flex">
+                <div class="input-container ic2">
+                    <label for="phone" class="placeholder">Phone</label>
+                    <div class="cut"></div>
+                    <input id="phone" class="input" placeholder=" " maxlength="40" name="phone" size="20" type="text" />
+                </div>
+                <div class="input-container ic2">
+                    <label for="country" class="placeholder">Country</label>
+                    <div class="cut"></div>
+                    <input id="country" class="input" placeholder=" " maxlength="40" name="country" size="20" type="text" />
+                </div>
+            </div>
+
+            <input type="submit" class="submit" name="Submit" value="Submit" />
+        </div>
+    </form>
+
+
+    <style type='text/css'>
+        .embeddedServiceHelpButton .helpButton .uiButton {
+            background-color: #005290;
+            font-family: "Arial", sans-serif;
+        }
+
+        .embeddedServiceHelpButton .helpButton .uiButton:focus {
+            outline: 1px solid #005290;
+        }
+    </style>
+
+    <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+    <script type='text/javascript'>
+        var initESW = function (gslbBaseURL) {
+            embedded_svc.settings.displayHelpButton = true; //Or false
+            embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
+
+            //embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
+            //embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
+
+            //embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
+            //embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
+
+            // Settings for Chat
+            //embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+            // Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
+            // Returns a valid button ID.
+            //};
+            //embedded_svc.settings.prepopulatedPrechatFields = {}; //Sets the auto-population of pre-chat form fields
+            //embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
+            //embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+
+            embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+            embedded_svc.settings.entryFeature = 'LiveAgent';
+
+            embedded_svc.init(
+                'https://britenet7-dev-ed.my.salesforce.com',
+                'https://menage-doctors-developer-edition.eu44.force.com/web2lead',
+                gslbBaseURL,
+                '00D7Q000004Qv7A',
+                'Chat_Agents',
+                {
+                    baseLiveAgentContentURL: 'https://c.la2-c1-fra.salesforceliveagent.com/content',
+                    deploymentId: '5727Q000000LbCC',
+                    buttonId: '5737Q000000Lban',
+                    baseLiveAgentURL: 'https://d.la2-c1-fra.salesforceliveagent.com/chat',
+                    eswLiveAgentDevName: 'Chat_Agents',
+                    isOfflineSupportEnabled: true
+                }
+            );
+        };
+
+        if (!window.embedded_svc) {
+            var s = document.createElement('script');
+            s.setAttribute('src', 'https://britenet7-dev-ed.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+            s.onload = function () {
+                initESW(null);
+            };
+            document.body.appendChild(s);
+        } else {
+            initESW('https://service.force.com');
+        }
+    </script>
+
+    </html>
+
+</apex:page>

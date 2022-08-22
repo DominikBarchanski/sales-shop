@@ -1,0 +1,10 @@
+/**
+ * Created by dominikbarchanski on 07/06/2022.
+ */
+.itemDisplay {
+    display: flex;
+    flex-wrap: wrap;
+}
+.setButtons{
+    margin: 5px;
+}

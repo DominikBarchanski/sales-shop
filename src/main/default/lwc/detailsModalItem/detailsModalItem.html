@@ -1,0 +1,396 @@
+<!--
+ - Created by dominikbarchanski on 09/06/2022.
+ -->
+
+<!-- Details Modal Item -->
+<template>
+
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+             aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={hideModalDetails}>
+                    <lightning-icon icon-name="utility:close"
+                                    alternative-text="close"
+                                    variant="inverse"
+                                    size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 if:true={modalDetails} id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                    {modalDetails.name}
+                </h2>
+                <h2 if:true={modalDetailsArtist} id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
+                    {modalDetailsArtist.name}
+                </h2>
+                <lightning-button-icon-stateful icon-name="custom:custom1" disabled={disableFav} selected={favState}
+                                                onclick={handleFavState}
+                                                alternative-text="Like"></lightning-button-icon-stateful>
+                <lightning-button-icon-stateful icon-name="custom:custom77" disabled={disableBan} selected={banState}
+                                                onclick={handleBanState}
+                                                alternative-text="Block"></lightning-button-icon-stateful>
+
+            </header>
+
+            <!-- modal body start -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                <div>
+
+                    <!--modal track artist-->
+                    <template if:true={modalDetailsArtist}>
+                        <div style="display: flex">
+                            <div>
+                                <c-set-image-in-finder song-image={modalDetailsArtist}></c-set-image-in-finder>
+                            </div>
+                            <div>
+                                <b>Genres:</b>
+                                <p>
+                                    <template for:each={modalDetailsArtist.genres} for:item="genres">
+                                        <span key={genres.id} style="margin-right: 15px">{genres}</span>
+                                    </template>
+                                </p>
+                                <b>Followers</b>
+                                <p>
+                                    <template if:true={modalDetailsArtist.followers}>
+                                        {modalDetailsArtist.followers.total}
+                                    </template>
+
+                                </p>
+
+                            </div>
+                        </div>
+                        <div>
+                            <template if:true={addComments}>
+                                <lightning-input type="text" label="Enter Comment" value={commentBody}
+                                                 name="songNameInput" onkeyup={valueFromTestBox}></lightning-input>
+                                <div>
+                                    <div class=" lgc-bg">
+                                        <lightning-tile label="Rate" type="media">
+                                            <div class="rate">
+                                                <input type="radio" id="star55" name="Delivery" value="5"
+                                                       onchange={rating}>
+                                                <label for="star55" title="text">5 stars</label>
+                                                <input type="radio" id="star44" name="Delivery" value="4"
+                                                       onchange={rating}>
+                                                <label for="star44" title="text">4 stars</label>
+                                                <input type="radio" id="star33" name="Delivery" value="3"
+                                                       onchange={rating}>
+                                                <label for="star33" title="text">3 stars</label>
+                                                <input type="radio" id="star22" name="Delivery" value="2"
+                                                       onchange={rating}>
+                                                <label for="star22" title="text">2 stars</label>
+                                                <input type="radio" id="star11" name="Delivery" value="1"
+                                                       onchange={rating}>
+                                                <label for="star11" title="text">1 star</label>
+                                            </div>
+                                        </lightning-tile>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <lightning-button label="put comments" onclick={onSubmit}></lightning-button>
+                                </div>
+                            </template>
+                        </div>
+                        <div>
+                            <template if:true={allAlbums}>
+                                <p><b>All album of Artist:</b></p>
+                                <div style="display: flex;  flex-wrap: wrap">
+                                    <template for:each={allAlbums} for:item="track" for:index="index">
+                                        <div key={track.id} style="width:25%; overflow-wrap: normal"
+                                             data-index={index} onclick={swapAlbum}
+                                             class="slds-box slds-color__background_gray-8">
+                                            <c-set-image-in-finder song-image={track}></c-set-image-in-finder>
+                                            {track.name}
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                        <div>
+                            <div>
+                                <p><b>Comments:</b></p>
+                            </div>
+                            <template if:true={allComments}>
+                                <template for:each={allComments} for:item="coment" for:index="index">
+                                    <div class="slds-box slds-color__background_gray-4"
+                                         style="display: flex ; margin: 3px" key={coment.id}>
+                                        <div style="width: 15%;overflow-wrap: normal">
+                                            <p key={coment.value.id}>{coment.value.Created_By_Name__c}</p>
+                                        </div>
+                                        <div style="width: 100%">
+                                            <template key={coment.value.id} if:true={coment.readOnly}>
+                                                <p key={coment.value.id}> {coment.value.CreatedDate} | Rate:
+                                                    {coment.value.Rate__c} </p>
+                                                <div style="overflow-wrap:anywhere" key={coment.value.id}>
+
+                                                    {coment.value.Comment__c}
+                                                </div>
+                                            </template>
+                                            <template key={coment.value.id} if:false={coment.readOnly}>
+                                                <div style="width: 100%">
+
+
+                                                    <lightning-record-edit-form record-id={recordId}
+                                                                                object-api-name="Music_Comments__c"
+                                                                                onsuccess={handleSuccess}
+                                                                                onsubmit={handleSubmit}>
+                                                        <lightning-input-field
+                                                                field-name="Comment__c"></lightning-input-field>
+                                                        <lightning-button class="slds-m-top_small" variant="brand"
+                                                                          type="submit" name="update" label="Update">
+                                                        </lightning-button>
+                                                    </lightning-record-edit-form>
+                                                </div>
+                                                <!--                                                <c-edit-comment key={coment.id} comment-body={coment.value}-->
+                                                <!--                                                                oneditcommentitem={editComment}></c-edit-comment>-->
+                                            </template>
+
+
+                                            <c-delete-comment-button key={coment.id} display-button={coment}
+                                                                     index-data={index} ondeletecomment={deleteComment}
+                                                                     oneditcomment={handleEdit}></c-delete-comment-button>
+                                        </div>
+
+                                    </div>
+
+                                </template>
+
+                            </template>
+                        </div>
+                    </template>
+                    <!--modal track-->
+                    <template if:true={modalDetails}>
+                        <div style="display:flex">
+
+                            <div>
+                                <c-set-image-in-finder song-image={modalDetails.album}></c-set-image-in-finder>
+                            </div>
+                            <div style="padding:5px;margin:5px;">
+                                <b>Artist:</b>
+                                <p>
+                                    <template for:each={modalDetails.artists} for:item="artist" for:index="index">
+                                        <span key={artist.id} style="margin-right: 15px" data-index={index} class="slds-text-link_faux"
+                                              onclick={handleArtistClick}> {artist.name}</span>
+                                    </template>
+
+                                </p>
+
+                                <b>Duration</b>
+                                <p>
+                                    <template if:true={durationTime}>
+                                        {durationTime}
+                                    </template>
+
+                                </p>
+                                <b>Ratings</b>
+                                <p>
+                                    <template if:true={rateAvg}>
+                                        {rateAvg}
+                                    </template>
+
+                                </p>
+                                <b>album</b>
+                                <p if:true={modalDetails.album}>
+                                    {modalDetails.album.name}
+
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <template if:true={addComments}>
+                                <lightning-input type="text" label="Enter Comment" value={commentBody}
+                                                 name="songNameInput" onkeyup={valueFromTestBox}></lightning-input>
+                                <div>
+                                    <div class="lgc-bg">
+                                        <lightning-tile label="Rate" type="media">
+                                            <div class="rate">
+                                                <input type="radio" id="star5" name="Delivery" value="5"
+                                                       onchange={rating}>
+                                                <label for="star5" title="text">5 stars</label>
+                                                <input type="radio" id="star4" name="Delivery" value="4"
+                                                       onchange={rating}>
+                                                <label for="star4" title="text">4 stars</label>
+                                                <input type="radio" id="star3" name="Delivery" value="3"
+                                                       onchange={rating}>
+                                                <label for="star3" title="text">3 stars</label>
+                                                <input type="radio" id="star2" name="Delivery" value="2"
+                                                       onchange={rating}>
+                                                <label for="star2" title="text">2 stars</label>
+                                                <input type="radio" id="star1" name="Delivery" value="1"
+                                                       onchange={rating}>
+                                                <label for="star1" title="text">1 star</label>
+                                            </div>
+                                        </lightning-tile>
+
+                                    </div>
+                                </div>
+                                <div>
+                                    <lightning-button label="put comments" onclick={onSubmit}></lightning-button>
+                                </div>
+                                <!--                                <div>-->
+                                <!--                                    <div>-->
+                                <!--                                        <p><b>Comments:</b></p>-->
+                                <!--                                    </div>-->
+                                <!--                                    <template if:true={allComments}>-->
+                                <!--                                        <template for:each={allComments} for:item="coment" for:index="index">-->
+                                <!--                                            <div class="slds-box slds-color__background_gray-4"-->
+                                <!--                                                 style="display: flex ; margin: 3px" key={coment.id}>-->
+                                <!--                                                <div style="width: 15%;overflow-wrap: normal">-->
+                                <!--                                                    <p key={coment.value.id}>{coment.value.Created_By_Name__c}</p>-->
+                                <!--                                                </div>-->
+                                <!--                                                <div style="width: 100%">-->
+                                <!--                                                    <template key={coment.value.id} if:true={coment.readOnly}>-->
+                                <!--                                                        <p key={coment.value.id}> {coment.value.CreatedDate} | Rate:-->
+                                <!--                                                            {coment.value.Rate__c} </p>-->
+                                <!--                                                        <div style="overflow-wrap:anywhere" key={coment.value.id}>-->
+
+                                <!--                                                            {coment.value.Comment__c}-->
+                                <!--                                                        </div>-->
+                                <!--                                                    </template>-->
+                                <!--                                                    <template key={coment.value.id} if:false={coment.readOnly}>-->
+                                <!--                                                        <div style="width: 100%">-->
+
+
+                                <!--                                                            <lightning-record-edit-form record-id={recordId}-->
+                                <!--                                                                                        object-api-name="Music_Comments__c"-->
+                                <!--                                                                                        onsuccess={handleSuccess}-->
+                                <!--                                                                                        onsubmit={handleSubmit}>-->
+                                <!--                                                                <lightning-input-field-->
+                                <!--                                                                        field-name="Comment__c"></lightning-input-field>-->
+                                <!--                                                                <lightning-button class="slds-m-top_small"-->
+                                <!--                                                                                  variant="brand"-->
+                                <!--                                                                                  type="submit" name="update"-->
+                                <!--                                                                                  label="Update">-->
+                                <!--                                                                </lightning-button>-->
+                                <!--                                                            </lightning-record-edit-form>-->
+                                <!--                                                        </div>-->
+                                <!--                                                        &lt;!&ndash;                                                <c-edit-comment key={coment.id} comment-body={coment.value}&ndash;&gt;-->
+                                <!--                                                        &lt;!&ndash;                                                                oneditcommentitem={editComment}></c-edit-comment>&ndash;&gt;-->
+                                <!--                                                    </template>-->
+
+
+                                <!--                                                    <c-delete-comment-button key={coment.id} display-button={coment}-->
+                                <!--                                                                             index-data={index}-->
+                                <!--                                                                             ondeletecomment={deleteComment}-->
+                                <!--                                                                             oneditcomment={handleEdit}></c-delete-comment-button>-->
+                                <!--                                                </div>-->
+
+                                <!--                                            </div>-->
+
+                                <!--                                        </template>-->
+
+                                <!--                                    </template>-->
+                                <!--                                </div>-->
+                            </template>
+                        </div>
+                        <div>
+                            <div>
+
+
+                                <template if:true={wholeAlbum}>
+                                    <p><b>Album relese: {wholeAlbum.release_date}</b></p>
+                                    <p><b>All songs in album:</b></p>
+                                    <div style="display: flex;  flex-wrap: wrap">
+                                        <template for:each={wholeAlbum.tracks.items} for:item="track" for:index="index">
+                                            <div key={track.id} if:true={track.selectedItem}
+                                                 style="width:25%; overflow-wrap: normal">
+                                                <div key={track.id}
+                                                     data-index={index} onclick={swapTrack}
+                                                     class="slds-box slds-color__background_gray-3">
+                                                    {track.name}
+                                                </div>
+                                            </div>
+                                            <div key={track.id} if:false={track.selectedItem}
+                                                 style="width:25%; overflow-wrap: normal">
+                                                <div key={track.id}
+                                                     data-index={index} onclick={swapTrack}
+                                                     class="slds-box slds-color__background_gray-8">
+                                                    {track.name}
+                                                </div>
+                                            </div>
+
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+
+                        </div>
+                        <div>
+                            <div>
+                                <p><b>Comments:</b></p>
+                            </div>
+                            <template if:true={allComments}>
+                                <template for:each={allComments} for:item="coment" for:index="index">
+                                    <div class="slds-box slds-color__background_gray-4"
+                                         style="display: flex ; margin: 3px" key={coment.id}>
+                                        <div style="width: 15%;overflow-wrap: normal">
+                                            <p key={coment.value.id}>{coment.value.Created_By_Name__c}</p>
+                                        </div>
+                                        <div style="width: 100%">
+                                            <template key={coment.value.id} if:true={coment.readOnly}>
+                                                <p key={coment.value.id}> {coment.value.CreatedDate} | Rate:
+                                                    {coment.value.Rate__c} </p>
+                                                <div style="overflow-wrap:anywhere" key={coment.value.id}>
+
+                                                    {coment.value.Comment__c}
+                                                </div>
+                                            </template>
+                                            <template key={coment.value.id} if:false={coment.readOnly}>
+                                                <div style="width: 100%">
+
+
+                                                    <lightning-record-edit-form record-id={recordId}
+                                                                                object-api-name="Music_Comments__c"
+                                                                                onsuccess={handleSuccess}
+                                                                                onsubmit={handleSubmit}>
+                                                        <lightning-input-field
+                                                                field-name="Comment__c"></lightning-input-field>
+                                                        <lightning-button class="slds-m-top_small" variant="brand"
+                                                                          type="submit" name="update" label="Update">
+                                                        </lightning-button>
+                                                    </lightning-record-edit-form>
+                                                </div>
+                                                <!--                                                <c-edit-comment key={coment.id} comment-body={coment.value}-->
+                                                <!--                                                                oneditcommentitem={editComment}></c-edit-comment>-->
+                                            </template>
+
+
+                                            <c-delete-comment-button key={coment.id} display-button={coment}
+                                                                     index-data={index} ondeletecomment={deleteComment}
+                                                                     oneditcomment={handleEdit}></c-delete-comment-button>
+                                        </div>
+
+                                    </div>
+
+                                </template>
+
+                            </template>
+                        </div>
+                    </template>
+                    <div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- modal footer start-->
+            <footer class="slds-modal__footer">
+                <div style="display: flex;justify-content: center">
+                    <div>
+                        <lightning-button label="Add Comment and Rate" onclick={displayCommentSection}>test
+                        </lightning-button>
+                    </div>
+                    <div>
+                        <button class="slds-button slds-button_neutral" onclick={hideModalDetails}>Cancel</button>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

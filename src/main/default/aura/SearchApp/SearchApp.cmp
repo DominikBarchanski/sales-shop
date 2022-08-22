@@ -1,0 +1,7 @@
+<!--
+ - Created by dominikbarchanski on 03/06/2022.
+ -->
+
+<aura:component description="SearchApp" implements="force:appHostable">
+    <c:searchAccount ></c:searchAccount>
+</aura:component>

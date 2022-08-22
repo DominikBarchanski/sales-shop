@@ -153,66 +153,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <fields>
-        <fullName>Doctors__c</fullName>
-        <externalId>false</externalId>
-        <label>Doctor</label>
-        <referenceTo>Doctor__c</referenceTo>
-        <relationshipLabel>Contracts</relationshipLabel>
-        <relationshipName>Contracts</relationshipName>
-        <relationshipOrder>1</relationshipOrder>
-        <reparentableMasterDetail>false</reparentableMasterDetail>
-        <trackTrending>false</trackTrending>
-        <type>MasterDetail</type>
-        <writeRequiresMasterRead>false</writeRequiresMasterRead>
-    </fields>
-    <fields>
-        <fullName>End_date__c</fullName>
-        <externalId>false</externalId>
-        <label>End date</label>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Date</type>
-    </fields>
-    <fields>
-        <fullName>Hospital_Names__c</fullName>
-        <externalId>false</externalId>
-        <label>Hospital</label>
-        <referenceTo>Hospital__c</referenceTo>
-        <relationshipLabel>Contracts</relationshipLabel>
-        <relationshipName>Contracts</relationshipName>
-        <relationshipOrder>0</relationshipOrder>
-        <reparentableMasterDetail>false</reparentableMasterDetail>
-        <trackTrending>false</trackTrending>
-        <type>MasterDetail</type>
-        <writeRequiresMasterRead>false</writeRequiresMasterRead>
-    </fields>
-    <fields>
-        <fullName>Start_Date__c</fullName>
-        <externalId>false</externalId>
-        <label>Start Date</label>
-        <required>true</required>
-        <trackTrending>false</trackTrending>
-        <type>Date</type>
-    </fields>
     <label>Contract</label>
-    <listViews>
-        <fullName>All</fullName>
-        <filterScope>Everything</filterScope>
-        <label>All</label>
-    </listViews>
     <nameField>
         <label>Contract Name</label>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Contracts</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
-    <validationRules>
-        <fullName>Start_end_validation_rule</fullName>
-        <active>true</active>
-        <errorConditionFormula>Start_Date__c &gt; End_date__c</errorConditionFormula>
-        <errorMessage>Your end date must be lower than start date</errorMessage>
-    </validationRules>
     <visibility>Public</visibility>
 </CustomObject>

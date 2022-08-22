@@ -1,0 +1,49 @@
+<!--
+ - Created by dominikbarchanski on 31/05/2022.
+ -->
+
+<aura:component description="MovieAppConnection" implements="force:appHostable" controller="ApiCallController">
+    <aura:attribute name="myAttribute"  type="List"/>
+    <lightning:card>
+        <div onkeyup="{!c.handleKeyDown}">
+
+            <lightning:input
+                    aura:id="enter-search-film-name"
+                    name="enter-search"
+                    label="Write film name and press enter"
+                    type="search"/>
+            <lightning:input
+                    aura:id="enter-search-actor"
+                    name="enter-search"
+                    label="Write film name and press enter"
+                    type="search"/>
+        </div>
+        <lightning:outputField fieldName="myAttribute"/>
+        <aura:iteration items="{!v.myAttribute.result.item}" var="item" start="1">
+            <aura:if isTrue="{!item.id!=null}">
+                <li class="slds-truncate slds-list__item">{!item.id} : {!item.title}</li>
+            </aura:if>
+        </aura:iteration>
+        <div class="size">
+            <table class="slds-table slds-table--bordered slds-table--striped">
+                <thead>
+                <tr>
+                    <th scope="col"><span class="slds-truncate"> Name</span></th>
+                    <th scope="col"><span class="slds-truncate"> Rating</span></th>
+                    <th scope="col"><span class="slds-truncate"> Phone</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <aura:iteration items="{!v.myAttribute}" var="A"  >
+                    <tr>
+                        <td>{!A.title}</td>
+
+                        <td> <img src="{! 'https://image.tmdb.org/t/p/w600_and_h900_bestv2'+A.backdrop_path}" style="height: 50px;"/> </td>
+                        <td>{!A}</td>
+                    </tr>
+                </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </lightning:card>
+</aura:component>

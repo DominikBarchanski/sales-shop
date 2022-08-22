@@ -1,0 +1,16 @@
+/**
+ * Created by dominikbarchanski on 06/06/2022.
+ */
+
+.THIS {
+}
+
+.THIS table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+}
+.THIS td {
+    overflow: hidden;
+    white-space: nowrap;
+}

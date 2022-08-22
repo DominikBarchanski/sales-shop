@@ -1,0 +1,65 @@
+<!--
+ - Created by dominik.barchanski on 27.04.2022.
+ -->
+
+<apex:page id="EditDoctor" extensions="ViewEditDoctorController" standardController="Doctor__c">
+    <apex:form >
+        <apex:pageBlock title="Edit" id="editDoctor">
+
+            <div style=" display: flex; flex-direction: row">
+                <div style="display:flex; flex-direction: column; width: 12%">
+
+
+
+
+                    <apex:actionRegion renderRegionOnly="false">
+
+                        <apex:image value="/servlet/servlet.FileDownload?file={!ImageId}"
+                                    rendered="{!Not(ISBLANK(ImageId))}" width="95%" height="95%"/>
+
+                        <apex:inputFile id="uploadFile" value="{!newPhoto.Body}" fileName="{!newPhoto.Name}" accept="image/jpeg,image/pjpeg,image/jpeg,image/png,image/gif,image/bmp"/>
+                    </apex:actionRegion>
+                        <apex:commandButton value="{!$Label.Upload}" action="{!uploadPhoto}"/>
+                        <apex:commandButton value="{!$Label.Delete}" action="{!deletePhoto}"/>
+                    <apex:pageMessages />
+
+
+                </div>
+                <div style="width: 100%">
+                    <apex:pageBlockSection >
+                        <apex:facet name="header">
+                            {!$Label.General}
+                        </apex:facet>
+                        <apex:inputField value="{!doc.First_Name__c}"/>
+                        <apex:inputField value="{!doc.Name}" required="true"/>
+                        <apex:inputField value="{!doc.Phone__c}"/>
+                        <apex:inputField value="{!doc.Email__c}"/>
+                        <apex:inputField value="{!doc.Specialization__c}"/>
+                        <apex:inputField value="{!doc.Date_of_birth__c}"/>
+                    </apex:pageBlockSection>
+                </div>
+            </div>
+
+            <apex:pageBlockSection >
+                <apex:facet name="header">
+                    {!$Label.Adress}
+                </apex:facet>
+                <apex:inputField value="{!doc.City__c}"/>
+                <apex:inputField value="{!doc.Street__c}"/>
+                <apex:inputField value="{!doc.Country__c}"/>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockButtons location="both">
+                <apex:actionRegion >
+
+                <apex:commandButton action="{!save}" value="{!$Label.Save}">
+<!--                    <apex:actionSupport action="/apex/ViewDoctor?id={!docId}}"/>-->
+                </apex:commandButton>
+                <apex:commandButton action="{!saveAndNew}" value="{!$Label.Save_and_new}" />
+                <apex:commandButton value="{!$Label.Calcle}" action="/apex/ViewDoctor?id={!docId}"/>
+                </apex:actionRegion>
+            </apex:pageBlockButtons>
+
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

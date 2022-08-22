@@ -1,0 +1,42 @@
+<!--
+ - Created by dominikbarchanski on 08/06/2022.
+ -->
+
+<!-- Display Atrist -->
+<template>
+    <template if:true={showLoading} >
+        <lightning-spinner style="z-index:10000" alternative-text="Loading" size="medium" class="spinnerClass"></lightning-spinner>
+    </template>
+    <template if:true={artistData}>
+        <template for:each={artistData} for:item="record" for:index="index">
+            <div key={record.Id} data-index={index} style="box-sizing: border-box;overflow: hidden; flex: 20%;
+           margin: 10px;
+           padding: 10px;"
+                 onclick={showModalDetails}>
+                <span style="display: flex ;left: 100% ">
+                <div style="width: 160px" class="hoverShow">
+                        <c-set-image-in-finder key={record.Id} song-image={record}></c-set-image-in-finder>
+
+                    <p>{record.name}</p>
+
+<!--                    <div id={record.id} class="hide slds-box slds-color__background_gray-7 slds-color__border_gray-12"-->
+<!--                         data-id={record.id}>-->
+<!--                        <p><b>Genres: </b>-->
+<!--                        </p>-->
+<!--                        <ul>-->
+<!--                            <template for:each={record.genres} for:item="item">-->
+<!--                                <li key={item}> {item}</li>-->
+<!--                            </template>-->
+<!--                        </ul>-->
+
+<!--                    </div>-->
+            </div>
+                </span>
+            </div>
+        </template>
+        <template if:true={showModal}>
+            <c-details-modal-item modal-details-artist= {modalDetails} song-id={modalDetails.id} fav-ban-list={favBanList}
+                                  onclosedetailsmodal={hideModalDetails} onrefreshblocked={refreshBlocked}></c-details-modal-item>
+        </template>
+    </template>
+</template>
