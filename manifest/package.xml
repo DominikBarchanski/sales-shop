@@ -410,11 +410,7 @@
 		<members>*</members>
 		<name>ExternalServiceRegistration</name>
 	</types>
-	<types>
-		<members>Rule295e600815413aec218aa8c3c19acf63</members>
-		<members>Rule6435cb9e2e93b009f2af2a51066a0214</members>
-		<name>FieldRestrictionRule</name>
-	</types>
+
 	<types>
 		<members>*</members>
 		<name>FlexiPage</name>
