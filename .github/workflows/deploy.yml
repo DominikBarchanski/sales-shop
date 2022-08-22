@@ -35,12 +35,6 @@ jobs:
       
     - name: 'Authenticate to Production Org'
       run: sfdx auth:sfdxurl:store -f SFDX_QA -s -a production
-    - name: 'Build and Deploy'
-      run: |
-        wget https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
-        mkdir sfdx-cli
-        tar xJf sfdx-linux-amd64.tar.xz -C sfdx-cli --strip-components 1
-        ./sfdx-cli/install
     - name: 'Run deploy'
       run: sfdx force:source:deploy -x manifest/package.xml --testlevel RunLocalTests --json
     - name: 'Convert Metadata'
