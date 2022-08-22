@@ -1,0 +1,12 @@
+<!--
+ - Created by dominikbarchanski on 31/05/2022.
+ -->
+
+<aura:component implements="force:appHostable">
+    <div class="slds-m-around_xx-large">
+        <!-- Add Child Component -->
+        <c:ChildComponent aura:id="childCmp"/>
+        <!-- On button click child aura:method will be called-->
+        <lightning:button variant="brand" label="Call Child" onclick="{!c.callAuraMethod}" />
+    </div>
+</aura:component>

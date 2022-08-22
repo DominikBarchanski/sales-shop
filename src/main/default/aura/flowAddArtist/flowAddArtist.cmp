@@ -1,0 +1,8 @@
+<!--
+ - Created by dominikbarchanski on 15/06/2022.
+ -->
+
+<aura:component description="flowAddArtist">
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <lightning:flow aura:id="flowData" />
+</aura:component>

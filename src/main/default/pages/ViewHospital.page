@@ -1,0 +1,39 @@
+<!--
+ - Created by dominik.barchanski on 27.04.2022.
+ -->
+
+
+    <apex:page id="ViewHospital" extensions="VievEditHospitalController" standardController="Hospital__c" >
+
+        <apex:form >
+            <apex:pageBlock title="View" >
+                <apex:pageBlockSection >
+                    <apex:facet name="header">
+                        {!$Label.General}
+                    </apex:facet>
+                    <apex:outputField value="{!hosp.Name}"/>
+                </apex:pageBlockSection>
+                <apex:pageBlockSection >
+                    <apex:facet name="header">
+                        {!$Label.Address_and_contact}
+                    </apex:facet>
+                    <apex:outputField value="{!hosp.Phone__c}"/>
+                    <apex:outputField value="{!hosp.Email__c}"/>
+                    <apex:outputField value="{!hosp.City__c}"/>
+                    <apex:outputField value="{!hosp.Street__c}"/>
+                    <apex:outputField value="{!hosp.Country__c}"/>
+                </apex:pageBlockSection>
+                <apex:pageBlockButtons location="bottom">
+                    <apex:commandButton value="{!$Label.Edit}" action="/apex/EditHospital?id={!docId}" />
+                    <apex:commandButton value="{!$Label.Delete}" action="{!DeleteHospital}"
+                                        onclick="if(!confirm($Label.Delete_object)) return false;"/>
+
+                </apex:pageBlockButtons>
+            </apex:pageBlock>
+
+        </apex:form>
+
+            <apex:relatedList list="Contracts__r" title="Contract" />
+
+
+    </apex:page>

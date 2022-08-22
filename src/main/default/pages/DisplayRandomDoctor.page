@@ -1,0 +1,30 @@
+<!--
+ - Created by dominikbarchanski on 11/05/2022.
+ -->
+
+<apex:page id="DisplayRandomDoctor"  controller="RandomDoctorController">
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!randomDoctorList}" var="rdl">
+            <apex:column >
+                <apex:facet name="header">
+                    {!$Label.First_name}
+                </apex:facet>
+                <apex:outputField value="{!rdl.First_Name__c}"/>
+            </apex:column>
+
+            <apex:column >
+                <apex:facet name="header">
+                    {!$Label.Last_name}
+                </apex:facet>
+                <apex:outputField value="{!rdl.Name}"/>
+
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">
+                    {!$Label.Country}
+                </apex:facet>
+                <apex:outputField value="{!rdl.Country__c}"/>
+            </apex:column>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

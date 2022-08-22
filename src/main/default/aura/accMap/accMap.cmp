@@ -1,0 +1,12 @@
+<!--
+ - Created by dominikbarchanski on 06/06/2022.
+ -->
+
+<aura:component description="accMap">
+    <aura:attribute type="List" name="accList"/>
+    <aura:attribute name="mapMarkers" type="Object"/>
+    <aura:handler name="change" value="{!v.accList}" action="{!c.itemsChange}"/>
+    <lightning:card >
+        <lightning:map mapMarkers="{!v.mapMarkers}"></lightning:map>
+    </lightning:card>
+</aura:component>

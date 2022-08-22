@@ -1,0 +1,112 @@
+<!--
+ - Created by dominikbarchanski on 03/06/2022.
+ -->
+
+<aura:component description="searchAccount" controller="AURA_AccountSearcherController"
+                implements="flexipage:availableForRecordHome,force:hasRecordId">
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:method name="parentMethod" action="{!c.handleSearch}"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="accountName" type="String"/>
+    <aura:attribute name="accList" type="Account[]"/>
+    <aura:attribute name="account" type="Object"/>
+    <aura:attribute name="rowItem" type="Object"/>
+    <aura:attribute name="selectedRows" type="List"/>
+
+    <!--    <aura:attribute name="testobj" type="obj" />-->
+
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+
+    <lightning:card title="searchSection">
+        <div class="searchSection">
+            <div style="display: flex">
+                <div style="width: calc(100%/3)">
+                    <lightning:input
+                            aura:id="enter-account-name"
+                            name="enter-search"
+                            fieldName="accName"
+                            label="Name"
+                            type="search"
+                    />
+                </div>
+                <div style="width: calc(100%/3)">
+                    <lightning:input
+                            aura:id="enter-city-name"
+                            fieldName="accCity"
+                            name="enter-search"
+                            label="City"
+                            type="search"/>
+                </div>
+                <div style="width: calc(100%/3)">
+                    <lightning:input
+                            aura:id="enter-phone-number"
+                            name="enter-search"
+                            fieldName="accPhone"
+                            label="Phone"
+                            type="search"/>
+                </div>
+
+
+            </div>
+            <div style="justify-content: center;display: flex; margin-top: 1em">
+                <lightning:button variant="brand" label="Search" title="Search" onclick="{!c.handleSearch}"/>
+                <lightning:button variant="brand" label="New" title="New" onclick="{!c.handleNew}"/>
+                <lightning:button variant="brand" label="Clear" title="Clear" onclick="{!c.handleClear}"/>
+            </div>
+        </div>
+    </lightning:card>
+
+    <div style="display: flex">
+        <div style="width: 60%;padding: 5px">
+
+<!--            <lightning:card title="dataTable">-->
+
+<!--                <lightning:datatable data="{! v.account }"-->
+<!--                                     columns="{! v.accList }"-->
+<!--                                     keyField="Id"-->
+<!--                                     hideCheckboxColumn="false"-->
+<!--                                     onrowaction="{!c.testRowAction}"-->
+<!--                                     onrowselection="{!c.selectedRow}"-->
+
+<!--                />-->
+
+
+<!--            </lightning:card>-->
+            <lightning:card title="Account List">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered" style="table-layout:fixed;
+    width:100%; white-space: nowrap; overflow: hidden;text-overflow: ellipsis;  ">
+                    <thead>
+                    <tr class="slds-line-height_reset">
+                        <th>Name</th>
+                        <th>Account Number</th>
+                        <th>Phone</th>
+                        <th>City</th>
+                        <th>Street</th>
+                        <th>Country</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <aura:iteration items="{!v.account}" var="row" indexVar="index">
+                        <tr aura:id="{!index}" data-myid="{!index}" onclick="{!c.showRow }" data-record-id="{!index}">
+                            <td hidden="hidden" >{! row.Id}</td>
+                            <td>{! row.Name}</td>
+                            <td>{! row.AccountNumber}</td>
+                            <td>{! row.Phone}</td>
+                            <td>{! row.BillingCity}</td>
+                            <td>{! row.BillingStreet}</td>
+                            <td>{! row.BillingCountry}</td>
+                        </tr>
+                    </aura:iteration>
+                    </tbody>
+                </table>
+            </lightning:card>
+        </div>
+
+        <div style="width: 40%;padding:5px">
+            <c:accountDetails rowObject="{!v.selectedRows}" />
+            <c:accMap accList="{!v.selectedRows}"/>
+
+        </div>
+    </div>
+</aura:component>

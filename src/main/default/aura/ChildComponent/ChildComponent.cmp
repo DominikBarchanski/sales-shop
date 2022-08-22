@@ -1,0 +1,10 @@
+<!--
+ - Created by dominikbarchanski on 31/05/2022.
+ -->
+
+<aura:component description="ChildComponent" implements="force:appHostable">
+    <aura:method name="childMessageMethod" action="{!c.getMessage}" access="public">
+        <aura:attribute name="childGreetingParam" type="String" default="Hello"/>
+        <aura:attribute name="childPersonNameParam" type="String" default="World"/>
+    </aura:method>
+</aura:component>

@@ -153,55 +153,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <fields>
-        <fullName>Product2id__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Product2id</label>
-        <referenceTo>Product2</referenceTo>
-        <relationshipLabel>Strategys</relationshipLabel>
-        <relationshipName>Strategys</relationshipName>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Standard_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>Standard Price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Strategy_Name__c</fullName>
-        <externalId>false</externalId>
-        <label>Strategy Name</label>
-        <length>100</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Strategy_price__c</fullName>
-        <externalId>false</externalId>
-        <label>Strategy price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
     <label>Strategy</label>
     <nameField>
         <label>Strategy Name</label>
         <type>Text</type>
     </nameField>
     <pluralLabel>Strategys</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

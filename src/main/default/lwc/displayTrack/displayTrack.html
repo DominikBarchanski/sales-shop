@@ -1,0 +1,38 @@
+<!--
+ - Created by dominikbarchanski on 08/06/2022.
+ -->
+
+<!-- Display Track -->
+<template>
+    <template if:true={showLoading} >
+        <lightning-spinner style="z-index:10000" alternative-text="Loading" size="large" class="spinnerClass slds-spinner_brand"></lightning-spinner>
+    </template>
+    <template if:true={trackData}>
+        <template for:each={trackData} for:item="record" for:index="index">
+            <div key={record.Id} data-index={index} style="box-sizing: border-box;overflow: hidden;flex: 20%;
+           margin: 10px;
+           padding: 10px;"
+                 onclick={showModalDetails}
+
+            >
+                <div style="width: 160px" class="hoverShow">
+
+                    <c-set-image-in-finder key={record.Id} song-image={record.album}></c-set-image-in-finder>
+
+                    <!--<div>-->
+                    <!--    <template for:each={record}>-->
+
+                    <!--    </template>-->
+                    <!--</div>-->
+                    <p style="font-family: 'Apple Chancery'"> <b>{record.name}</b></p>
+
+                </div>
+            </div>
+
+        </template>
+        <template if:true={showModal}>
+            <c-details-modal-item modal-details={modalDetails} song-id={modalDetails.id} fav-ban-list={favBanList}
+                                  onclosedetailsmodal={hideModalDetails} onrefreshblocked={refreshBlocked}></c-details-modal-item>
+        </template>
+    </template>
+</template>

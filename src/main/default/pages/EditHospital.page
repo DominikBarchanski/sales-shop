@@ -1,0 +1,31 @@
+<!--
+ - Created by dominik.barchanski on 27.04.2022.
+ -->
+
+<apex:page id="EditHospital" extensions="VievEditHospitalController" standardController="Hospital__c">
+    <apex:form >
+        <apex:pageBlock title="{!$Label.Edit}">
+            <apex:pageBlockSection >
+                <apex:facet name="header">
+                    {!$Label.General}
+                </apex:facet>
+                <apex:inputField value="{!hosp.Name}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection >
+                <apex:facet name="header">
+                    {!$Label.Address_and_contact}
+                </apex:facet>
+                <apex:inputField value="{!hosp.Phone__c}"/>
+                <apex:inputField value="{!hosp.Email__c}"/>
+                <apex:inputField value="{!hosp.City__c}"/>
+                <apex:inputField value="{!hosp.Street__c}"/>
+                <apex:inputField value="{!hosp.Country__c}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton action="{!save}" value="{!$Label.Save}"/>
+                <apex:commandButton action="{!saveAndNew}" value="{!$Label.Save_and_new}"/>
+                <apex:commandButton value="{!$Label.Back}" action="{!view}" />
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

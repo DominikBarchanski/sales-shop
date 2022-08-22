@@ -1,0 +1,36 @@
+<!--
+ - Created by dominikbarchanski on 13/06/2022.
+ -->
+
+<!-- Edit Comment -->
+<template>
+    <lightning-input type="text" label="Enter Comment" value={commentBody.Comment__c}
+                     name="songNameInput" onchange= {valueFromTestBox}></lightning-input>
+    <div class="">
+        <div class=" lgc-bg">
+            <lightning-tile label="Rate" type="media">
+                <div class="rate">
+                    <input type="radio" id="star5" name="Delivery" value="5"
+                           onchange={rating}>
+                    <label for="star5" title="text">5 stars</label>
+                    <input type="radio" id="star4" name="Delivery" value="4"
+                           onchange={rating}>
+                    <label for="star4" title="text">4 stars</label>
+                    <input type="radio" id="star3" name="Delivery" value="3"
+                           onchange={rating}>
+                    <label for="star3" title="text">3 stars</label>
+                    <input type="radio" id="star2" name="Delivery" value="2"
+                           onchange={rating}>
+                    <label for="star2" title="text">2 stars</label>
+                    <input type="radio" id="star1" name="Delivery" value="1"
+                           onchange={rating}>
+                    <label for="star1" title="text">1 star</label>
+                </div>
+            </lightning-tile>
+
+        </div>
+    </div>
+    <div>
+        <lightning-button label="update" onclick={handleClick}></lightning-button>
+    </div>
+</template>
